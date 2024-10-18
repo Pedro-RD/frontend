@@ -1,18 +1,15 @@
-import {Component, Input, input} from '@angular/core';
-import {NgForOf} from "@angular/common";
-import {User} from '../../interfaces/user';
+import {ChangeDetectionStrategy, Component, Input, input, ViewEncapsulation} from '@angular/core';
+import { NgForOf } from '@angular/common';
+import { User } from '../../interfaces/user';
 
 @Component({
-  selector: 'app-users-table-row',
+  selector: '[app-users-table-row]',
   standalone: true,
-    imports: [
-        NgForOf
-    ],
+  imports: [NgForOf],
   templateUrl: './users-table-row.component.html',
-  styleUrl: './users-table-row.component.css'
+  styleUrl: './users-table-row.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersTableRowComponent {
-
-  @Input() user!: User;
-
+  @Input({ required: true }) user!: User;
 }

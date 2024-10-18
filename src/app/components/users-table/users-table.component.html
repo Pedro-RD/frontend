@@ -1,10 +1,8 @@
-<div class="overflow-x-auto">
-  <table class="table border border-gray-300 rounded-lg">
+<div class="p-2">
+  <table class="table">
     <!-- head -->
     <thead>
     <tr>
-      <th class="w-10"> <!-- Coluna checkbox com largura menor -->
-      </th>
       <th class="w-40">Nome</th> <!-- Definido uma largura menor para a coluna Nome -->
       <th class="w-32">Contacto</th> <!-- Coluna menor -->
       <th class="w-32">Email</th> <!-- Coluna menor -->
@@ -15,7 +13,7 @@
     </tr>
     </thead>
     <tbody>
-    <app-users-table-row *ngFor="let user of users" [user]="user"/>
+      <tr *ngFor="let user of users" app-users-table-row [user]="user"></tr>
     </tbody>
   </table>
 </div>
