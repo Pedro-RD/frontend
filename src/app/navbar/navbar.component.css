@@ -1,0 +1,116 @@
+.navbar {
+  background-color: #e4e4e4; /* Fundo claro */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para efeito de elevação */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-start {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  font-size: 1.25rem; /* Tamanho maior para título */
+  font-weight: bold; /* Negrito para destaque */
+  color: #3d4451; /* Tom neutro */
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre os itens */
+}
+
+.btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: #f1f5f9; /* Cor clara ao passar o mouse */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Sombra leve ao passar o mouse */
+}
+
+.btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Botões circulares */
+}
+
+.menu-sm {
+  background-color: #cfcfcf;
+  border: 1px solid #d1d1d1; /* Borda clara para contraste */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efeito de elevação */
+}
+
+.menu-sm a {
+  color: #3d4451; /* Cor do texto */
+  padding: 8px 12px;
+  display: block;
+  transition: background-color 0.2s;
+}
+
+.menu-sm a:hover {
+  background-color: #f1f5f9; /* Fundo leve ao passar o mouse */
+  border-radius: 6px; /* Arredondar ao passar o mouse */
+}
+
+.indicator {
+  position: relative;
+}
+
+.indicator .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #4a90e2; /* Cor primária para o indicador */
+  color: #ffffff;
+  padding: 4px;
+  border-radius: 50%; /* Arredondado para o ícone de notificação */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #dfdfdf;
+  border: 1px solid #dfdfdf;
+  border-radius: 8px;
+  min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Mostra o menu ao passar o mouse */
+}
+
+.dropdown-content li {
+  padding: 10px;
+}
+
+.dropdown-content li a {
+  color: #3d4451;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content li a:hover {
+  background-color: #e8e8e8;
+}
+
+.dropdown:focus-within .dropdown-content,
+.dropdown:hover .dropdown-content {
+  display: block;
+}

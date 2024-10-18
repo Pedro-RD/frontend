@@ -30,6 +30,8 @@ module.exports = {
   },
   plugins: [require('daisyui'),],
   daisyui: {
+    themes: ["mytheme"], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    darkTheme: null, // name of one of the included themes for dark mode
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: false, // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
