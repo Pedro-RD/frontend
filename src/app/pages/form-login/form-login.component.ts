@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth/auth.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {NgClass} from '@angular/common';
 import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-form-login',
@@ -12,13 +13,12 @@ import {Router} from '@angular/router';
   styleUrl: './form-login.component.css',
 })
 export class FormLoginComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  errorMessage = "";
 
   email = new FormControl('', {
     validators: Validators.compose([Validators.required, Validators.email]),
     updateOn: 'change',
   });
-
   password = new FormControl('', {
     validators: Validators.compose([
       Validators.required,
@@ -26,15 +26,18 @@ export class FormLoginComponent implements OnInit {
     ]),
     updateOn: 'change',
   });
-
   loginForm: FormGroup = new FormGroup({
     email: this.email,
     password: this.password,
   });
 
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
   ngOnInit(): void {
     this.loginForm.reset();
     this.loginForm.markAsUntouched();
+    this.errorMessage = "";
 
     this.authService.getUser().subscribe({
       next: (user) => {
@@ -49,8 +52,10 @@ export class FormLoginComponent implements OnInit {
     if (this.loginForm.invalid || this.loginForm.untouched) return;
 
     this.authService.login(this.email.value!, this.password.value!).subscribe({
-      error: (error) => {
-        this.loginForm.setErrors({ invalid: true });
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.errorMessage = "Email ou password errados";
+        }
       },
     });
   }
