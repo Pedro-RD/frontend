@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-manager',
@@ -8,5 +8,4 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-manager.component.css'
 })
 export class DashboardManagerComponent {
-
 }
