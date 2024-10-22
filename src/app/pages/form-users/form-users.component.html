@@ -1,8 +1,10 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <form>
   <div class="max-w-2xl mx-auto px-4 sm:px-6">
     <div class="space-y-8">
 
-      <fieldset style="width: 60%; margin: 0 auto;">
+      <fieldset class="w-full">
         <div class="border-b border-gray-900/10 pb-8">
           <div>
             <label for="photo" class="block text-sm font-medium leading-10 text-gray-900">Fotografia</label>
@@ -16,10 +18,10 @@
         </div>
       </fieldset>
 
-      <fieldset style="width: 80%; margin: 0 auto;">
+      <fieldset class="w-full">
         <legend class="text-lg font-medium">Dados de Acesso</legend>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="col-span-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email*</label>
             <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
           </div>
@@ -34,11 +36,12 @@
         </div>
       </fieldset>
 
+
       <br>
 
-      <fieldset style="width: 80%; margin: 0 auto;">
+      <fieldset class="w-full">
         <legend class="text-lg font-medium">Dados Pessoais</legend>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome*</label>
             <input id="first-name" name="first-name" type="text" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
@@ -49,19 +52,18 @@
           </div>
         </div>
 
-        <div class="col-span-full">
+        <div class="w-full">
           <label for="morada" class="block text-sm font-medium leading-6 text-gray-900">Morada</label>
           <div class="mt-2">
             <input type="text" name="morada" id="morada" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Cidade</label>
+            <label for="cidade" class="block text-sm font-medium leading-6 text-gray-900">Cidade</label>
             <div class="mt-2">
-              <select id="country" name="country" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                <option></option>
+              <select id="cidade" name="cidade" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">                <option></option>
                 <option>Águeda</option>
                 <option>Albergaria-a-Velha</option>
                 <option>Albufeira</option>
@@ -225,7 +227,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label for="codigopostal" class="block text-sm font-medium leading-6 text-gray-900">Código Postal</label>
             <div class="mt-2">
@@ -367,8 +369,8 @@
       </fieldset>
 
       <br>
-      <div style="width: 80%; margin: 0 auto;">
-        <div class="grid grid-cols-2 gap-4">
+      <div class="w-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <fieldset>
               <legend class="text-lg font-medium">Contacto*</legend>
@@ -377,7 +379,7 @@
             </fieldset>
           </div>
 
-          <div>
+          <div class="max-w-full">
             <fieldset>
               <legend class="text-lg font-medium">Permissões*</legend>
               <label for="tipouser" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Utilizador</label>
@@ -392,6 +394,7 @@
               </select>
             </fieldset>
           </div>
+
         </div>
       </div>
 
@@ -402,4 +405,5 @@
       <br>
     </div>
   </div>
+
 </form>
