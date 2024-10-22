@@ -1,0 +1,405 @@
+<form>
+  <div class="max-w-2xl mx-auto px-4 sm:px-6">
+    <div class="space-y-8">
+
+      <fieldset style="width: 60%; margin: 0 auto;">
+        <div class="border-b border-gray-900/10 pb-8">
+          <div>
+            <label for="photo" class="block text-sm font-medium leading-10 text-gray-900">Fotografia</label>
+            <div class="mt-1 flex items-center gap-x-4">
+              <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+              </svg>
+              <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset style="width: 80%; margin: 0 auto;">
+        <legend class="text-lg font-medium">Dados de Acesso</legend>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email*</label>
+            <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password*</label>
+            <input id="password" name="password" type="password" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          </div>
+          <div>
+            <label for="confpassword" class="block text-sm font-medium leading-6 text-gray-900">Repetir Password*</label>
+            <input id="confpassword" name="confpassword" type="password" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          </div>
+        </div>
+      </fieldset>
+
+      <br>
+
+      <fieldset style="width: 80%; margin: 0 auto;">
+        <legend class="text-lg font-medium">Dados Pessoais</legend>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome*</label>
+            <input id="first-name" name="first-name" type="text" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          </div>
+          <div>
+            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Apelidos*</label>
+            <input id="last-name" name="last-name" type="text" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <label for="morada" class="block text-sm font-medium leading-6 text-gray-900">Morada</label>
+          <div class="mt-2">
+            <input type="text" name="morada" id="morada" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Cidade</label>
+            <div class="mt-2">
+              <select id="country" name="country" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option></option>
+                <option>Águeda</option>
+                <option>Albergaria-a-Velha</option>
+                <option>Albufeira</option>
+                <option>Alcácer do Sal</option>
+                <option>Alcobaça</option>
+                <option>Almada</option>
+                <option>Almeirim</option>
+                <option>Alverca do Ribatejo</option>
+                <option>Amadora</option>
+                <option>Amarante</option>
+                <option>Amares</option>
+                <option>Anadia</option>
+                <option>Angra do Heroísmo</option>
+                <option>Arcos de Valdevez</option>
+                <option>Arganil</option>
+                <option>Armamar</option>
+                <option>Arouca</option>
+                <option>Arruda dos Vinhos</option>
+                <option>Aveiro</option>
+                <option>Barcelos</option>
+                <option>Barreiro</option>
+                <option>Batalha</option>
+                <option>Beja</option>
+                <option>Braga</option>
+                <option>Bragança</option>
+                <option>Caldas da Rainha</option>
+                <option>Câmara de Lobos</option>
+                <option>Caminha</option>
+                <option>Campo Maior</option>
+                <option>Cantanhede</option>
+                <option>Cartaxo</option>
+                <option>Cascais</option>
+                <option>Castelo Branco</option>
+                <option>Castro Daire</option>
+                <option>Chaves</option>
+                <option>Coimbra</option>
+                <option>Elvas</option>
+                <option>Entroncamento</option>
+                <option>Espinho</option>
+                <option>Esposende</option>
+                <option>Estarreja</option>
+                <option>Estremoz</option>
+                <option>Évora</option>
+                <option>Fafe</option>
+                <option>Faro</option>
+                <option>Fátima</option>
+                <option>Felgueiras</option>
+                <option>Figueira da Foz</option>
+                <option>Funchal</option>
+                <option>Gondomar</option>
+                <option>Guarda</option>
+                <option>Guimarães</option>
+                <option>Horta</option>
+                <option>Lagoa</option>
+                <option>Lagos</option>
+                <option>Lamego</option>
+                <option>Leiria</option>
+                <option>Lisboa</option>
+                <option>Loulé</option>
+                <option>Loures</option>
+                <option>Lourosa</option>
+                <option>Macedo de Cavaleiros</option>
+                <option>Machico</option>
+                <option>Mafra</option>
+                <option>Maia</option>
+                <option>Marco de Canaveses</option>
+                <option>Marinha Grande</option>
+                <option>Matosinhos</option>
+                <option>Mealhada</option>
+                <option>Miranda do Douro</option>
+                <option>Mirandela</option>
+                <option>Montemor-o-Novo</option>
+                <option>Montijo</option>
+                <option>Moura</option>
+                <option>Odivelas</option>
+                <option>Olhão</option>
+                <option>Oliveira de Azeméis</option>
+                <option>Oliveira do Bairro</option>
+                <option>Oliveira do Hospital</option>
+                <option>Ourém</option>
+                <option>Ovar</option>
+                <option>Paços de Ferreira</option>
+                <option>Paredes</option>
+                <option>Penafiel</option>
+                <option>Peniche</option>
+                <option>Peso da Régua</option>
+                <option>Pinhel</option>
+                <option>Pombal</option>
+                <option>Ponta Delgada</option>
+                <option>Ponte de Lima</option>
+                <option>Portalegre</option>
+                <option>Portimão</option>
+                <option>Porto</option>
+                <option>Póvoa de Varzim</option>
+                <option>Praia da Vitória</option>
+                <option>Santarém</option>
+                <option>Santiago do Cacém</option>
+                <option>Santo Tirso</option>
+                <option>São João da Madeira</option>
+                <option>São Pedro do Sul</option>
+                <option>Seia</option>
+                <option>Setúbal</option>
+                <option>Silves</option>
+                <option>Sines</option>
+                <option>Tábua</option>
+                <option>Tavira</option>
+                <option>Tomar</option>
+                <option>Tondela</option>
+                <option>Torres Novas</option>
+                <option>Torres Vedras</option>
+                <option>Trancoso</option>
+                <option>Trofa</option>
+                <option>Vagos</option>
+                <option>Vale de Cambra</option>
+                <option>Valença</option>
+                <option>Valongo</option>
+                <option>Valpaços</option>
+                <option>Vendas Novas</option>
+                <option>Viana do Castelo</option>
+                <option>Vila do Conde</option>
+                <option>Vila Franca de Xira</option>
+                <option>Vila Nova de Cerveira</option>
+                <option>Vila Nova de Famalicão</option>
+                <option>Vila Nova de Foz Côa</option>
+                <option>Vila Nova de Gaia</option>
+                <option>Vila Real</option>
+                <option>Vila Real de Santo António</option>
+                <option>Viseu</option>
+                <option>Vizela</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="distritos" class="block text-sm font-medium leading-6 text-gray-900">Distrito</label>
+            <div class="mt-2">
+              <select id="distritos" name="distritos" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option></option>
+                <option>Aveiro</option>
+                <option>Beja</option>
+                <option>Braga</option>
+                <option>Bragança</option>
+                <option>Castelo Branco</option>
+                <option>Coimbra</option>
+                <option>Évora</option>
+                <option>Faro</option>
+                <option>Guarda</option>
+                <option>Leiria</option>
+                <option>Lisboa</option>
+                <option>Portalegre</option>
+                <option>Porto</option>
+                <option>Santarém</option>
+                <option>Setúbal</option>
+                <option>Viana do Castelo</option>
+                <option>Vila Real</option>
+                <option>Viseu</option>
+                <option>Região Autónoma dos Açores</option>
+                <option>Região Autónoma da Madeira</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="codigopostal" class="block text-sm font-medium leading-6 text-gray-900">Código Postal</label>
+            <div class="mt-2">
+              <input type="text" name="codigopostal" id="codigopostal" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+          <div>
+            <label for="nacionalidade" class="block text-sm font-medium leading-6 text-gray-900">Nacionalidade</label>
+            <div class="mt-2">
+              <select id="nacionalidade" name="nacionalidade" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option></option>
+                <option>Afegã</option>
+                <option>Albanesa</option>
+                <option>Alemã</option>
+                <option>Andorrana</option>
+                <option>Angolana</option>
+                <option>Antiguana</option>
+                <option>Argelina</option>
+                <option>Argentina</option>
+                <option>Arménia</option>
+                <option>Australiana</option>
+                <option>Austríaca</option>
+                <option>Azerbaijana</option>
+                <option>Bahamesa</option>
+                <option>Bangladeshi</option>
+                <option>Barbadeana</option>
+                <option>Belga</option>
+                <option>Belizenha</option>
+                <option>Beninense</option>
+                <option>Bielorrussa</option>
+                <option>Boliviana</option>
+                <option>Bósnia</option>
+                <option>Botswana</option>
+                <option>Brasileira</option>
+                <option>Britânica</option>
+                <option>Búlgara</option>
+                <option>Burundiana</option>
+                <option>Cabo-verdiana</option>
+                <option>Camaronesa</option>
+                <option>Canadiana</option>
+                <option>Chilena</option>
+                <option>Chinesa</option>
+                <option>Colombiana</option>
+                <option>Congolesa</option>
+                <option>Costarriquenha</option>
+                <option>Croata</option>
+                <option>Cubana</option>
+                <option>Dinamarquesa</option>
+                <option>Dominicana</option>
+                <option>Egípcia</option>
+                <option>Equatoriana</option>
+                <option>Eslovaca</option>
+                <option>Eslovena</option>
+                <option>Espanhola</option>
+                <option>Estoniana</option>
+                <option>Etíope</option>
+                <option>Filipina</option>
+                <option>Finlandesa</option>
+                <option>Francesa</option>
+                <option>Gabonesa</option>
+                <option>Ganesa</option>
+                <option>Georgiana</option>
+                <option>Grega</option>
+                <option>Guatemalteca</option>
+                <option>Guineense</option>
+                <option>Haitiana</option>
+                <option>Holandesa</option>
+                <option>Hondurenha</option>
+                <option>Húngara</option>
+                <option>Indiana</option>
+                <option>Indonésia</option>
+                <option>Iraquiana</option>
+                <option>Irlandesa</option>
+                <option>Islandesa</option>
+                <option>Israelita</option>
+                <option>Italiana</option>
+                <option>Jamaicana</option>
+                <option>Japonesa</option>
+                <option>Jordaniana</option>
+                <option>Laosiana</option>
+                <option>Letã</option>
+                <option>Libanesa</option>
+                <option>Lituana</option>
+                <option>Luxemburguesa</option>
+                <option>Macedónia</option>
+                <option>Maliana</option>
+                <option>Maltesa</option>
+                <option>Mexicana</option>
+                <option>Moldava</option>
+                <option>Monegasca</option>
+                <option>Mongol</option>
+                <option>Moçambicana</option>
+                <option>Namibiana</option>
+                <option>Nepalesa</option>
+                <option>Nicaraguense</option>
+                <option>Nigeriana</option>
+                <option>Norueguesa</option>
+                <option>Neozelandesa</option>
+                <option>Paquistanesa</option>
+                <option>Panamenha</option>
+                <option>Paraguaia</option>
+                <option>Peruana</option>
+                <option>Polaca</option>
+                <option>Portuguesa</option>
+                <option>Queniana</option>
+                <option>Romena</option>
+                <option>Russa</option>
+                <option>Salvadorenha</option>
+                <option>Sérvia</option>
+                <option>Singapurense</option>
+                <option>Síria</option>
+                <option>Somali</option>
+                <option>Sul-Africana</option>
+                <option>Sueca</option>
+                <option>Suiça</option>
+                <option>Tailandesa</option>
+                <option>Tanzaniana</option>
+                <option>Timorense</option>
+                <option>Tunisina</option>
+                <option>Turca</option>
+                <option>Ucraniana</option>
+                <option>Ugandesa</option>
+                <option>Uruguaia</option>
+                <option>Venezuelana</option>
+                <option>Vietnamita</option>
+                <option>Zimbabuense</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <label for="nif" class="block text-sm font-medium leading-6 text-gray-900">NIF*</label>
+              <input id="nif" name="nif" type="nif" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <br>
+      <div style="width: 80%; margin: 0 auto;">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <fieldset>
+              <legend class="text-lg font-medium">Contacto*</legend>
+              <label for="telemovel" class="block text-sm font-medium leading-6 text-gray-900">Telemóvel*</label>
+              <input id="telemovel" name="telemovel" type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+            </fieldset>
+          </div>
+
+          <div>
+            <fieldset>
+              <legend class="text-lg font-medium">Permissões*</legend>
+              <label for="tipouser" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Utilizador</label>
+              <select id="tipouser" name="tipouser" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600">
+                <option></option>
+                <option>Administrador</option>
+                <option>Gestor</option>
+                <option>Cuidador</option>
+                <option>Funcionário</option>
+                <option>Residente</option>
+                <option>Familiar</option>
+              </select>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <button type="button" class="text-sm font-semibold text-gray-900">Cancelar</button>
+        <button type="submit" class="ml-4 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-600">Guardar</button>
+      </div>
+      <br>
+    </div>
+  </div>
+</form>
