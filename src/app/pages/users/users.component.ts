@@ -5,11 +5,10 @@ import {UsersTableComponent} from '../../components/users-table/users-table.comp
   selector: 'app-users',
   standalone: true,
   imports: [
-    UsersTableComponent
+    UsersTableComponent,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-
 }

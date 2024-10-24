@@ -10,3 +10,11 @@ export enum Order {
     ASC = "ASC",
     DESC = "DESC"
 }
+
+export interface QueryParams {
+  page: number;
+  limit: number;
+  orderBy?: string;
+  orderAsc?: boolean;
+  search?: string;
+}

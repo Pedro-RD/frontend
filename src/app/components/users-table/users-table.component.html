@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users | async" [user]="user" app-users-table-row></tr>
+    <tr *ngFor="let user of users" [user]="user" app-users-table-row></tr>
     </tbody>
   </table>
 </div>

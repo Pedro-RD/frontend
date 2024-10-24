@@ -1,42 +1,37 @@
-import {AsyncPipe, NgForOf} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {UsersService} from '../../services/users/users.service';
+import {NgForOf} from '@angular/common';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UsersTableRowComponent} from '../users-table-row/users-table-row.component';
-import {Order} from '../../interfaces/paged-response.interface';
+import {UsersService} from '../../services/users/users.service';
+import {User} from '../../interfaces/user';
+import {Subscription, tap} from 'rxjs';
 
 @Component({
   selector: 'app-users-table',
   standalone: true,
-  imports: [
-    NgForOf,
-    UsersTableRowComponent,
-    AsyncPipe
-  ],
+  imports: [NgForOf, UsersTableRowComponent],
   templateUrl: './users-table.component.html',
-  styleUrl: './users-table.component.css'
+  styleUrl: './users-table.component.css',
 })
-export class UsersTableComponent implements OnInit {
-  public page = 1;
-  public pageSize = 10;
-  public orderField = 'id';
-  public orderDirection = Order.ASC;
-  private subscriptions: Subscription[] = [];
+export class UsersTableComponent implements OnInit, OnDestroy {
+  public users: User[] = []
+  private subscription!: Subscription;
 
   constructor(private usersService: UsersService) {
   }
 
-  get users() {
-    return this.usersService.userList$;
+  ngOnInit() {
+    this.subscription = this.usersService
+      .getAll()
+      .pipe(
+        tap(({response, query}) => {
+          this.users = response.data;
+        })
+      )
+      .subscribe();
   }
 
-  ngOnInit(): void {
-    this.subscriptions.push(this.usersService.getAll(this.page, this.orderDirection, this.pageSize).subscribe());
+  ngOnDestroy() {
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-
-
 }
