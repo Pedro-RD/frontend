@@ -1,35 +1,42 @@
+import {AsyncPipe, NgForOf} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
 import {UsersService} from '../../services/users/users.service';
-import {User} from '../../interfaces/user';
-import {NgForOf} from '@angular/common';
 import {UsersTableRowComponent} from '../users-table-row/users-table-row.component';
+import {Order} from '../../interfaces/paged-response.interface';
 
 @Component({
   selector: 'app-users-table',
   standalone: true,
   imports: [
     NgForOf,
-    UsersTableRowComponent
+    UsersTableRowComponent,
+    AsyncPipe
   ],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.css'
 })
 export class UsersTableComponent implements OnInit {
+  public page = 1;
+  public pageSize = 10;
+  public orderField = 'id';
+  public orderDirection = Order.ASC;
+  private subscriptions: Subscription[] = [];
 
-  users: User[] = []; // variável que vai armazenar os utilizadores
+  constructor(private usersService: UsersService) {
+  }
 
-  constructor(private usersService: UsersService) {}
+  get users() {
+    return this.usersService.userList$;
+  }
 
   ngOnInit(): void {
-    // Chama o serviço para obter a lista de utilizadores
-    this.usersService.getAll().subscribe({
-      next: (data: User[]) => this.users = data,
-      error: (err) => console.error("Erro ao obter lista de utilizadores", err),
-      complete: () => console.log("Pesquisa de utilizadores completa")
+    this.subscriptions.push(this.usersService.getAll(this.page, this.orderDirection, this.pageSize).subscribe());
+  }
 
-    });
-
-    }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 
 
 }

@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
-  catchError,
   map,
-  Observable,
-  of,
-  switchMap,
+  Observable
 } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { User } from '../../interfaces/user';
-import {Router} from '@angular/router';
 
 interface AuthInfo {
   token: string;
@@ -23,7 +20,7 @@ interface AuthInfo {
 export class AuthService {
   private subject;
 
-  private readonly url: string = environment.api_url + 'auth';
+  private readonly url: string = environment.apiUrl + 'auth';
   private readonly token_key = 'auth-token';
 
   constructor(private httpClient: HttpClient, private router: Router) {

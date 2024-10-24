@@ -1,4 +1,4 @@
 export const environment = {
-  env: 'production',
-  api_url: '',
+  production: true,
+  apiUrl: 'https://backend-deq5.onrender.com/api/',
 };
