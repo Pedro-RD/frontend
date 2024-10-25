@@ -21,7 +21,7 @@
 <td class="w-24 text-xs">{{ user.role }}</td> <!-- Role ajustado -->
 <td class="w-40">
   <div class="flex space-x-1">
-    <button class="btn btn-sm btn-info btn-outline border-2">
+    <button (click)="handleDelete()" class="btn btn-sm btn-info btn-outline border-2">
       <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
            xmlns="http://www.w3.org/2000/svg">
         <path

@@ -1,74 +1,98 @@
-import {BehaviorSubject, distinctUntilChanged, Observable, take} from 'rxjs';
+import {signal} from '@angular/core';
+import {Observable} from 'rxjs';
 import {Order, QueryParams} from '../../interfaces/paged-response.interface';
 
-export abstract class ListService {
-  private querySubject$: BehaviorSubject<QueryParams>;
-  public query$: Observable<QueryParams>;
+export abstract class ListService<T> {
+  public listSignal = signal<T[]>([]);
+  public lastPageCountSignal = signal(1);
 
-  protected constructor() {
-    this.querySubject$ = new BehaviorSubject<QueryParams>({
-      page: 1,
-      orderAsc: true,
-      orderBy: 'id',
-      limit: 10,
-      search: '',
-    });
+  public params = signal<QueryParams>({
+    orderBy: 'id',
+    orderAsc: true,
 
-    this.query$ = this.querySubject$.asObservable();
+    limit: 10,
+    page: 1,
+
+    search: '',
+  });
+
+  abstract fetchList(): Observable<T[]>;
+
+  abstract fetchItem(id: number): Observable<T>;
+
+  abstract create(item: T): Observable<T>;
+
+  abstract update(item: T): Observable<T>;
+
+  abstract delete(id: number): Observable<void>;
+
+  setList(list: T[]) {
+    this.listSignal.set(list);
   }
 
-  getQuerySting(queryParams: QueryParams): string {
-    return `?page=${queryParams.page}&limit=${queryParams.limit}&orderBy=${queryParams.orderBy}&search=${queryParams.search}&order=${queryParams.orderAsc ? Order.ASC : Order.DESC}`;
+  setPageSize(size: number) {
+    this.params.set({
+      ...this.params(),
+      limit: size,
+    });
   }
 
   setPage(page: number) {
-    this.querySubject$.next({...this.querySubject$.value, page});
-  }
-
-  nextPage() {
-    this.querySubject$.next({...this.querySubject$.value, page: this.querySubject$.value.page + 1});
-  }
-
-  previousPage() {
-    this.querySubject$.next({...this.querySubject$.value, page: this.querySubject$.value.page - 1});
-  }
-
-  resetPage() {
-    this.querySubject$.next({...this.querySubject$.value, page: 1});
-  }
-
-  toggleOrder() {
-    this.querySubject$.next({
-      ...this.querySubject$.value,
-      orderAsc: !this.querySubject$.value.orderAsc,
-      page: 1,
+    this.params.set({
+      ...this.params(),
+      page,
     });
   }
 
-  resetOrder() {
-    this.querySubject$.next({...this.querySubject$.value, orderAsc: true});
-  }
-
   setOrderBy(orderBy: string) {
-    this.querySubject$.next({
-      ...this.querySubject$.value,
-      orderAsc: true,
+    let params = this.params();
+    console.log(orderBy, params);
+    let orderAsc = orderBy === params.orderBy ? !params.orderAsc : true;
+
+    this.params.set({
+      ...params,
       orderBy,
-      page: 1,
+      orderAsc,
     });
   }
 
   setSearch(search: string) {
-    this.querySubject$.next({...this.querySubject$.value, search, page: 1});
+    this.params.set({
+      ...this.params(),
+      search,
+    });
   }
 
-  resetQuery() {
-    this.querySubject$.next({
-      page: 1,
-      orderAsc: true,
+  setPageCount(count: number) {
+    if (count < 1) {
+      count = 1;
+    }
+    this.lastPageCountSignal.apply(count);
+  }
+
+  clearAll() {
+    this.listSignal.set([]);
+    this.lastPageCountSignal.apply(1);
+    this.params.set({
       orderBy: 'id',
+      orderAsc: true,
+
       limit: 10,
+      page: 1,
+
       search: '',
     });
+  }
+
+  makeRequestParams() {
+    const page = `page=${this.params().page}`;
+    const limit = `limit=${this.params().limit}`;
+    const orderBy = `orderBy=${this.params().orderBy}`;
+    const orderAsc = `order=${
+      this.params().orderAsc ? Order.ASC : Order.DESC
+    }`;
+    const search = `search=${this.params().search}`;
+
+    return `?${page}&${limit}&${orderBy}&${orderAsc}&${search}`;
   }
 }

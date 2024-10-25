@@ -12,19 +12,19 @@ export class ToastService {
   constructor() {
   }
 
-  public info(message: string, duration = 5000): void {
+  public info(message: string, duration = 2000): void {
     this.show(message, ToastType.INFO, duration);
   }
 
-  public success(message: string, duration = 5000): void {
+  public success(message: string, duration = 2000): void {
     this.show(message, ToastType.SUCCESS, duration);
   }
 
-  public error(message: string, duration = 5000): void {
+  public error(message: string, duration = 2000): void {
     this.show(message, ToastType.ERROR, duration);
   }
 
-  public warning(message: string, duration = 5000): void {
+  public warning(message: string, duration = 2000): void {
     this.show(message, ToastType.WARNING, duration);
   }
 
@@ -32,7 +32,7 @@ export class ToastService {
     this.toast.update(() => null);
   }
 
-  private show(message: string, type: ToastType, duration = 5000): void {
+  private show(message: string, type: ToastType, duration = 2000): void {
     const toast: Toast = {
       id: this.nextId++,
       message,
@@ -41,5 +41,9 @@ export class ToastService {
     };
 
     this.toast.update(() => toast);
+
+    setTimeout(() => {
+      this.clear();
+    }, duration);
   }
 }

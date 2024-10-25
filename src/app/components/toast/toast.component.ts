@@ -1,4 +1,4 @@
-import {Component, computed, OnInit} from '@angular/core';
+import {Component, computed} from '@angular/core';
 import {ToastType} from '../../interfaces/toast-type.interface';
 import {NgClass, NgIf} from '@angular/common';
 import {ToastService} from '../../services/toast/toast.service';
@@ -13,7 +13,7 @@ import {ToastService} from '../../services/toast/toast.service';
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.css'
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent {
   toast = computed(() => this.toastService.toast())
 
   constructor(private toastService: ToastService) {
@@ -43,11 +43,5 @@ export class ToastComponent implements OnInit {
       default:
         return 'alert-info';
     }
-  }
-
-  ngOnInit() {
-    setTimeout(() => {
-      this.toastService.clear();
-    }, this.toast()?.duration);
   }
 }
