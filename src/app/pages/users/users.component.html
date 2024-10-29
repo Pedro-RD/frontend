@@ -1,6 +1,6 @@
-
 <section class="px-3 flex mt-5">
-  <input class="block w-full input border-2 border-info">
+  <app-search-box (onSearch)="handleSearch($event)"/>
+
   <button class="btn btn-success btn-outline border-2 btn-dark ml-2">
     <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
          xmlns="http://www.w3.org/2000/svg">
@@ -9,5 +9,10 @@
   </button>
 </section>
 
-<app-users-table />
+<app-table [data]="userList()" [tableConfig]="tableConfig"/>
 
+<app-paginator
+  (nextPage)="handleNextPage()"
+  (previousPage)="handlePreviousPage()"
+  [pageNumber]="(page | async) || 1"
+  [totalPages]="(totalPages |async) || 1"/>

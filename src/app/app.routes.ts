@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {FormLoginComponent} from './pages/form-login/form-login.component';
-import {ResidentsTableComponent} from './components/residents-table/residents-table.component';
+import {ResidentsTableComponent} from './components/old/residents-table/residents-table.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {NotAllowedComponent} from './pages/not-allowed/not-allowed.component';

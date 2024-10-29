@@ -1,98 +1,82 @@
-import {signal} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Order, QueryParams} from '../../interfaces/paged-response.interface';
+import {BehaviorSubject, combineLatest, debounceTime, map} from 'rxjs';
+import {Order} from '../../interfaces/paged-response.interface';
 
 export abstract class ListService<T> {
-  public listSignal = signal<T[]>([]);
-  public lastPageCountSignal = signal(1);
-
-  public params = signal<QueryParams>({
-    orderBy: 'id',
-    orderAsc: true,
-
-    limit: 10,
-    page: 1,
-
-    search: '',
-  });
-
-  abstract fetchList(): Observable<T[]>;
-
-  abstract fetchItem(id: number): Observable<T>;
-
-  abstract create(item: T): Observable<T>;
-
-  abstract update(item: T): Observable<T>;
-
-  abstract delete(id: number): Observable<void>;
-
-  setList(list: T[]) {
-    this.listSignal.set(list);
-  }
-
-  setPageSize(size: number) {
-    this.params.set({
-      ...this.params(),
-      limit: size,
-    });
-  }
-
-  setPage(page: number) {
-    this.params.set({
-      ...this.params(),
+  protected pageSubject = new BehaviorSubject(1);
+  public page$ = this.pageSubject.asObservable();
+  protected orderBySubject = new BehaviorSubject("id");
+  protected orderSubject = new BehaviorSubject(Order.ASC);
+  protected limitSubject = new BehaviorSubject(10);
+  protected searchSubject = new BehaviorSubject("");
+  public query$ = combineLatest(
+    [
+      this.pageSubject.asObservable(),
+      this.orderBySubject.asObservable(),
+      this.orderSubject.asObservable(),
+      this.limitSubject.asObservable(),
+      this.searchSubject.asObservable(),
+    ]
+  ).pipe(
+    debounceTime(500),
+    map(([page, orderBy, order, limit, search]) => ({
       page,
-    });
+      order,
+      orderBy,
+      limit,
+      search,
+    })),
+  )
+  private totalPagesSubject = new BehaviorSubject<number>(0);
+  public totalPages$ = this.totalPagesSubject.asObservable();
+
+  protected get queryString() {
+    return `?page=${this.pageSubject.value}&orderBy=${this.orderBySubject.value}&order=${this.orderSubject.value}&limit=${this.limitSubject.value}&search=${this.searchSubject.value}`;
   }
 
   setOrderBy(orderBy: string) {
-    let params = this.params();
-    console.log(orderBy, params);
-    let orderAsc = orderBy === params.orderBy ? !params.orderAsc : true;
-
-    this.params.set({
-      ...params,
-      orderBy,
-      orderAsc,
-    });
+    this.orderBySubject.next(orderBy);
   }
 
   setSearch(search: string) {
-    this.params.set({
-      ...this.params(),
-      search,
-    });
+    this.searchSubject.next(search);
   }
 
-  setPageCount(count: number) {
-    if (count < 1) {
-      count = 1;
+  nextPage() {
+    const oldValue = this.pageSubject.getValue();
+    if (this.totalPagesSubject.value === 0)
+      return;
+
+    if (this.totalPagesSubject.value === this.pageSubject.value)
+      return;
+
+    this.pageSubject.next(oldValue + 1);
+  }
+
+  prevPage() {
+    const oldValue = this.pageSubject.getValue();
+    if (oldValue > 1) {
+      this.pageSubject.next(oldValue - 1);
     }
-    this.lastPageCountSignal.apply(count);
+  }
+
+  setTotalPages(nPages: number) {
+    this.totalPagesSubject.next(nPages);
+  }
+
+  setPageSize(size: number) {
+    if (size > 0)
+      this.pageSubject.next(size);
   }
 
   clearAll() {
-    this.listSignal.set([]);
-    this.lastPageCountSignal.apply(1);
-    this.params.set({
-      orderBy: 'id',
-      orderAsc: true,
-
-      limit: 10,
-      page: 1,
-
-      search: '',
-    });
+    this.pageSubject.next(1);
+    this.orderSubject.next(Order.ASC);
+    this.orderBySubject.next("id");
+    this.limitSubject.next(10);
+    this.searchSubject.next("");
   }
 
-  makeRequestParams() {
-    const page = `page=${this.params().page}`;
-    const limit = `limit=${this.params().limit}`;
-    const orderBy = `orderBy=${this.params().orderBy}`;
-    const orderAsc = `order=${
-      this.params().orderAsc ? Order.ASC : Order.DESC
-    }`;
-    const search = `search=${this.params().search}`;
-
-    return `?${page}&${limit}&${orderBy}&${orderAsc}&${search}`;
+  protected setPage(page: number) {
+    this.pageSubject.next(page);
   }
 }

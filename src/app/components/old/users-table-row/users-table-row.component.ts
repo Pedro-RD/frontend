@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf} from '@angular/common';
-import {User} from '../../interfaces/user';
+import {User} from '../../../interfaces/user';
 
 @Component({
   selector: '[app-users-table-row]',

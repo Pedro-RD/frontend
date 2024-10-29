@@ -1,7 +1,7 @@
 import {NgForOf} from '@angular/common';
-import {Component, computed, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {UsersService} from '../../services/users/users.service';
+import {UsersService} from '../../../services/users/users.service';
 import {UsersTableRowComponent} from '../users-table-row/users-table-row.component';
 
 @Component({
@@ -13,7 +13,8 @@ import {UsersTableRowComponent} from '../users-table-row/users-table-row.compone
 })
 export class UsersTableComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
-  users = computed(() => this.usersService.listSignal());
+
+  // users = computed(() => this.usersService.listSignal());
 
   constructor(private usersService: UsersService) {
   }
@@ -33,7 +34,7 @@ export class UsersTableComponent implements OnInit, OnDestroy {
   }
 
   updateTable() {
-    this.subscriptions.push(this.usersService.fetchList().subscribe());
+    // this.subscriptions.push(this.usersService.fetchList().subscribe());
   }
 
   deleteUser($event: number) {

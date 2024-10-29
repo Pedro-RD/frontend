@@ -1,0 +1,25 @@
+<div class="p-2">
+  <table class="table">
+    <thead>
+    <tr>
+      <!--      <th (click)="handleHeaderClick('name')" class="w-40">Nome</th>-->
+      <!--      <th (click)="handleHeaderClick('phoneNumber')" class="w-32">Contacto</th>-->
+      <!--      <th (click)="handleHeaderClick('email')" class="w-32">Email</th>-->
+      <!--      <th (click)="handleHeaderClick('fiscalId')" class="w-32">NIF</th>-->
+      <!--      <th (click)="handleHeaderClick('address')" class="w-64">Morada</th>-->
+      <!--      <th (click)="handleHeaderClick('role')" class="w-24">Role</th>-->
+      <!--      <th class="w-40">Ações</th>-->
+
+      @for (col of tableConfig().columns; track col.key) {
+        <th (click)="handleHeaderClicked(col.key)">{{ col.label }}</th>
+      }
+    </tr>
+    </thead>
+    <tbody>
+      @for (row of data(); track row.id) {
+        <tr app-table-row [columns]="tableConfig().columns" [row]="row"></tr>
+      }
+    </tbody>
+  </table>
+
+</div>

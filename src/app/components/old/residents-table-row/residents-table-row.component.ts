@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Resident} from '../../interfaces/resident';
-import { NgForOf } from '@angular/common';
+import {Resident} from '../../../interfaces/resident';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: '[app-residents-table-row]',
@@ -11,6 +11,6 @@ import { NgForOf } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResidentsTableRowComponent {
-  @Input({ required: true }) resident!: Resident;
+  @Input({required: true}) resident!: Resident;
 
 }

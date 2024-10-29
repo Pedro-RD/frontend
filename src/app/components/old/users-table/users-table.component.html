@@ -2,22 +2,18 @@
   <table class="table">
     <thead>
     <tr>
-      <th (click)="handleHeaderClick('name')" class="w-40">Nome</th>
+      <!-- <th (click)="handleHeaderClick('name')" class="w-40">Nome</th>
       <th (click)="handleHeaderClick('phoneNumber')" class="w-32">Contacto</th>
       <th (click)="handleHeaderClick('email')" class="w-32">Email</th>
       <th (click)="handleHeaderClick('fiscalId')" class="w-32">NIF</th>
       <th (click)="handleHeaderClick('address')" class="w-64">Morada</th>
       <th (click)="handleHeaderClick('role')" class="w-24">Role</th>
-      <th class="w-40">Ações</th>
+      <th class="w-40">Ações</th> -->
     </tr>
     </thead>
     <tbody>
-    <tr (deleteUser)="deleteUser($event)" *ngFor="let user of users()" [user]="user" app-users-table-row></tr>
+    <!-- <tr (deleteUser)="deleteUser($event)" *ngFor="let user of users()" [user]="user" app-users-table-row></tr> -->
     </tbody>
   </table>
-  <div class="join mx-auto mt-2">
-    <button class="join-item btn">«</button>
-    <button class="join-item btn">Page 22</button>
-    <button class="join-item btn">»</button>
-  </div>
+
 </div>
