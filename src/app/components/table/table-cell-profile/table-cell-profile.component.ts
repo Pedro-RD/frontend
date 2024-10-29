@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
 
 @Component({
   selector: 'app-table-cell-profile',
@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './table-cell-profile.component.css'
 })
 export class TableCellProfileComponent {
-
+  imgUrl = input<string>();
+  mainText = input.required<string>();
+  subText = input<string>()
 }

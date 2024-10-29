@@ -5,7 +5,7 @@ import {PaginatorComponent} from '../../components/table/paginator/paginator.com
 import {UsersService} from '../../services/users/users.service';
 import {map, Observable, switchMap, tap} from 'rxjs';
 import {TableComponent} from '../../components/table/table/table.component';
-import {TableConfig} from '../../interfaces/table.interface';
+import {ColumnType, TableConfig} from '../../interfaces/table.interface';
 import {User} from '../../interfaces/user';
 import {AsyncPipe} from '@angular/common';
 
@@ -26,24 +26,28 @@ export class UsersComponent implements OnInit {
   tableConfig: TableConfig<User> = {
     columns: [
       {
-        key: "name",
+        colKey: "name",
         label: "Nome",
+        subKey: "role",
+        type: ColumnType.PROFILE,
+        classList: ["w-40"]
       },
       {
-        key: "email",
+        colKey: "email",
         label: "Email",
+        classList: ["w-32"]
+
       },
       {
-        key: "phoneNumber",
+        colKey: "phoneNumber",
         label: "Contacto",
+        classList: ["w-32"]
+
       },
       {
-        key: "fiscalId",
-        label: "Nif",
-      },
-      {
-        key: "role",
-        label: "Role",
+        colKey: "address",
+        label: "Endereço",
+        classList: ["w-64"]
       },
     ]
   }

@@ -1,5 +1,5 @@
 <div class="p-2">
-  <table class="table">
+  <table class="table table-zebra">
     <thead>
     <tr>
       <!--      <th (click)="handleHeaderClick('name')" class="w-40">Nome</th>-->
@@ -10,14 +10,34 @@
       <!--      <th (click)="handleHeaderClick('role')" class="w-24">Role</th>-->
       <!--      <th class="w-40">Ações</th>-->
 
-      @for (col of tableConfig().columns; track col.key) {
-        <th (click)="handleHeaderClicked(col.key)">{{ col.label }}</th>
+      @for (col of tableConfig().columns; track col.colKey) {
+        <th (click)="handleHeaderClicked(col.colKey)" [ngClass]="col.classList">{{ col.label }}</th>
       }
     </tr>
     </thead>
     <tbody>
-      @for (row of data(); track row.id) {
-        <tr app-table-row [columns]="tableConfig().columns" [row]="row"></tr>
+      @for (row of data(); track $index) {
+        <tr>
+
+          @for (col of tableConfig().columns; track $index; let i = $index) {
+            @if (i == 0) {
+              <th scope="row">
+                <app-table-cell-profile
+                  [mainText]="getValue(row, col.colKey)"
+                  [subText]="col.subKey ? getValue(row, col.subKey!) : ''"
+                  [imgUrl]="col.imageKey ? getValue(row, col.imageKey!): ''"
+                />
+              </th>
+            } @else {
+              <td>
+                <app-table-cell-text
+                  [mainText]="getValue(row, col.colKey)"
+                  [subText]="col.subKey ? getValue(row, col.subKey!) : ''"
+                />
+              </td>
+            }
+          }
+        </tr>
       }
     </tbody>
   </table>

@@ -39,6 +39,7 @@ export abstract class ListService<T> {
 
   setSearch(search: string) {
     this.searchSubject.next(search);
+    this.setPage(1);
   }
 
   nextPage() {
