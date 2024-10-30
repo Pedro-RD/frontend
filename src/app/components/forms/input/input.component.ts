@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './input.component.css'
 })
 export class InputComponent {
-
+  label = input.required<string>();
+  placeholder = input.required<string>();
+  type = input<string>();
+  // formControl = input.required<FormControl>();
 }
