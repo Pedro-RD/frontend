@@ -9,7 +9,13 @@
   </button>
 </section>
 
-<app-table [data]="userList()" [tableConfig]="tableConfig"/>
+<app-table
+  (headerClicked)="handleHeaderClick($event)"
+  [data]="userList()"
+  [tableConfig]="tableConfig"
+  [orderDirection]="(orderDirection | async) || Order.ASC"
+  [orderKey]="(orderBy | async) || 'id'"
+/>
 
 <app-paginator
   (nextPage)="handleNextPage()"

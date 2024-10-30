@@ -8,6 +8,7 @@ import {TableComponent} from '../../components/table/table/table.component';
 import {ColumnType, TableConfig} from '../../interfaces/table.interface';
 import {User} from '../../interfaces/user';
 import {AsyncPipe} from '@angular/common';
+import {Order} from '../../interfaces/paged-response.interface';
 
 @Component({
   selector: 'app-users',
@@ -66,6 +67,14 @@ export class UsersComponent implements OnInit {
     return this.usersService.totalPages$;
   }
 
+  get orderBy(): Observable<string> {
+    return this.usersService.orderBy$;
+  }
+
+  get orderDirection(): Observable<Order> {
+    return this.usersService.order$;
+  }
+
   ngOnInit() {
     let i = 0;
     this.usersService.query$
@@ -88,4 +97,10 @@ export class UsersComponent implements OnInit {
   handlePreviousPage() {
     this.usersService.prevPage();
   }
+
+  handleHeaderClick(key: string) {
+    this.usersService.setOrderBy(key);
+  }
+
+  protected readonly Order = Order;
 }

@@ -1,23 +1,47 @@
-import {BehaviorSubject, combineLatest, debounceTime, map} from 'rxjs';
+import {BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map} from 'rxjs';
 import {Order} from '../../interfaces/paged-response.interface';
 
 export abstract class ListService<T> {
   protected pageSubject = new BehaviorSubject(1);
-  public page$ = this.pageSubject.asObservable();
+  public page$ = this.pageSubject.asObservable().pipe(
+    debounceTime(100),
+    distinctUntilChanged()
+  );
+
   protected orderBySubject = new BehaviorSubject("id");
+  public  orderBy$ = this.orderBySubject.asObservable().pipe(
+    debounceTime(100),
+    distinctUntilChanged()
+  );
+
   protected orderSubject = new BehaviorSubject(Order.ASC);
+  public order$ = this.orderSubject.asObservable().pipe(
+    debounceTime(100),
+    distinctUntilChanged()
+  );
+
   protected limitSubject = new BehaviorSubject(10);
+  public limit$ = this.limitSubject.asObservable().pipe(
+    debounceTime(100),
+    distinctUntilChanged()
+  );
+
   protected searchSubject = new BehaviorSubject("");
+  protected search$ = this.searchSubject.asObservable().pipe(
+    debounceTime(300),
+    distinctUntilChanged()
+  );
+
   public query$ = combineLatest(
     [
-      this.pageSubject.asObservable(),
-      this.orderBySubject.asObservable(),
-      this.orderSubject.asObservable(),
-      this.limitSubject.asObservable(),
-      this.searchSubject.asObservable(),
+      this.page$,
+      this.orderBy$,
+      this.order$,
+      this.limit$,
+      this.search$,
     ]
   ).pipe(
-    debounceTime(500),
+    debounceTime(100),
     map(([page, orderBy, order, limit, search]) => ({
       page,
       order,
@@ -25,16 +49,25 @@ export abstract class ListService<T> {
       limit,
       search,
     })),
-  )
+  );
+
   private totalPagesSubject = new BehaviorSubject<number>(0);
-  public totalPages$ = this.totalPagesSubject.asObservable();
+  public totalPages$ = this.totalPagesSubject.asObservable().pipe(
+    distinctUntilChanged(),
+  )
 
   protected get queryString() {
     return `?page=${this.pageSubject.value}&orderBy=${this.orderBySubject.value}&order=${this.orderSubject.value}&limit=${this.limitSubject.value}&search=${this.searchSubject.value}`;
   }
 
   setOrderBy(orderBy: string) {
+    const oldValue = this.orderBySubject.value;
+    if (orderBy === oldValue) {
+      return this.toggleOrderDirection();
+    }
+
     this.orderBySubject.next(orderBy);
+    this.resetOrderDirection();
   }
 
   setSearch(search: string) {
@@ -79,5 +112,17 @@ export abstract class ListService<T> {
 
   protected setPage(page: number) {
     this.pageSubject.next(page);
+  }
+
+  private toggleOrderDirection() {
+    if (this.orderSubject.value === Order.DESC) {
+      this.orderSubject.next(Order.ASC);
+    } else {
+      this.orderSubject.next(Order.DESC);
+    }
+  }
+
+  private resetOrderDirection() {
+    this.orderSubject.next(Order.ASC);
   }
 }

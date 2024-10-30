@@ -19,9 +19,7 @@ export class PaginatorComponent {
   }
 
   arrowRight(): boolean {
-    if (!this.pageNumber() || !this.totalPages()) return false;
-    return this.pageNumber()! <= this.totalPages()!;
-
+    return this.totalPages() > 0 && this.pageNumber() < this.totalPages()
   }
 
   handleArrowLeftClick(): void {
