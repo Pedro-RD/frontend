@@ -1,4 +1,8 @@
-export interface TableColumn<T> {
+export interface Entity {
+  id: number;
+}
+
+export interface TableColumn<T extends Entity> {
   colKey: string;
   imageKey?: string;
   subKey?: string;
@@ -9,7 +13,7 @@ export interface TableColumn<T> {
   type?: ColumnType;
 }
 
-export interface TableConfig<T> {
+export interface TableConfig<T extends Entity> {
   columns: TableColumn<T>[];
 }
 

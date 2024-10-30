@@ -1,4 +1,4 @@
-import {BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map} from 'rxjs';
+import {BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, tap} from 'rxjs';
 import {Order} from '../../interfaces/paged-response.interface';
 
 export abstract class ListService<T> {
@@ -23,12 +23,13 @@ export abstract class ListService<T> {
   protected limitSubject = new BehaviorSubject(10);
   public limit$ = this.limitSubject.asObservable().pipe(
     debounceTime(100),
-    distinctUntilChanged()
+    distinctUntilChanged(),
+    tap(console.log)
   );
 
   protected searchSubject = new BehaviorSubject("");
   protected search$ = this.searchSubject.asObservable().pipe(
-    debounceTime(300),
+    debounceTime(200),
     distinctUntilChanged()
   );
 
@@ -99,7 +100,10 @@ export abstract class ListService<T> {
 
   setPageSize(size: number) {
     if (size > 0)
-      this.pageSubject.next(size);
+    {
+      this.limitSubject.next(size);
+      this.pageSubject.next(1);
+    }
   }
 
   clearAll() {

@@ -1,14 +1,16 @@
-import {Component, computed, OnInit, signal} from '@angular/core';
+import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
 import {UsersTableComponent} from '../../components/old/users-table/users-table.component';
 import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
 import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
 import {UsersService} from '../../services/users/users.service';
-import {map, Observable, switchMap, tap} from 'rxjs';
+import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
 import {TableComponent} from '../../components/table/table/table.component';
 import {ColumnType, TableConfig} from '../../interfaces/table.interface';
 import {User} from '../../interfaces/user';
 import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
+import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -19,11 +21,13 @@ import {Order} from '../../interfaces/paged-response.interface';
     PaginatorComponent,
     TableComponent,
     AsyncPipe,
+    SelectLimitComponent,
+    RouterLink,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig<User> = {
     columns: [
       {
@@ -56,7 +60,14 @@ export class UsersComponent implements OnInit {
   private userListSignal = signal<User[]>([]);
   userList = computed(() => this.userListSignal());
 
-  constructor(private usersService: UsersService) {
+  private subscription?: Subscription;
+
+  constructor(private usersService: UsersService, private router: Router) {
+  }
+
+  ngOnDestroy(): void {
+    this.usersService.clearAll();
+    this.subscription?.unsubscribe();
   }
 
   get page(): Observable<number> {
@@ -73,6 +84,10 @@ export class UsersComponent implements OnInit {
 
   get orderDirection(): Observable<Order> {
     return this.usersService.order$;
+  }
+
+  get limit(): Observable<number> {
+    return this.usersService.limit$;
   }
 
   ngOnInit() {
@@ -100,6 +115,14 @@ export class UsersComponent implements OnInit {
 
   handleHeaderClick(key: string) {
     this.usersService.setOrderBy(key);
+  }
+
+  handleRowCliked(key: number) {
+    this.router.navigate(["/users/detail", key])
+  }
+
+  handleLimitChange(limit: number) {
+    this.usersService.setPageSize(limit);
   }
 
   protected readonly Order = Order;

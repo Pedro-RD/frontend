@@ -9,6 +9,7 @@ import {HomepageComponent} from './pages/homepage/homepage.component';
 import {authGuard} from './auth/auth.guard';
 import {UsersComponent} from './pages/users/users.component';
 import {UsersCreateComponent} from './pages/users-create/users-create.component';
+import {UsersDetailComponent} from './pages/users-detail/users-detail.component';
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
+  },
+  {
+    path: 'users/detail/:id',
+    component: UsersDetailComponent,
   },
   {
     path: 'users/create',
