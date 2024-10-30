@@ -1,9 +1,9 @@
 import {Role} from './roles.enum';
 
-export interface User {
+export interface UserDTO {
   email: string,
   password: string,
-  phoneNumber: number,
+  phoneNumber: string,
   name: string,
   address: string,
   city: string,
@@ -11,4 +11,8 @@ export interface User {
   fiscalId: string,
   nationality: string,
   role: Role,
+}
+
+export interface User extends UserDTO {
+  id: number,
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Resident} from '../../interfaces/resident';
-import {ResidentsService} from '../../services/residents/residents.service';
+import {Resident} from '../../../interfaces/resident';
+import {ResidentsService} from '../../../services/residents/residents.service';
 import {NgForOf} from '@angular/common';
 import {ResidentsTableRowComponent} from '../residents-table-row/residents-table-row.component';
 
@@ -14,13 +14,14 @@ import {ResidentsTableRowComponent} from '../residents-table-row/residents-table
   templateUrl: './residents-table.component.html',
   styleUrl: './residents-table.component.css'
 })
-export class ResidentsTableComponent implements OnInit{
+export class ResidentsTableComponent implements OnInit {
 
   residents: Resident[] = []; // variável que vai armazenar os residentes
 
-  constructor(private residentsService: ResidentsService) {}
+  constructor(private residentsService: ResidentsService) {
+  }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     // chama o serviço para obter a lista de residentes
     this.residentsService.getAll().subscribe({
       next: (data: Resident[]) => this.residents = data,

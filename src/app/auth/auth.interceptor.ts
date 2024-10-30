@@ -9,7 +9,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return authService.getToken().pipe(
     take(1),
-    tap(console.log),
     switchMap(token => {
       if (token) {
         const clonedReq = req.clone({
