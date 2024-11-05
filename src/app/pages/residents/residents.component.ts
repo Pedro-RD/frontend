@@ -1,22 +1,23 @@
 import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
-import {UsersTableComponent} from '../../components/old/users-table/users-table.component';
+import {ResidentsTableComponent} from '../../components/old/residents-table/residents-table.component';
 import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
 import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {UsersService} from '../../services/users/users.service';
+import {ResidentsService} from '../../services/residents/residents.service';
 import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
 import {TableComponent} from '../../components/table/table/table.component';
 import {ColumnType, TableConfig} from '../../interfaces/table.interface';
-import {User} from '../../interfaces/user';
+import {Resident} from '../../interfaces/resident';
 import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import {Router, RouterLink} from '@angular/router';
 
+
 @Component({
-  selector: 'app-users',
+  selector: 'app-residents',
   standalone: true,
   imports: [
-    UsersTableComponent,
+    ResidentsTableComponent,
     SearchBoxComponent,
     PaginatorComponent,
     TableComponent,
@@ -24,12 +25,12 @@ import {Router, RouterLink} from '@angular/router';
     SelectLimitComponent,
     RouterLink,
   ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  templateUrl: './residents.component.html',
+  styleUrl: './residents.component.css'
 })
-export class UsersComponent implements OnInit, OnDestroy {
-  tableConfig: TableConfig<User> = {
-    columns: [
+export class ResidentsComponent implements OnInit, OnDestroy{
+  tableConfig: TableConfig<Resident> = {
+    columns:[
       {
         colKey: "name",
         label: "Nome",
@@ -37,92 +38,94 @@ export class UsersComponent implements OnInit, OnDestroy {
         classList: ["w-40"]
       },
       {
-        colKey: "email",
-        label: "Email",
+        colKey: "birthDate",
+        label: "Data de Nascimento",
+        type: ColumnType.DATE,
+        dateFormat: 'dd/MM/yyyy',
         classList: ["w-32"]
-
       },
       {
-        colKey: "phoneNumber",
-        label: "Contacto",
+        colKey: "fiscalId",
+        label: "Nº Identificação Fiscal",
         classList: ["w-32"]
-
       },
       {
-        colKey: "address",
-        label: "Endereço",
-        classList: ["w-64"]
+        colKey: "bedNumber",
+        label: "Cama",
+        classList: ["w-20"]
       },
     ]
   }
-
-  private userListSignal = signal<User[]>([]);
-  userList = computed(() => this.userListSignal());
+  private residentListSignal = signal<Resident[]>([]);
+  residentList = computed(() => this.residentListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private usersService: UsersService, private router: Router) {
+  constructor(private residentsService: ResidentsService, private router: Router) {
   }
 
   ngOnDestroy(): void {
-    this.usersService.clearAll();
+    this.residentsService.clearAll();
     this.subscription?.unsubscribe();
   }
 
   get page(): Observable<number> {
-    return this.usersService.page$;
+    return this.residentsService.page$;
   }
 
   get totalPages(): Observable<number> {
-    return this.usersService.totalPages$;
+    return this.residentsService.totalPages$;
   }
 
   get orderBy(): Observable<string> {
-    return this.usersService.orderBy$;
+    return this.residentsService.orderBy$;
   }
 
   get orderDirection(): Observable<Order> {
-    return this.usersService.order$;
+    return this.residentsService.order$;
   }
 
   get limit(): Observable<number> {
-    return this.usersService.limit$;
+    return this.residentsService.limit$;
   }
 
   ngOnInit() {
     let i = 0;
-    this.usersService.query$
+    this.residentsService.query$
       .pipe(
         tap((q) => console.log("Query: ", q)),
-        switchMap(() => this.usersService.fetchList()),
-        map((users) => this.userListSignal.set(users))
+        switchMap(() => this.residentsService.fetchList()),
+        map((residents) => this.residentListSignal.set(residents))
       )
       .subscribe();
   }
 
   handleSearch(searchTerm: string): void {
-    this.usersService.setSearch(searchTerm);
+    this.residentsService.setSearch(searchTerm);
   }
 
   handleNextPage() {
-    this.usersService.nextPage();
+    this.residentsService.nextPage();
   }
 
   handlePreviousPage() {
-    this.usersService.prevPage();
+    this.residentsService.prevPage();
   }
 
   handleHeaderClick(key: string) {
-    this.usersService.setOrderBy(key);
+    this.residentsService.setOrderBy(key);
   }
 
   handleRowCliked(key: number) {
-    this.router.navigate(["/users/detail", key])
+    this.router.navigate(["/residents/detail", key])
   }
 
   handleLimitChange(limit: number) {
-    this.usersService.setPageSize(limit);
+    this.residentsService.setPageSize(limit);
   }
 
   protected readonly Order = Order;
 }
+
+
+

@@ -1,23 +1,19 @@
- <table class="table">
-    <!-- head -->
+<div class="p-2">
+  <table class="table">
     <thead>
     <tr>
-      <th class="w-24">#</th>
-      <th class="w-40">Nome</th> <!-- Definido uma largura menor para a coluna Nome -->
-<!--      <th class="w-32">Data de Nascimento</th> &lt;!&ndash; Coluna menor &ndash;&gt;-->
-      <th class="w-32">NIF</th> <!-- Coluna menor -->
-      <th class="w-32">Nacionalidade</th> <!-- Coluna menor -->
-      <th class="w-32">Estado Civil</th> <!-- Coluna menor -->
-<!--      <th class="w-24">Cuidados Específicos</th>-->
-<!--      <th class="w-64">Dieta</th> &lt;!&ndash; Coluna de Morada um pouco maior &ndash;&gt;-->
-<!--      <th class="w-24">Restrições de Dieta</th>-->
-<!--      <th class="w-24">Alergias</th>-->
-<!--      <th class="w-24">Número da Cama</th>-->
-      <th class="w-40">Ações</th> <!-- Largura ajustada para Ações -->
+      <!-- <th (click)="handleHeaderClick('name')" class="w-40">Nome</th>
+      <th (click)="handleHeaderClick('phoneNumber')" class="w-32">Contacto</th>
+      <th (click)="handleHeaderClick('email')" class="w-32">Email</th>
+      <th (click)="handleHeaderClick('fiscalId')" class="w-32">NIF</th>
+      <th (click)="handleHeaderClick('address')" class="w-64">Morada</th>
+      <th (click)="handleHeaderClick('role')" class="w-24">Role</th>
+      <th class="w-40">Ações</th> -->
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let resident of residents" app-residents-table-row [resident]="resident"></tr>
+    <!-- <tr (deleteUser)="deleteUser($event)" *ngFor="let user of users()" [user]="user" app-users-table-row></tr> -->
     </tbody>
   </table>
 
+</div>
