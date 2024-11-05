@@ -1,33 +1,43 @@
-import {Component, OnInit} from '@angular/core';
-import {Resident} from '../../../interfaces/resident';
-import {ResidentsService} from '../../../services/residents/residents.service';
 import {NgForOf} from '@angular/common';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ResidentsService} from '../../../services/residents/residents.service';
 import {ResidentsTableRowComponent} from '../residents-table-row/residents-table-row.component';
 
 @Component({
   selector: 'app-residents-table',
   standalone: true,
-  imports: [
-    NgForOf,
-    ResidentsTableRowComponent
-  ],
+  imports: [NgForOf, ResidentsTableRowComponent],
   templateUrl: './residents-table.component.html',
-  styleUrl: './residents-table.component.css'
+  styleUrl: './residents-table.component.css',
 })
-export class ResidentsTableComponent implements OnInit {
+export class ResidentsTableComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
 
-  residents: Resident[] = []; // variável que vai armazenar os residentes
+  // residents = computed(() => this.residentsService.listSignal());
 
   constructor(private residentsService: ResidentsService) {
   }
 
-  ngOnInit(): void {
-    // chama o serviço para obter a lista de residentes
-    this.residentsService.getAll().subscribe({
-      next: (data: Resident[]) => this.residents = data,
-      error: (err) => console.log("Erro ao obter lista de residentes completa", err),
-      complete: () => console.log("Pesquisa de residentes completa")
-    });
+  ngOnInit() {
+    this.updateTable()
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.residentsService.clearAll();
+  }
+
+  handleHeaderClick(col: string) {
+    this.residentsService.setOrderBy(col);
+    this.updateTable();
+  }
+
+  updateTable() {
+    // this.subscriptions.push(this.residentsService.fetchList().subscribe());
+  }
+
+  deleteResident($event: number) {
+    this.subscriptions.push(this.residentsService.delete($event).subscribe())
+  }
 }

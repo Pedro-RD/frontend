@@ -51,10 +51,14 @@
             </th>
           } @else {
             <td class="hidden sm:table-cell">
+              @if(col.type === ColumnType.DATE) {
+                {{getValue(row, col.colKey) | date: (col.dateFormat)}}
+              } @else {
               <app-table-cell-text
                 [mainText]="getValue(row, col.colKey)"
                 [subText]="col.subKey ? getValue(row, col.subKey!) : ''"
               />
+              }
             </td>
           }
         }
