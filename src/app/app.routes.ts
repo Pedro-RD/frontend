@@ -10,6 +10,7 @@ import {UsersComponent} from './pages/users/users.component';
 import {UsersCreateComponent} from './pages/users-create/users-create.component';
 import {UsersDetailComponent} from './pages/users-detail/users-detail.component';
 import {ResidentsComponent} from './pages/residents/residents.component';
+import {MedicationTableComponent} from './components/old/medication-table/medication-table.component';
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
@@ -39,5 +40,7 @@ export const routes: Routes = [
     component: UsersCreateComponent,
   },
   {path: 'forbidden', component: NotAllowedComponent},
-  {path: '**', pathMatch: "full", component: NotFoundComponent}
+  {path: '**', pathMatch: "full", component: NotFoundComponent},
+
+  {path: 'medications', component: MedicationTableComponent}
 ];

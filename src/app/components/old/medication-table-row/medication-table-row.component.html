@@ -1,0 +1,13 @@
+<td class="w-40 text-xs">{{ medicamento.nome }}</td>
+<td class="w-64 text-xs">{{ medicamento.instrucoes }}</td>
+<td class="w-32 text-xs">{{ medicamento.qtd }}</td>
+<td class="w-32 text-xs">{{ medicamento.qtdPrescricao }}</td>
+<td class="w-32 text-xs">{{ medicamento.validade | date }}</td>
+<td class="w-40">
+  <div class="flex space-x-1">
+    <!-- Botões de ação, similar ao exemplo -->
+    <button (click)="handleDelete()" class="btn btn-sm btn-info btn-outline border-2">...</button>
+    <button class="btn btn-sm btn-warning btn-outline border-2">...</button>
+    <button class="btn btn-sm btn-error btn-outline border-2">...</button>
+  </div>
+</td>
