@@ -1,0 +1,17 @@
+<div class="p-2">
+  <table class="table">
+    <thead>
+    <tr>
+      <th (click)="handleHeaderClick('nome')" class="w-40">Nome</th>
+      <th (click)="handleHeaderClick('instrucoes')" class="w-64">Instruções</th>
+      <th (click)="handleHeaderClick('qtd')" class="w-32">Quantidade</th>
+      <th (click)="handleHeaderClick('qtdPrescricao')" class="w-32">Qtd Prescrição</th>
+      <th (click)="handleHeaderClick('validade')" class="w-32">Validade</th>
+      <th class="w-40">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let medicamento of medicamentos" [medicamento]="medicamento" app-medication-table-row></tr>
+    </tbody>
+  </table>
+</div>
