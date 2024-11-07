@@ -10,7 +10,7 @@ describe('MedicationTableRowComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MedicationTableRowComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(MedicationTableRowComponent);
     component = fixture.componentInstance;

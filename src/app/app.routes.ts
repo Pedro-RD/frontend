@@ -10,6 +10,8 @@ import {UsersComponent} from './pages/users/users.component';
 import {UsersCreateComponent} from './pages/users-create/users-create.component';
 import {UsersDetailComponent} from './pages/users-detail/users-detail.component';
 import {ResidentsComponent} from './pages/residents/residents.component';
+import {MedicationComponent} from './pages/medication/medication.component';
+
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
@@ -57,6 +59,12 @@ export const routes: Routes = [
   },
   { path: 'forbidden', component: NotAllowedComponent },
   { path: '**', pathMatch: 'full', component: NotFoundComponent },
+  {
+    path: 'residents/:residentId/medications',
+    component: MedicationComponent,
+    // canActivate: [authGuard],
+    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
+  },
   {path: 'forbidden', component: NotAllowedComponent},
   {path: '**', pathMatch: "full", component: NotFoundComponent},
 
