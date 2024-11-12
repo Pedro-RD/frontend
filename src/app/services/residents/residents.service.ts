@@ -55,7 +55,16 @@ export class ResidentsService extends ListService<Resident> {
   }
 
   fetchItem(id: number): Observable<Resident> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.get<Resident>(`${this.url}/${id}`).pipe(
+      tap((resident) => {
+        if (!environment.production) console.log('Residente encontrado:', resident);
+      }),
+      catchError((err) => {
+        if (!environment.production) console.error('Erro ao buscar residente:', err);
+        this.toastService.error('Erro ao buscar residente');
+        return of({} as Resident);
+      })
+    );
   }
 
   create(item: Resident): Observable<Resident> {
