@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { FormLoginComponent } from './pages/form-login/form-login.component';
-import { ResidentsTableComponent } from './components/old/residents-table/residents-table.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NotAllowedComponent } from './pages/not-allowed/not-allowed.component';
@@ -12,6 +11,9 @@ import { UsersCreateComponent } from './pages/users-create/users-create.componen
 import { UsersDetailComponent } from './pages/users-detail/users-detail.component';
 import { UsersEditComponent } from './pages/users-edit/users-edit.component';
 import { ResidentsComponent } from './pages/residents/residents.component';
+import { ResidentsDetailComponent } from './pages/residents-detail/residents-detail.component';
+import { ResidentsCreateComponent } from './pages/residents-create/residents-create.component';
+import { ResidentsEditComponent } from './pages/residents-edit/residents-edit.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -22,6 +24,19 @@ export const routes: Routes = [
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
+  {
+    path: 'residents/detail/:id',
+    component: ResidentsDetailComponent,
+  },
+  {
+    path: 'residents/create',
+    component: ResidentsCreateComponent,
+  },
+  {
+    path: 'residents/edit',
+    component: ResidentsEditComponent,
+  },
+
   {
     path: 'dashboard',
     component: DashboardComponent,
