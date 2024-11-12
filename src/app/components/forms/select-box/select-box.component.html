@@ -1,0 +1,15 @@
+<label class="form-control w-full">
+  <label class="w-full flex items-center">
+    <select class="select select-bordered grow" [formControl]="control()">
+      <option selected value="">{{ label() }}</option>
+      @for (item of data(); track item.value) {
+        <option [value]="item.value">{{ item.label }}</option>
+      }
+    </select>
+  </label>
+  @if (showError()) {
+    <div class="label">
+      <span class="label-text-alt text-error">Este campo é obrigatório</span>
+    </div>
+  }
+</label>

@@ -1,0 +1,45 @@
+<div class="form-control w-full relative">
+  <label [class.input-error]="control.invalid && !control.untouched"
+         class="input input-bordered flex items-center gap-2">
+        <span class="text-nowrap">
+          {{ label() }} @if (required()) {
+          *
+        }
+        </span>
+
+    <input
+      (blur)="onBlur()"
+      (focus)="showDropdown()"
+      [formControl]="control"
+      [placeholder]="placeholder()"
+      [type]="type()"
+      class="grow border-0 focus:ring-0 active:ring-0"/>
+
+    <ng-content/>
+  </label>
+
+  <div class="dropdown">
+
+    @if (isOpen() && filteredItems().length > 0) {
+      <ul
+        class="dropdown-content menu bg-base-100 rounded-box z-[5] w-52 p-2 shadow">
+        @for (item of filteredItems(); track item) {
+          <li>
+            <a
+              [class.active]="selectedIndex() === filteredItems().indexOf(item)"
+              (mousedown)="selectItem(item)"
+              class="cursor-pointer">
+              {{ item }}
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="label">
+    @if (errorMessage()) {
+      <span class="label-text-alt text-error">{{ errorMessage() }}</span>
+    }
+  </div>
+</div>
