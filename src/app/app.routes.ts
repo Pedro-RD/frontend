@@ -11,15 +11,16 @@ import { UsersComponent } from './pages/users/users.component';
 import { UsersCreateComponent } from './pages/users-create/users-create.component';
 import { UsersDetailComponent } from './pages/users-detail/users-detail.component';
 import { UsersEditComponent } from './pages/users-edit/users-edit.component';
+import { ResidentsComponent } from './pages/residents/residents.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: FormLoginComponent },
   {
     path: 'residents',
-    component: ResidentsTableComponent,
-    canActivate: [authGuard],
-    data: { roles: [Role.Admin, Role.Manager, Role.Caretaker] },
+    component: ResidentsComponent,
+    // canActivate: [authGuard],
+    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {
     path: 'dashboard',

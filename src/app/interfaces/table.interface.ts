@@ -11,6 +11,7 @@ export interface TableColumn<T extends Entity> {
   classList?: string[];
 
   type?: ColumnType;
+  dateFormat?: string;
 }
 
 export interface TableConfig<T extends Entity> {
@@ -19,5 +20,7 @@ export interface TableConfig<T extends Entity> {
 
 export enum ColumnType {
   TEXT = "text",
-  PROFILE = "profile"
+  PROFILE = "profile",
+  DATE = "date"
+
 }
