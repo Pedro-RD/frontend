@@ -1,1 +1,50 @@
-<p>users-detail works!</p>
+<ng-container *ngIf="!error; else errorTpl">
+  <div *ngIf="user" class="p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">User Details</h1>
+      <div class="space-x-2">
+        <a [routerLink]="['/users', user.id, 'edit']" class="btn btn-primary">Edit</a>
+        <button class="btn btn-error" (click)="showDeleteModal()">Delete</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="card bg-base-200 p-4">
+        <h2 class="card-title mb-2">Contact Information</h2>
+        <p><strong>Name:</strong> {{user.name}}</p>
+        <p><strong>Email:</strong> {{user.email}}</p>
+        <p><strong>Phone:</strong> {{user.phoneNumber}}</p>
+      </div>
+
+      <div class="card bg-base-200 p-4">
+        <h2 class="card-title mb-2">Address</h2>
+        <p><strong>Street:</strong> {{user.address}}</p>
+        <p><strong>City:</strong> {{user.city}}</p>
+        <p><strong>Postcode:</strong> {{user.postcode}}</p>
+      </div>
+
+      <div class="card bg-base-200 p-4">
+        <h2 class="card-title mb-2">Personal Information</h2>
+        <p><strong>Fiscal ID:</strong> {{user.fiscalId}}</p>
+        <p><strong>Nationality:</strong> {{user.nationality}}</p>
+        <p><strong>Role:</strong> {{user.role}}</p>
+      </div>
+    </div>
+
+    <app-modal-confirm
+      title="Apagar Utilizador"
+      message=""
+      confirmLabel="Delete"
+      (confirm)="onDelete()"
+    ></app-modal-confirm>
+  </div>
+
+  @if(!user) {
+    <app-loading />
+  }
+
+</ng-container>
+
+<ng-template #errorTpl>
+  <p class="text-error p-4">{{ error }}</p>
+</ng-template>

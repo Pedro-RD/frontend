@@ -1,0 +1,12 @@
+<dialog #modal class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">{{title()}}</h3>
+    <p class="py-4">{{message()}}</p>
+    <div class="modal-action">
+      <form method="dialog" class="space-x-2">
+        <button [class]="'btn ' + confirmClass" (click)="onConfirm()">{{confirmLabel()}}</button>
+        <button class="btn" (click)="close()">{{cancelLabel()}}</button>
+      </form>
+    </div>
+  </div>
+</dialog>

@@ -2,7 +2,8 @@ import {Role} from './roles.enum';
 
 export interface UserDTO {
   email: string,
-  password: string,
+  password?: string,
+  repeatPassword?: string,
   phoneNumber: string,
   name: string,
   address: string,

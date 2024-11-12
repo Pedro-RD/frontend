@@ -20,6 +20,8 @@
     <div class="label">
       @if (showError()) {
         <span class="label-text-alt text-error">{{ errorMessage() }}</span>
+      } @else {
+        <ng-content select="[error]" />
       }
     </div>
   </div>

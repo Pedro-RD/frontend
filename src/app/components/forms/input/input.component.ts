@@ -47,9 +47,7 @@ export class InputComponent<T> implements OnInit, OnDestroy {
 
   private updateValidation = () => {
     const control = this.control();
-    console.log(this.control, control.invalid);
     this.showErrorSignal.set(control.invalid);
-    console.log('EMAIL: ', control.errors?.['email']);
 
     if (control.errors?.['required']) {
       this.errorMessageSignal.set('This field is required');
