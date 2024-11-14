@@ -58,6 +58,12 @@ export const routes: Routes = [
     component: UsersCreateComponent,
   },
   {
+    path: 'residents/:residentId/medications',
+    component: MedicationComponent,
+    // canActivate: [authGuard],
+    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
+  },
+  {
     path: 'users/:id/edit',
     component: UsersEditComponent,
   },
@@ -70,5 +76,5 @@ export const routes: Routes = [
     // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {path: 'forbidden', component: NotAllowedComponent},
-  {path: '**', pathMatch: "full", component: NotFoundComponent},
+  {path: '**', pathMatch: "full", component: NotFoundComponent}
 ];
