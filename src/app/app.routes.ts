@@ -11,6 +11,11 @@ import {UsersCreateComponent} from './pages/users-create/users-create.component'
 import {UsersDetailComponent} from './pages/users-detail/users-detail.component';
 import {ResidentsComponent} from './pages/residents/residents.component';
 import {MedicationComponent} from './pages/medication/medication.component';
+import {ResidentsDetailComponent} from './pages/residents-detail/residents-detail.component';
+import {ResidentsCreateComponent} from './pages/residents-create/residents-create.component';
+import {ResidentsEditComponent} from './pages/residents-edit/residents-edit.component';
+import {UsersEditComponent} from './pages/users-edit/users-edit.component';
+import {MedicationTableComponent} from './components/old/medication-table/medication-table.component';
 
 
 export const routes: Routes = [
@@ -67,6 +72,4 @@ export const routes: Routes = [
   },
   {path: 'forbidden', component: NotAllowedComponent},
   {path: '**', pathMatch: "full", component: NotFoundComponent},
-
-  {path: 'medications', component: MedicationTableComponent}
 ];
