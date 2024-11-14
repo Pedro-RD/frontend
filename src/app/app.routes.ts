@@ -15,7 +15,6 @@ import {ResidentsDetailComponent} from './pages/residents-detail/residents-detai
 import {ResidentsCreateComponent} from './pages/residents-create/residents-create.component';
 import {ResidentsEditComponent} from './pages/residents-edit/residents-edit.component';
 import {UsersEditComponent} from './pages/users-edit/users-edit.component';
-import {MedicationTableComponent} from './components/old/medication-table/medication-table.component';
 
 
 export const routes: Routes = [
