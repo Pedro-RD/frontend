@@ -22,5 +22,4 @@ export enum ColumnType {
   TEXT = "text",
   PROFILE = "profile",
   DATE = "date"
-
 }
