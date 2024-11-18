@@ -13,6 +13,7 @@ import {SelectLimitComponent} from '../../components/table/select-limit/select-l
 import {Router, RouterLink} from '@angular/router';
 
 
+
 @Component({
   selector: 'app-residents',
   standalone: true,
@@ -61,7 +62,7 @@ export class ResidentsComponent implements OnInit, OnDestroy{
 
   private subscription?: Subscription;
 
-  constructor(private residentsService: ResidentsService, private router: Router) {
+  constructor(private residentsService: ResidentsService, private router: Router,) {
   }
 
   ngOnDestroy(): void {

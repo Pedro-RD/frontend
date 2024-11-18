@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {catchError, map, Observable, of, tap} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {Resident} from '../../interfaces/resident';
+import { Resident, ResidentDTO } from '../../interfaces/resident';
 import {ListService} from '../list/list.service';
 import {ToastService} from '../toast/toast.service';
 import PagedResponse from '../../interfaces/paged-response.interface';
+
 
 @Injectable({
   providedIn: 'root',
@@ -17,29 +17,10 @@ export class ResidentsService extends ListService<Resident> {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
     private toastService: ToastService,
   ) {
     super();
   }
-
-  // fetchList(): Observable<Resident[]> {
-  //   return this.httpClient
-  //     .get<PagedResponse<Resident>>(this.url + this.makeRequestParams())
-  //     .pipe(
-  //       tap(({totalPages, data}) => {
-  //         this.setPageCount(totalPages);
-  //         this.setList(data);
-  //         if (!environment.production) console.log(data);
-  //       }),
-  //       map(({data}) => data),
-  //       catchError((err) => {
-  //         if (!environment.production) console.error(err);
-  //         this.toastService.error('Erro ao listar residentes');
-  //         return of([]);
-  //       }),
-  //     );
-  // }
 
   fetchList(): Observable<Resident[]> {
     return this.httpClient.get<PagedResponse<Resident>>(this.url + this.queryString).pipe(
@@ -57,6 +38,10 @@ export class ResidentsService extends ListService<Resident> {
   fetchItem(id: number): Observable<Resident> {
     return this.httpClient.get<Resident>(`${this.url}/${id}`).pipe(
       tap((resident) => {
+        if (resident.birthDate) {
+          resident.birthDate = new Date(resident.birthDate); // Parse the birthDate string into a Date object
+        }
+        console.log(typeof resident.birthDate); // Check the type
         if (!environment.production) console.log('Residente encontrado:', resident);
       }),
       catchError((err) => {
@@ -67,30 +52,51 @@ export class ResidentsService extends ListService<Resident> {
     );
   }
 
-  create(item: Resident): Observable<Resident> {
-    throw new Error('Method not implemented.');
+
+  create(item: ResidentDTO): Observable<Resident> {
+    if (!environment.production) console.log('Creating resident:', item);
+    return this.httpClient.post<Resident>(this.url, item).pipe(
+      map(resident => {
+        if (!environment.production) console.log('Resident created:', resident);
+        this.toastService.success('Resident created successfully');
+        return resident;
+      }),
+      catchError((error) => {
+        if (!environment.production) console.error('Error creating user:', error);
+        throw error;
+      })
+    );
   }
 
   update(item: Resident): Observable<Resident> {
-    throw new Error('Method not implemented.');
+    if(!environment.production) console.log('A atualizar resdente:', item);
+    return this.httpClient.patch<Resident>(`${this.url}/${item.id}`, item).pipe(
+      map(resident => {
+        if(!environment.production) console.log('Residente atualizado:', resident);
+        this.toastService.success('Residente atualizado com sucesso');
+        return resident;
+    }),
+      catchError((error)=> {
+        if(!environment.production) console.error('Erro ao atualizar residente:', error);
+        throw error;
+      })
+    );
   }
+isDeleting = false;
 
   delete(id: number): Observable<void> {
-    // return this.httpClient.delete<void>(`${this.url}/${id}`)
-    //   .pipe(
-    //     tap((rxp) => (!environment.production) && console.log(rxp)),
-    //     tap(() => {
-    //       this.toastService.info("Residente Eliminado")
-    //     }),
-    //     // mergeMap(() => this.fetchList()),
-    //     map(() => undefined),
-    //     catchError((err) => {
-    //         if (!environment.production) console.error(err);
-    //         this.toastService.error('Erro ao eliminar residente');
-    //         return of();
-    //       }
-    //     )
-    //   )
-    throw new Error('Method not implemented.');
+   if (this.isDeleting) return of();
+   this.isDeleting = true;
+    return this.httpClient.delete<void>(`${this.url}/${id}`).pipe(
+      map(() => {
+        this.isDeleting = false;
+        this.toastService.success('Residente eliminado com sucesso');
+      }),
+      catchError((error) => {
+        if (!environment.production) console.error('Erro ao eliminar residente:', error);
+        this.isDeleting = false;
+        throw error;
+      })
+    );
   }
 }

@@ -1,1 +1,12 @@
-<p>residents-edit works!</p>
+@if (resident) {
+  <app-form-residents
+    [initialData]="resident || undefined"
+    (createRequested)="onFormSubmit($event)"
+  />
+} @else {
+  <app-loading />
+}
+
+@if(error ) {
+  <p class="error">{{ error }}</p>
+}
