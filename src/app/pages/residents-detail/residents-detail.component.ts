@@ -1,49 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { Resident } from '../../interfaces/resident';
-import { DatePipe, NgIf } from '@angular/common';
-import { CivilStatus } from '../../interfaces/civil-status.enum';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
+import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Diet } from '../../interfaces/diet.enum';
+import { CivilStatus } from '../../interfaces/civil-status.enum';
 
 @Component({
   selector: 'app-residents-detail',
-  templateUrl: './residents-detail.component.html',
-  styleUrls: ['./residents-detail.component.css'],
   standalone: true,
-  imports: [
-    DatePipe,
-    NgIf,
-  ],
+  imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent],
+  templateUrl: './residents-detail.component.html',
+  styleUrls: ['./residents-detail.component.css']
 })
-export class ResidentsDetailComponent implements OnInit {
-  resident: Resident = {
-    id: 0, // valor provisório
-    name: '',
-    fiscalId: '',
-    birthDate: new Date(),
-    specificCare: '',
-    civilStatus: CivilStatus.Single,  // Valor padrão do enum
-    nationality: '',
-    diet: Diet.Pescatarian,  // Valor padrão do enum
-    dietRestrictions: '',
-    allergies: '',
-    bedNumber: 0,
-    relatives: [], // Array vazio como padrão
-  };
+export class ResidentsDetailComponent implements OnInit, OnDestroy {
+  resident?: Resident
   error: string | null = null;
-
+  private subs: Subscription[] = [];
+  @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
   constructor(
     private residentsService: ResidentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id']; // Correctly accessing the route parameter 'id'
-    this.residentsService.fetchItem(id).subscribe({
-      next: (resident) => (this.resident = resident),
-      error: () => (this.error = 'Failed to fetch resident'),
-    });
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+      this.subs.push(
+        this.residentsService.fetchItem(id).subscribe({
+          next: (resident) => (this.resident = resident),
+          error: (err) => {
+            console.error(err);
+            this.error = 'Residente não encontrado';
+          },
+        })
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((sub) => sub.unsubscribe());
+  }
+
+  onDelete() {
+    if (!this.resident?.id) return;
+
+    this.subs.push(
+      this.residentsService.delete(this.resident.id).subscribe({
+        next: () => this.router.navigate(['/residents']),
+        error: (err) => {
+          console.error(err);
+          this.error = 'Falha ao eliminar residente';
+        },
+      })
+    );
+  }
+
+  showDeleteModal() {
+    this.deleteModal.show();
   }
 }

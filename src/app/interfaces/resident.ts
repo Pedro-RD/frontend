@@ -17,6 +17,7 @@ export interface ResidentDTO {
 
 export interface Resident extends ResidentDTO {
   id: number,
+
 }
 
 

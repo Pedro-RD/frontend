@@ -33,7 +33,7 @@ export const routes: Routes = [
     component: ResidentsCreateComponent,
   },
   {
-    path: 'residents/edit',
+    path: 'residents/:id/edit',
     component: ResidentsEditComponent,
   },
 

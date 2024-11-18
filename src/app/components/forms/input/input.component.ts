@@ -54,9 +54,9 @@ export class InputComponent<T> implements OnInit, OnDestroy {
     } else if (control.errors?.['email']) {
       this.errorMessageSignal.set('Please enter a valid email');
     } else if (control.errors?.['minlength']) {
-      this.errorMessageSignal.set(`Minimum length is ${control.errors['minlength'].requiredLength}`);
+      this.errorMessageSignal.set(`Minimum length is ${control.errors?.['minlength'].requiredLength}`);
     } else if (control.errors?.['maxlength']) {
-      this.errorMessageSignal.set(`Maximum length is ${control.errors['maxlength'].requiredLength}`);
+      this.errorMessageSignal.set(`Maximum length is ${control.errors?.['maxlength'].requiredLength}`);
     } else if (control.errors?.['pattern']) {
       this.errorMessageSignal.set('Invalid format');
     } else {

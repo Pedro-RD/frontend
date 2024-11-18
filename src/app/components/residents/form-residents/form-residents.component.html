@@ -1,0 +1,104 @@
+<form class="lg:px-36" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <h1 class="card-title text-2xl mb-5">Criar Residente</h1>
+
+  <!-- Dados Pessoais -->
+  <h2 class="mb-3 card-title">Dados Pessoais</h2>
+  <app-input
+    [control]="name"
+    [required]="true"
+    class="border-0 w-full p-0"
+    label="Nome"
+    placeholder="João Silva"
+    type="text" />
+
+  <div class="grid grid-cols-2 gap-5">
+    <app-input
+      [control]="fiscalId"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="ID Fiscal"
+      placeholder="200000000"
+      type="text" />
+
+    <app-input
+      [control]="birthDate"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Data de Nascimento"
+      placeholder="dd/mm/yyyy"
+      type="date" />
+  </div>
+
+  <!-- Informações de Saúde -->
+  <h2 class="card-title mb-3 mt-4">Informações de Saúde</h2>
+  <app-input
+    [control]="specificCare"
+    class="border-0 w-full p-0"
+    label="Cuidados Específicos"
+    placeholder="Ex: Cuidados especiais"
+    type="text" />
+
+  <app-select-box
+    [control]="civilStatus"
+    [data]="civilStatuses"
+    label="Estado Civil"
+     />
+
+  <!-- Dados de Nacionalidade -->
+  <h2 class="card-title mb-3 mt-4">Dados de Nacionalidade</h2>
+  <app-select-box
+    [control]="nationality"
+    [data]="nationalities"
+    label="Nacionalidade"
+     />
+
+  <!-- Informações Alimentares -->
+  <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
+  <div class="grid grid-cols-2 gap-5">
+    <app-select-box
+      [control]="diet"
+      [data]="diets"
+      label="Dieta"
+      />
+
+    <app-input
+      [control]="dietRestrictions"
+      class="border-0 w-full p-0"
+      label="Restrições Alimentares"
+      placeholder="Ex: Intolerância a lactose"
+      type="text" />
+  </div>
+
+  <app-input
+    [control]="allergies"
+    class="border-0 w-full p-0"
+    label="Alergias"
+    placeholder="Ex: Amendoim, glúten"
+    type="text" />
+
+  <!-- Informações de Quarto -->
+  <h2 class="card-title mb-3 mt-4">Informações de Quarto</h2>
+  <app-input
+    [control]="bedNumber"
+    [required]="true"
+    class="border-0 w-full p-0"
+    label="Número da Cama"
+    placeholder="Ex: 12"
+    type="number" />
+
+  <!-- Parentes -->
+  <!-- True quando estiver resolvido -->
+  <h2 class="card-title mb-3 mt-4">Parentes</h2>
+  <app-input
+    [required]="false"
+    [control]="relatives"
+    class="border-0 w-full p-0"
+    label="IDs dos Parentes"
+    placeholder="IDs separados por vírgula"
+    type="text" />
+
+  <!-- Botão de Submissão -->
+  <div class="flex justify-center pt-10">
+    <app-button label="Guardar" type="submit" />
+  </div>
+</form>
