@@ -3,13 +3,13 @@
     <app-search-box class="grow" (onSearch)="handleSearch($event)"/>
     <div class="flex gap-2">
       <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow"/>
-      <a class="btn" routerLink="/residents/create">
+      <a class="btn" routerLink="/residents/:residentId/appointments/create">
         <svg class="size-6" fill="none" stroke="currentColor"
              stroke-width="1.5" viewBox="0 0 24 24"
              xmlns="http://www.w3.org/2000/svg">
           <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Adicionar Residente
+        Adicionar Consulta
       </a>
     </div>
   </section>
@@ -18,7 +18,7 @@
     <app-table
       (headerClicked)="handleHeaderClick($event)"
       (rowClicked)="handleRowCliked($event)"
-      [data]="residentList()"
+      [data]="residentAppointmentsList()"
       [tableConfig]="tableConfig"
       [orderDirection]="(orderDirection | async) || Order.ASC"
       [orderKey]="(orderBy | async) || 'id'"/>

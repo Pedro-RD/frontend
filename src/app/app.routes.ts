@@ -18,11 +18,19 @@ import { HealthReportDetailComponent } from './pages/healthreport-detail/healthr
 import { HealthReportCreateComponent } from './pages/healthreport-create/healthreport-create.component';
 import { HealthReportEditComponent } from './pages/healthreport-edit/healthreport-edit.component';
 import { Routes } from '@angular/router';
+import { MedicationComponent } from './pages/medication/medication.component';
+import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+  {
+    path: 'residents/:residentId/appointments',
+    component: ResidentsAppointmentsComponent,
+
+  },
   {
     path: 'residents',
     component: ResidentsComponent,
