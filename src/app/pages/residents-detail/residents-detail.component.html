@@ -6,21 +6,21 @@
 
         <!-- Botões de Ação -->
         <div class="flex flex-wrap justify-center md:justify-end gap-2 mb-4">
-          <a href="#relatorios" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-primary-dark">
+          <a [routerLink]="['/residents', resident.id, 'healthreport']" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-primary-dark">
             <!-- Ícone de Relatórios Médicos -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M8 9a3 3 0 110-6 3 3 0 010 6zm5-3a2 2 0 112 2 2 2 0 01-2-2zm5 5a7 7 0 01-14 0V5a7 7 0 0114 0v6zm-6 5a6 6 0 100-12 6 6 0 000 12z" />
             </svg>
             Relatórios
           </a>
-          <a href="#medicacao" class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base hover:bg-secondary-dark">
+          <a [routerLink]="['/residents', resident.id, 'medications']"  class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base hover:bg-secondary-dark">
             <!-- Ícone de Medicação -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M12.293 7.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414l6-6zM9 11a2 2 0 10-2-2 2 2 0 002 2z" />
             </svg>
             Medicação
           </a>
-          <a href="#consultas" class="btn btn-accent inline-flex items-center gap-1 text-xs md:text-base hover:bg-accent-dark">
+          <a [routerLink]="['/residents', resident.id, 'appointments']" class="btn btn-accent inline-flex items-center gap-1 text-xs md:text-base hover:bg-accent-dark">
             <!-- Ícone de Consultas -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10 3a1 1 0 01.894.553l3 6a1 1 0 01-.042.967l-3 6A1 1 0 019 16H5a1 1 0 01-.894-1.447l3-6A1 1 0 019 7h4a1 1 0 01.894-.553zM9 4.5a.5.5 0 100 1 .5.5 0 000-1zm1 10a.5.5 0 100 1 .5.5 0 000-1z" />
@@ -57,7 +57,7 @@
             <div class="space-y-2">
               <p><span class="font-bold">Nome:</span> {{ resident.name }}</p>
               <p><span class="font-bold">ID Fiscal:</span> {{ resident.fiscalId }}</p>
-              <p><span class="font-bold">Data de Nascimento:</span> {{ resident.birthDate | date }}</p>
+              <p><span class="font-bold">Data de Nascimento:</span> {{ resident.birthDate | date: 'dd MMMM yyyy' }}</p>
               <p><span class="font-bold">Nacionalidade:</span> {{ resident.nationality }}</p>
             </div>
             <div class="space-y-2">
