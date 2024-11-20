@@ -35,21 +35,6 @@ export class HealthReportComponent implements OnInit, OnDestroy{
         classList: ["w-40"]
       },
       {
-        colKey: "temperature",
-        label: "Temperatura (°C)",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "height",
-        label: "Altura (cm)",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "weight",
-        label: "Peso (kg)",
-        classList: ["w-40"]
-      },
-      {
         colKey: "respiratoryRate",
         label: "Frequência Respiratória (rpm)",
         classList: ["w-40"]
@@ -62,36 +47,6 @@ export class HealthReportComponent implements OnInit, OnDestroy{
       {
         colKey: "bloodGlucoseLevel",
         label: "Nível de Glicose no Sangue (mg/dL)",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "mobility",
-        label: "Mobilidade",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "hydrationLevel",
-        label: "Nível de Hidratação",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "cognitiveEmotionalAssessment",
-        label: "Avaliação Cognitiva e Emocional",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "bloodOxygenLevel",
-        label: "Nível de Oxigénio no Sangue (%)",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "resident.name",
-        label: "Nome do Residente",
-        classList: ["w-40"]
-      },
-      {
-        colKey: "resident.age",
-        label: "Idade do Residente",
         classList: ["w-40"]
       }
     ]
