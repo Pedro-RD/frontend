@@ -20,11 +20,19 @@ import { HealthReportEditComponent } from './pages/healthreport-edit/healthrepor
 import { Routes } from '@angular/router';
 import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
+import {
+  ResidentsAppointmentsCreateComponent
+} from './pages/residents-appointments-create/residents-appointments-create.component';
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+  {
+    path: 'residents/:residentId/appointments/create',
+    component:ResidentsAppointmentsCreateComponent,
+  },
 
   {
     path: 'residents/:residentId/appointments',
@@ -73,7 +81,8 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard],
-    data: {roles: [Role.Admin, Role.Manager, Role.Caretaker, Role.Relative]}
+    data: {roles: [ Role.Manager, Role.Caretaker, Role.Relative]}
+    // Role.Admin
   },
   {
     path: 'users',

@@ -3,11 +3,10 @@ import { AppointmentStatus } from './appointment-status.enum';
 
 export interface AppointmentDTO {
   title: string,
-  appointmentType: AppointmentType,
-  appointmentStatus: AppointmentStatus,
-  startDate: Date,
+  type: AppointmentType,
+  status: AppointmentStatus,
+  start: Date,
   observation?: string,
-  residentId: number,
 
 }
 

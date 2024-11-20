@@ -1,0 +1,46 @@
+<form class="lg:px-36" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <h1 class="card-title text-2xl mb-5">Criar Consulta</h1>
+
+  <!-- Dados da Consulta -->
+  <h2 class="mb-3 card-title">Consultas </h2>
+  <app-input
+    [control]="title"
+    [required]="true"
+    class="border-0 w-full p-0"
+    label="Título"
+    placeholder="Título da consulta"
+    type="text" />
+
+  <div class="grid grid-cols-2 gap-5">
+    <app-select-box
+      [control]="type"
+      [data]="types"
+      label="Tipo de Consulta" />
+
+    <app-select-box
+      [control]="status"
+      [data]="statuses"
+      label="Status da Consulta" />
+  </div>
+
+  <app-input
+    [control]="start"
+    [required]="true"
+    class="border-0 w-full p-0"
+    label="Data e Hora de Início"
+    placeholder="dd/mm/yyyy hh:mm"
+    type="datetime-local" />
+
+  <app-input
+    [control]="observation"
+    class="border-0 w-full p-0"
+    label="Observações"
+    placeholder="Ex: Detalhes adicionais"
+    type="text" />
+
+  <!-- Botão de Submissão -->
+  <div class="flex justify-center pt-10">
+    <app-button label="Guardar" type="submit" />
+  </div>
+</form>
+

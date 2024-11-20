@@ -1,4 +1,4 @@
-import { Component, computed, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, Input, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -32,7 +32,7 @@ export class SelectBoxComponent<T> implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Set initial validation state
     this.validate();
-    
+
     this.subject = this.control().valueChanges.subscribe(() => {
       this.control().markAsTouched();
       this.validate();

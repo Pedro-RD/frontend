@@ -1,7 +1,6 @@
 export enum Diet {
-  Pescatarian = 'Pescatarian',
-  Vegetarian = 'Vegetarian',
-  Fruitarian = 'Fruitarian',
-  Carnivore = 'Carnivore',
+  Pescatarian = 'Pescatariana',
+  Vegetarian = 'Vegetariana',
+  Omnovire = 'Omnivora',
   Vegan = 'Vegan',
 }
