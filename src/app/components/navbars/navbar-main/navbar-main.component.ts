@@ -36,8 +36,8 @@ export class NavbarMainComponent {
   get navbarLinks() {
     return this.authService.getUser().pipe(map((user: User | null) => {
       switch (user?.role) {
-        case Role.Admin:
-          return NavbarAdminComponent;
+        // case Role.Admin:
+        //   return NavbarAdminComponent;
         case Role.Manager:
           return NavbarManagerComponent;
         case Role.Caretaker:

@@ -12,7 +12,7 @@ import PagedResponse from '../../interfaces/paged-response.interface';
   providedIn: 'root'
 })
 export class ResidentAppointmentsService  extends ListService<Appointment> {
-  readonly url: string = environment.apiUrl + 'resident/:residentId/appointments';
+  readonly url: string = environment.apiUrl + 'residents/';
 
   constructor(
     private httpClient: HttpClient,
@@ -22,12 +22,14 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
   }
 
 
-  fetchList(): Observable<Appointment[]> {
-    return this.httpClient.get<PagedResponse<Appointment>>(this.url + this.queryString).pipe(
+  fetchList(residentId: number): Observable<Appointment[]> {
+    return this.httpClient.get<PagedResponse<Appointment>>(this.url +residentId +'/appointments' + this.queryString).pipe(
       tap((rxp) => {
+        console.log(rxp)
         this.setTotalPages(rxp.totalPages);
       }),
-      map(rxp => rxp.data),
+       map(rxp => rxp.data),
+      tap(console.log),
       catchError((err) => {
         console.log(err);
         return of([] as Appointment[]);
@@ -38,10 +40,10 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
   fetchItem(id: number): Observable<Appointment> {
     return this.httpClient.get<Appointment>(`${this.url}/${id}`).pipe(
       tap((appointment) => {
-        if (appointment.startDate) {
-          appointment.startDate = new Date(appointment.startDate);
+        if (appointment.start) {
+          appointment.start = new Date(appointment.start);
         }
-        console.log(typeof appointment.startDate);
+        console.log(typeof appointment.start);
         if(!environment.production) console.log('Consulta encontrada:', appointment);
       }),
       catchError((err) => {
@@ -52,9 +54,9 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
     );
   }
 
-  create (item: AppointmentDTO): Observable<Appointment> {
+  create(item: AppointmentDTO, residentId:number): Observable<Appointment> {
     if (!environment.production) console.log('A criar consulta:', item);
-    return this.httpClient.post<Appointment>(this.url, item).pipe(
+    return this.httpClient.post<Appointment>(this.url+residentId +'/appointments', item).pipe(
       map(appointment =>  {
         if (!environment.production) console.log('Consulta criada:', appointment);
         this.toastService.success('Consulta criada com sucesso');

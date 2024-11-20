@@ -1,7 +1,7 @@
 import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { PaginatorComponent } from '../../components/table/paginator/paginator.component';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SearchBoxComponent } from '../../components/forms/search-box/search-box.component';
 import { SelectLimitComponent } from '../../components/table/select-limit/select-limit.component';
 import { TableComponent } from '../../components/table/table/table.component';
@@ -37,19 +37,19 @@ tableConfig: TableConfig<Appointment> = {
     classList: ["w-40"]
   },
 {
-  colKey: "startDate",
-  label: "Data",
+  colKey: "start",
+  label: "Data/Hora da Consulta",
   type: ColumnType.DATE,
-  dateFormat: 'dd/MM/yyyy',
+  dateFormat: 'dd/MM/yyyy HH:mm',
   classList: ["w-32"]
 },
 {
-  colKey: "appointmentType",
+  colKey: "type",
     label: "Modalidade",
   classList: ["w-32"]
 },
 {
-  colKey: "appointmentStatus",
+  colKey: "status",
     label: "Estado",
   classList: ["w-20"]
 },
@@ -60,9 +60,10 @@ residentAppointmentsList = computed(() => this.residentAppointmentsListSignal())
 
 private subscription?: Subscription;
 
-constructor(private residentAppointmentsService: ResidentAppointmentsService, private router: Router,) {
+constructor(private residentAppointmentsService: ResidentAppointmentsService, private router: Router, public route: ActivatedRoute) {
 }
-ngOnDestroy() {
+
+ngOnDestroy(): void {
   this.residentAppointmentsService.clearAll();
   this.subscription?.unsubscribe();
 }
@@ -86,15 +87,20 @@ get limit (): Observable<number> {
   return this.residentAppointmentsService.limit$;
 }
 
+private residentId? : number
+
 ngOnInit() {
   let i = 0;
   this.residentAppointmentsService.query$
     .pipe(
       tap((q) => console.log("Query: ", q)),
-      switchMap(() => this.residentAppointmentsService.fetchList()),
+      switchMap(() => this.residentAppointmentsService.fetchList(parseInt(this.route.snapshot.paramMap.get("residentId") || "")||0)),
+      tap(console.log),
       map((appointments) => this.residentAppointmentsListSignal.set(appointments))
     )
     .subscribe();
+
+  this.route.snapshot.paramMap.get("residentId");
 }
 
 handleSearch(searchTerm: string): void {
@@ -114,7 +120,7 @@ handleHeaderClick(key:string) {
 }
 
 handleRowCliked(key: number) {
-  this.router.navigate(["/residents/:residentId/appointments", key]);
+  this.router.navigate([`/appointments/details`, key]);
 }
 
 handleLimitChange(limit: number) {

@@ -3,7 +3,7 @@
     <app-search-box class="grow" (onSearch)="handleSearch($event)"/>
     <div class="flex gap-2">
       <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow"/>
-      <a class="btn" routerLink="/residents/:residentId/appointments/create">
+      <a class="btn" [routerLink]="['/residents',this.route.snapshot.paramMap.get('residentId') ||'', 'appointments','create']">
         <svg class="size-6" fill="none" stroke="currentColor"
              stroke-width="1.5" viewBox="0 0 24 24"
              xmlns="http://www.w3.org/2000/svg">
