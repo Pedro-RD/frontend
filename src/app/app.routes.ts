@@ -92,8 +92,6 @@ export const routes: Routes = [
     path: 'users/:id/edit',
     component: UsersEditComponent,
   },
-  { path: 'forbidden', component: NotAllowedComponent },
-  { path: '**', pathMatch: 'full', component: NotFoundComponent },
   {
     path: 'residents/:residentId/medications',
     component: MedicationComponent,

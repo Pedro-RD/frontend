@@ -13,7 +13,7 @@ import PagedResponse from '../../interfaces/paged-response.interface';
   providedIn: 'root',
 })
 export class MedicationService extends ListService<Medication> {
-  readonly url: string = environment.apiUrl + 'medicaments';
+  readonly url: string = environment.apiUrl + 'residents/';
 
   constructor(
     private httpClient: HttpClient,
@@ -46,7 +46,7 @@ export class MedicationService extends ListService<Medication> {
 // mandar resident ID » + "&residentId=$`residentId`"
   fetchList(residentId:number): Observable<Medication[]> {
     console.log(this.queryString);
-    return this.httpClient.get<PagedResponse<Medication>>(this.url + this.queryString + `&residentId=${residentId}`).pipe(
+    return this.httpClient.get<PagedResponse<Medication>>(this.url + residentId + "/medicaments" + this.queryString).pipe(
       tap((rxp) => {
         console.log(rxp);
         this.setTotalPages(rxp.totalPages);

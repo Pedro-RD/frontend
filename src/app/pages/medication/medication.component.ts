@@ -103,6 +103,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
   private residentId? : number
 
   ngOnInit() {
+    console.log('pagina medicacao');
     let i = 0;
     this.medicationService.query$
       .pipe(
