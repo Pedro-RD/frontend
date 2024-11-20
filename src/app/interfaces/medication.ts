@@ -4,6 +4,6 @@ export interface Medication {
   instructions: string;
   resident: number;
   quantity: number;
-  prescriptions: number;
-  validity: Date;
+  prescriptionQuantity: number;
+  dueDate: Date;
 }
