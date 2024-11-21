@@ -1,0 +1,66 @@
+<div class="container px-2 sm:px-0 mx-auto">
+  <!--  <section class="flex flex-col gap-3 my-2.5 sm:flex-row">-->
+  <!--    <div class="flex gap-2">-->
+  <!--      <a class="btn" routerLink="/residents/:residentId/medication/create">-->
+  <!--        <svg class="size-6" fill="none" stroke="currentColor"-->
+  <!--             stroke-width="1.5" viewBox="0 0 24 24"-->
+  <!--             xmlns="http://www.w3.org/2000/svg">-->
+  <!--          <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>-->
+  <!--        </svg>-->
+  <!--        Adicionar Medicamento-->
+  <!--      </a>-->
+  <!--    </div>-->
+  <!--  </section>-->
+
+  <form class="lg:px-36" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <h1 class="card-title text-2xl mb-5">Criar Medicamento</h1>
+
+    <!-- Dados do Medicamento -->
+    <h2 class="mb-3 card-title">Informações do Medicamento</h2>
+    <app-input
+      [control]="name"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Nome"
+      placeholder="Nome do Medicamento"
+      type="text" />
+
+    <app-input
+      [control]="instructions"
+      class="border-0 w-full p-0"
+      label="Instruções"
+      placeholder="Ex: Tomar após as refeições"
+      type="text" />
+
+    <div class="grid grid-cols-2 gap-5 mb-5">
+      <app-input
+        [control]="quantity"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Quantidade"
+        placeholder="Quantidade em stock"
+        type="number" />
+
+      <app-input
+        [control]="prescriptionQuantity"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Quantidade Prescrita"
+        placeholder="Quantidade na receita"
+        type="number" />
+    </div>
+
+    <app-input
+      [control]="dueDate"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Data de Validade"
+      placeholder="dd/mm/yyyy"
+      type="date" />
+
+    <!-- Botão de Submissão -->
+    <div class="flex justify-center pt-10">
+      <app-button label="Guardar" type="submit" />
+    </div>
+  </form>
+</div>

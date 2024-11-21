@@ -1,3 +1,5 @@
+import {ResidentDTO} from './resident';
+
 export interface MedicationDTO {
   name: string;
   instructions: string;
@@ -9,4 +11,5 @@ export interface MedicationDTO {
 
 export interface Medication extends MedicationDTO {
   id: number,
+  resident?: ResidentDTO; // Tornando a propriedade opcional
 }

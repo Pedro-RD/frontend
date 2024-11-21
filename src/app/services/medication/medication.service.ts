@@ -1,12 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
-import {catchError, map, Observable, of, tap} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {Medication} from '../../interfaces/medication';
-import {ListService} from '../list/list.service';
-import {ToastService} from '../toast/toast.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { Medication } from '../../interfaces/medication';
+import { ListService } from '../list/list.service';
+import { ToastService } from '../toast/toast.service';
 import PagedResponse from '../../interfaces/paged-response.interface';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,8 @@ export class MedicationService extends ListService<Medication> {
   }
 
   //Create Medication:
-  createMedicament(residentId:number, item: Medication): Observable<Medication> {
+  create(residentId:number, item: Medication): Observable<Medication> {
+    console.log("MedicationService.create", item);
     return this.httpClient.post<Medication>(this.url + residentId + "/medicaments", item).pipe(
       tap((medicament) => {
         this.toastService.success("Medicação criada com sucesso");
@@ -54,10 +56,6 @@ export class MedicationService extends ListService<Medication> {
   }
 
   fetchItem(id: number): Observable<Medication> {
-    throw new Error('Method not implemented.');
-  }
-
-  create(item: Medication): Observable<Medication> {
     throw new Error('Method not implemented.');
   }
 
@@ -84,3 +82,5 @@ export class MedicationService extends ListService<Medication> {
     throw new Error('Method not implemented.');
   }
 }
+
+

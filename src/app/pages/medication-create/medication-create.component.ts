@@ -1,60 +1,65 @@
-import {Component, computed, input, OnInit, output, signal} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
-import {Medication} from '../../interfaces/medication';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {environment} from '../../../environments/environment';
-
+import { Component, OnDestroy } from '@angular/core';
+import { concatMap, Subject, Subscription } from 'rxjs';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import {Medication, MedicationDTO} from '../../interfaces/medication';
+import { MedicationService } from '../../services/medication/medication.service';
+import { FormMedicationComponent } from '../../components/form-medication/form-medication.component';
 
 @Component({
   selector: 'app-medication-create',
   standalone: true,
   imports: [
     RouterModule,
+    FormMedicationComponent,
   ],
   templateUrl: './medication-create.component.html',
   styleUrl: './medication-create.component.css'
 })
-export class MedicationCreateComponent implements OnInit {
-  initialData = input<Medication | undefined>();
-  createRequested = output<Medication>();
-  name = new FormControl<string>('', [Validators.required]);
-  instructions = new FormControl<string>('');
-  quantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  prescriptionQuantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  dueDate = new FormControl<Date>( new Date(),[Validators.required]);
+export class MedicationCreateComponent implements OnDestroy {
+  medicationCreateSub: Subscription | undefined;
+  private isSubmitting = false;
+  private submitQueue = new Subject<Medication>();
+  private submitSub: Subscription;
 
-
-  form: FormGroup = new FormGroup({
-    name: this.name,
-    instructions: this.instructions,
-    quantity: this.quantity,
-    prescriptionQuantity: this.prescriptionQuantity,
-    dueDate: this.dueDate,
-  });
-
-  ngOnInit() {
-    if (this.initialData()) {
-      const data = this.initialData()!;
-      this.name.setValue(data.name);
-      this.instructions.setValue(data.instructions);
-      this.quantity.setValue(data.quantity);
-      this.prescriptionQuantity.setValue(data.prescriptionQuantity);
-      this.dueDate.setValue(new Date(data.dueDate));
-    }
+  constructor(
+    private medicationService: MedicationService,
+    private router: Router,
+    public route: ActivatedRoute,
+  ) {
+    this.submitSub = this.submitQueue.subscribe({
+      next: () => this.router.navigate(['/medications']),
+      error: (err) => console.error(err),
+    });
   }
 
-  onSubmit() {
-    console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
-    if (this.form.valid) {
-      this.createRequested.emit({
-        id: 0,
-        name: this.name.value!,
-        instructions: this.instructions.value!,
-        quantity: this.quantity.value!,
-        prescriptionQuantity: this.prescriptionQuantity.value!,
-        dueDate: this.dueDate.value!,
-      });
-    }
+  ngOnDestroy() {
+    this.submitQueue.complete();
+    this.submitSub.unsubscribe();
   }
-  protected readonly environment = environment;
+
+  onFormSubmit(medicationDTO: MedicationDTO) {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
+    const medication: Medication = {
+      ...medicationDTO,
+      id: 0,
+      quantity: parseInt(String(medicationDTO.quantity)),
+      prescriptionQuantity: parseInt(String(medicationDTO.prescriptionQuantity)),
+    };
+    console.log('Medication:', medication);
+    this.medicationCreateSub = this.medicationService.create(this.residentId,medication).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.router.navigate(['/medications']);
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        console.error(err);
+      }
+    });
+  }
+
+  get residentId(): number {
+    return parseInt(this.route.snapshot.params['residentId']) || 0;
+  }
 }

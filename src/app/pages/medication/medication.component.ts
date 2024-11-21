@@ -100,7 +100,9 @@ export class MedicationComponent implements OnInit, OnDestroy{
     return this.medicationService.limit$;
   }
 
-  private residentId? : number
+  get residentId(): number {
+    return parseInt(this.route.snapshot.params['residentId']) || 0;
+  }
 
   ngOnInit() {
     console.log('pagina medicacao');
@@ -141,6 +143,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
   }
 
   protected readonly Order = Order;
+
 }
 
 
