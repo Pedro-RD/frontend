@@ -120,8 +120,14 @@ handleHeaderClick(key:string) {
 }
 
 handleRowCliked(key: number) {
-  this.router.navigate([`/appointments/details`, key]);
+  const residentId = this.route.snapshot.paramMap.get("residentId"); // Obtém o residentId da rota
+  if (residentId) {
+    this.router.navigate([`residents/${residentId}/appointments/${key}`]);
+  } else {
+    console.error("Resident ID não encontrado na rota.");
+  }
 }
+
 
 handleLimitChange(limit: number) {
   this.residentAppointmentsService.setPageSize(limit);

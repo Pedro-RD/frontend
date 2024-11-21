@@ -23,11 +23,19 @@ import { ResidentsAppointmentsComponent } from './pages/residents-appointments/r
 import {
   ResidentsAppointmentsCreateComponent
 } from './pages/residents-appointments-create/residents-appointments-create.component';
+import {
+  ResidentsAppointmentsDetailComponent
+} from './pages/residents-appointments-detail/residents-appointments-detail.component';
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+  {
+    path: 'residents/:residentId/appointments/:id',
+    component: ResidentsAppointmentsDetailComponent,
+  },
 
   {
     path: 'residents/:residentId/appointments/create',
