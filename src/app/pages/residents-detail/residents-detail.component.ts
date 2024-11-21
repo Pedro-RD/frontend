@@ -6,8 +6,6 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
-import { Diet } from '../../interfaces/diet.enum';
-import { CivilStatus } from '../../interfaces/civil-status.enum';
 
 @Component({
   selector: 'app-residents-detail',

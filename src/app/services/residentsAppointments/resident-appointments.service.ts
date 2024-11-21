@@ -8,11 +8,13 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 import PagedResponse from '../../interfaces/paged-response.interface';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ResidentAppointmentsService  extends ListService<Appointment> {
   readonly url: string = environment.apiUrl + 'residents/';
+
 
   constructor(
     private httpClient: HttpClient,
@@ -37,8 +39,8 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
     )
   }
 
-  fetchItem(id: number): Observable<Appointment> {
-    return this.httpClient.get<Appointment>(`${this.url}/${id}`).pipe(
+  fetchItem(id: number, residentId:number): Observable<Appointment> {
+    return this.httpClient.get<Appointment>(`${this.url}${residentId}/appointments/${id}`).pipe(
       tap((appointment) => {
         if (appointment.start) {
           appointment.start = new Date(appointment.start);
@@ -69,36 +71,39 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
   );
 }
 
-update(item: Appointment): Observable<Appointment> {
-  if (!environment.production) console.log('A atualizar consulta:', item);
-  return this.httpClient.patch<Appointment>(`${this.url}/${item.id}`, item).pipe(
-    map(appointment => {
-      if(!environment.production) console.log('Consulta atualizada:', appointment);
-      this.toastService.success('Consulta atualizada com sucesso');
-      return appointment;
-    }),
-    catchError((error) => {
-      if (!environment.production) console.error('Erro ao atualizar consulta:', error);
-      throw error;
-  })
-  );
-}
+  update(item: Appointment): Observable<Appointment> {
+    return this.httpClient.patch<Appointment>(`${this.url}/${item.id}`, item).pipe(
+      tap((updatedAppointment) => {
+        if (!environment.production) console.log('Consulta atualizada:', updatedAppointment);
+        this.toastService.success('Consulta atualizada com sucesso');
+      }),
+      catchError((error) => {
+        if (!environment.production) console.error('Erro ao atualizar consulta:', error);
+        this.toastService.error('Erro ao atualizar consulta');
+        return of({} as Appointment);
+      })
+    );
+  }
 
 isDeleting = false;
 
-  delete(id: number): Observable<void> {
-  if(this.isDeleting) return of();
-  this.isDeleting = true;
-  return this.httpClient.delete<void>(`${this.url}/${id}`).pipe(
-    map((appointment) => {
-      this.isDeleting = false;
-      this.toastService.success('Consulta eliminada com sucesso');
-    }),
-    catchError((error) => {
-      if (!environment.production) console.error('Erro ao eliminar consulta:', error);
-      this.isDeleting = false;
-      throw error;
-    })
-  );
+  delete(id: number, residentId: number): Observable<void> {
+    if (this.isDeleting) return of(); // Evita múltiplas requisições simultâneas
+    this.isDeleting = true;
+
+    return this.httpClient.delete<void>(`${this.url}${residentId}/appointments/${id}`).pipe(
+      map(() => {
+        this.isDeleting = false;
+        this.toastService.success('Consulta eliminada com sucesso');
+      }),
+      catchError((error) => {
+        if (!environment.production) {
+          console.error('Erro ao eliminar consulta:', error);
+        }
+        this.isDeleting = false;
+        throw error; // Propaga o erro para ser tratado no componente
+      })
+    );
   }
+
 }
