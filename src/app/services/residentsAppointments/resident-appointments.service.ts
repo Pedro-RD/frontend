@@ -71,8 +71,8 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
   );
 }
 
-  update(item: Appointment): Observable<Appointment> {
-    return this.httpClient.patch<Appointment>(`${this.url}/${item.id}`, item).pipe(
+  update(id: number, item: AppointmentDTO, residentId: number): Observable<Appointment> {
+    return this.httpClient.patch<Appointment>(`${this.url}${residentId}/appointments/${id}`, item).pipe(
       tap((updatedAppointment) => {
         if (!environment.production) console.log('Consulta atualizada:', updatedAppointment);
         this.toastService.success('Consulta atualizada com sucesso');

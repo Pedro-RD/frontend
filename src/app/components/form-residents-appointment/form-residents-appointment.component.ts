@@ -30,7 +30,7 @@ export class FormResidentsAppointmentComponent implements OnInit {
   title = new FormControl<string>('', [Validators.required]);
   type = new FormControl<AppointmentType | ''>('', [Validators.required]);
   status = new FormControl<AppointmentStatus | ''>('', [Validators.required]);
-  start = new FormControl<Date>(new Date(), [Validators.required]);
+  start = new FormControl<string>(new Date().toISOString().substring(0, 16), [Validators.required]);
   observation = new FormControl<string | undefined>(undefined, [Validators.required]);
 
 
@@ -58,7 +58,7 @@ export class FormResidentsAppointmentComponent implements OnInit {
       this.title.setValue(data.title);
       this.type.setValue(data.type);
       this.status.setValue(data.status);
-      this.start.setValue(new Date(data.start));
+      this.start.setValue(new Date(data.start).toISOString().substring(0, 16));
       this.observation.setValue(data.observation);
     }
   }
@@ -70,7 +70,7 @@ export class FormResidentsAppointmentComponent implements OnInit {
         title: this.title.value!,
         type: this.type.value! as AppointmentType,
         status: this.status.value! as AppointmentStatus,
-        start: this.start.value!,
+        start: new Date(this.start.value!),
         observation: this.observation.value!,
       });
     }
