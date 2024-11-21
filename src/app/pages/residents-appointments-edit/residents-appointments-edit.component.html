@@ -1,0 +1,12 @@
+@if (resident && appointment) {
+  <app-form-residents-appointment
+    [initialData]="appointment || undefined"
+    (createRequested)="onFormSubmit($event)"
+  />
+} @else {
+  <app-loading />
+}
+
+@if(error ) {
+  <p class="error">{{ error }}</p>
+}

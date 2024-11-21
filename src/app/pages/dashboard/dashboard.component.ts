@@ -30,8 +30,8 @@ export class DashboardComponent {
     return this.authService.getUser().pipe(
       map((user: User | null) => {
         switch (user?.role) {
-          case Role.Admin:
-            return DashboardAdminComponent;
+          // case Role.Admin:
+          //   return DashboardAdminComponent;
           case  Role.Manager:
             return DashboardManagerComponent;
           case Role.Caretaker:
