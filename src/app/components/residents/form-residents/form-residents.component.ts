@@ -32,7 +32,7 @@ export class FormResidentsComponent implements OnInit {
   // Definindo os controles do formulário com os tipos corretos
   name = new FormControl<string>('', [Validators.required]);
   fiscalId = new FormControl<string>('', [Validators.required, Validators.pattern(/^\d+$/)]);
-  birthDate = new FormControl<Date>( new Date(),[Validators.required]);
+  birthDate = new FormControl<string>( new Date().toISOString().substring(0, 10),[Validators.required]);
   specificCare = new FormControl<string>('');
   civilStatus = new FormControl<CivilStatus | ''>('', [Validators.required]);
   nationality = new FormControl('', [Validators.required]);
@@ -74,7 +74,7 @@ export class FormResidentsComponent implements OnInit {
       this.name.setValue(data.name);
       console.log(typeof new Date(data.birthDate));
       this.fiscalId.setValue(data.fiscalId);
-      this.birthDate.setValue(new Date(data.birthDate));
+      this.birthDate.setValue(new Date(data.birthDate).toISOString().substring(0, 10));
       this.specificCare.setValue(data.specificCare);
       this.civilStatus.setValue(data.civilStatus);
       this.diet.setValue(data.diet);
@@ -111,7 +111,7 @@ export class FormResidentsComponent implements OnInit {
       this.createRequested.emit({
         name: this.name.value!,
         fiscalId: this.fiscalId.value!,
-        birthDate: this.birthDate.value!,
+        birthDate: new Date(this.birthDate.value!),
         specificCare: this.specificCare.value!,
         civilStatus: this.civilStatus.value! as CivilStatus,
         diet: this.diet.value! as Diet,
