@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {catchError, map, Observable, of, tap} from 'rxjs';
-
 import {environment} from '../../../environments/environment';
 import {Medication} from '../../interfaces/medication';
 import {ListService} from '../list/list.service';
@@ -23,27 +22,8 @@ export class MedicationService extends ListService<Medication> {
     super();
   }
 
-  // fetchList(): Observable<Medication[]> {
-  //   return this.httpClient
-  //     .get<PagedResponse<Medication>>(this.url + this.makeRequestParams())
-  //     .pipe(
-  //       tap(({totalPages, data}) => {
-  //         this.setPageCount(totalPages);
-  //         this.setList(data);
-  //         if (!environment.production) console.log(data);
-  //       }),
-  //       map(({data}) => data),
-  //       catchError((err) => {
-  //         if (!environment.production) console.error(err);
-  //         this.toastService.error('Erro ao listar residentes');
-  //         return of([]);
-  //       }),
-  //     );
-  // }
-
-
-
-// mandar resident ID » + "&residentId=$`residentId`"
+  // mandar resident ID » + "&residentId=$`residentId`"
+  //Read Medication:
   fetchList(residentId:number): Observable<Medication[]> {
     console.log(this.queryString);
     return this.httpClient.get<PagedResponse<Medication>>(this.url + residentId + "/medicaments" + this.queryString).pipe(
@@ -57,6 +37,20 @@ export class MedicationService extends ListService<Medication> {
         return of([] as Medication[]);
       })
     )
+  }
+
+  //Create Medication:
+  createMedicament(residentId:number, item: Medication): Observable<Medication> {
+    return this.httpClient.post<Medication>(this.url + residentId + "/medicaments", item).pipe(
+      tap((medicament) => {
+        this.toastService.success("Medicação criada com sucesso");
+      }),
+      catchError((err) => {
+        console.error(err);
+        this.toastService.error("Erro ao criar medicação");
+        return of({} as Medication);
+      })
+    );
   }
 
   fetchItem(id: number): Observable<Medication> {
