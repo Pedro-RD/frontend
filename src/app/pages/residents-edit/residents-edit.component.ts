@@ -55,10 +55,6 @@ export class ResidentsEditComponent implements OnInit, OnDestroy {
     this.isSubmitting = true;
     this.error = null;
 
-
-
-
-
     this.subs.push(
       this.residentsService.update({id:this.resident.id ,...residentDTO }).subscribe({
         next: () => this.router.navigate(['/residents']),

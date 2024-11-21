@@ -26,6 +26,9 @@ import {
 import {
   ResidentsAppointmentsDetailComponent
 } from './pages/residents-appointments-detail/residents-appointments-detail.component';
+import {
+  ResidentsAppointmentsEditComponent
+} from './pages/residents-appointments-edit/residents-appointments-edit.component';
 
 
 export const routes: Routes = [
@@ -33,13 +36,17 @@ export const routes: Routes = [
   {path: 'login', component: FormLoginComponent},
 
   {
-    path: 'residents/:residentId/appointments/:id',
-    component: ResidentsAppointmentsDetailComponent,
+    path: 'residents/:residentId/appointments/create',
+    component:ResidentsAppointmentsCreateComponent,
   },
 
   {
-    path: 'residents/:residentId/appointments/create',
-    component:ResidentsAppointmentsCreateComponent,
+    path: 'residents/:residentId/appointments/:appointmentId/edit',
+    component: ResidentsAppointmentsEditComponent,
+  },
+  {
+    path: 'residents/:residentId/appointments/:id',
+    component: ResidentsAppointmentsDetailComponent,
   },
 
   {

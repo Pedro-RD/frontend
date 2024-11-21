@@ -38,20 +38,23 @@ constructor(
 ) {}
 
   ngOnInit() {
-  const id = Number(this.route.snapshot.paramMap.get('id'));
-  const residentId= Number(this.route.snapshot.paramMap.get('residentId'));
-  if(id && residentId) {
-    this.subs.push(
-      this.residentAppointmentsService.fetchItem(id, residentId).subscribe({
-        next: (appointment) => (this.appointment = appointment),
-        error: (err) => {
-          console.error(err);
-          this.error = 'Consulta não encontrada';
-      },
-      })
-    );
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const residentId = Number(this.route.snapshot.paramMap.get('residentId'));
+    if (id && residentId) {
+      this.subs.push(
+        this.residentAppointmentsService.fetchItem(id, residentId).subscribe({
+          next: (appointment) => {
+            this.appointment = appointment;
+            this.resident = { id: residentId } as Resident; // Ensure resident is set
+          },
+          error: (err) => {
+            console.error(err);
+            this.error = 'Consulta não encontrada';
+          },
+        })
+      );
+    }
   }
-}
 
 ngOnDestroy() {
   this.subs.forEach(sub => sub.unsubscribe());
