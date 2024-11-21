@@ -1,146 +1,60 @@
-import {Component, computed, signal} from '@angular/core';
-import {FormResidentsComponent} from "../../components/residents/form-residents/form-residents.component";
-import {AsyncPipe} from '@angular/common';
-import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {SearchBoxComponent} from '../../components/forms/search-box/search-box.component';
-import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
-import {TableComponent} from '../../components/table/table/table.component';
-import {ColumnType, TableConfig} from '../../interfaces/table.interface';
-import {map, Observable, Subscription, switchMap, tap} from 'rxjs';
-import {Order} from '../../interfaces/paged-response.interface';
+import {Component, computed, input, OnInit, output, signal} from '@angular/core';
+import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {Medication} from '../../interfaces/medication';
-import {MedicationService} from '../../services/medication/medication.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {environment} from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-medication-create',
   standalone: true,
   imports: [
-    FormResidentsComponent,
-    AsyncPipe,
-    PaginatorComponent,
-    RouterLink,
-    SearchBoxComponent,
-    SelectLimitComponent,
-    TableComponent
+    RouterModule,
   ],
   templateUrl: './medication-create.component.html',
   styleUrl: './medication-create.component.css'
 })
-export class MedicationCreateComponent {
-  tableConfig: TableConfig<Medication> = {
-    columns: [
-      {
-        colKey: "name",
-        label: "Nome",
-        type: ColumnType.PROFILE,
-        classList: ["w-40"]
-      },
-      {
-        colKey: "instructions",
-        label: "Instruções",
-        classList: ["w-32"]
-      },
-      {
-        colKey: "resident",
-        label: "Residente",
-        classList: ["w-32"]
-      },
-      {
-        colKey: "quantity",
-        label: "Quantidade",
-        classList: ["w-32"]
-      },
-      {
-        colKey: "prescriptionQuantity",
-        label: "Prescrições",
-        classList: ["w-20"]
-      },
-      {
-        colKey: "dueDate",
-        label: "Validade",
-        type: ColumnType.DATE,
-        dateFormat: 'yyyy/MM/dd',
-        classList: ["w-32"]
-      },
-    ]
-  }
-  private medicationListSignal = signal<Medication[]>([]);
-  medicationList = computed(() => this.medicationListSignal());
-
-  private subscription?: Subscription;
-
-  constructor(private medicationService: MedicationService, private router: Router, private route: ActivatedRoute) {
-  }
+export class MedicationCreateComponent implements OnInit {
+  initialData = input<Medication | undefined>();
+  createRequested = output<Medication>();
+  name = new FormControl<string>('', [Validators.required]);
+  instructions = new FormControl<string>('');
+  quantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
+  prescriptionQuantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
+  dueDate = new FormControl<Date>( new Date(),[Validators.required]);
 
 
-  ngOnDestroy(): void {
-    this.medicationService.clearAll();
-    this.subscription?.unsubscribe();
-  }
-
-  get page(): Observable<number> {
-    return this.medicationService.page$;
-  }
-
-  get totalPages(): Observable<number> {
-    return this.medicationService.totalPages$;
-  }
-
-  get orderBy(): Observable<string> {
-    return this.medicationService.orderBy$;
-  }
-
-  get orderDirection(): Observable<Order> {
-    return this.medicationService.order$;
-  }
-
-  get limit(): Observable<number> {
-    return this.medicationService.limit$;
-  }
-
-  private residentId? : number
+  form: FormGroup = new FormGroup({
+    name: this.name,
+    instructions: this.instructions,
+    quantity: this.quantity,
+    prescriptionQuantity: this.prescriptionQuantity,
+    dueDate: this.dueDate,
+  });
 
   ngOnInit() {
-    let i = 0;
-    this.medicationService.query$
-      .pipe(
-        tap((q) => console.log("Query: ", q)),
-        switchMap(() => this.medicationService.fetchList  (parseInt(this.route.snapshot.paramMap.get("residentId")||"")||0)),
-        tap(console.log),
-        map((medication) => this.medicationListSignal.set(medication))
-      )
-      .subscribe();
-    this.route.snapshot.paramMap.get("residentId");
+    if (this.initialData()) {
+      const data = this.initialData()!;
+      this.name.setValue(data.name);
+      this.instructions.setValue(data.instructions);
+      this.quantity.setValue(data.quantity);
+      this.prescriptionQuantity.setValue(data.prescriptionQuantity);
+      this.dueDate.setValue(new Date(data.dueDate));
+    }
   }
 
-  handleSearch(searchTerm: string): void {
-    this.medicationService.setSearch(searchTerm);
+  onSubmit() {
+    console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
+    if (this.form.valid) {
+      this.createRequested.emit({
+        id: 0,
+        name: this.name.value!,
+        instructions: this.instructions.value!,
+        quantity: this.quantity.value!,
+        prescriptionQuantity: this.prescriptionQuantity.value!,
+        dueDate: this.dueDate.value!,
+      });
+    }
   }
-
-  handleNextPage() {
-    this.medicationService.nextPage();
-  }
-
-  handlePreviousPage() {
-    this.medicationService.prevPage();
-  }
-
-  handleHeaderClick(key: string) {
-    this.medicationService.setOrderBy(key);
-  }
-
-  handleRowClicked(key: number) {
-    this.router.navigate(["/medication/detail", key])
-  }
-
-  handleLimitChange(limit: number) {
-    this.medicationService.setPageSize(limit);
-  }
-
-  protected readonly Order = Order;
-
-  handleRowCliked($event: number) {
-
-  }
+  protected readonly environment = environment;
 }

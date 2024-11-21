@@ -8,7 +8,6 @@ export interface AppointmentDTO {
   startDate: Date,
   observation?: string,
   residentId: number,
-
 }
 
 export interface Appointment extends AppointmentDTO {
