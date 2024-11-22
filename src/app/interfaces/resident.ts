@@ -12,7 +12,7 @@ export interface ResidentDTO {
   dietRestrictions: string,
   allergies: string,
   bedNumber: number,
-  relatives: number[]
+  relatives: number[];
 }
 
 export interface Resident extends ResidentDTO {

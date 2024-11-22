@@ -47,6 +47,13 @@
     class="border-0 w-full p-0"
     label="Problemas de Mobilidade"/>
 
+<!--  &lt;!&ndash; Budget Information &ndash;&gt;-->
+<!--  <div class="sticky-note bg-yellow-200 p-4 mt-4 rounded absolute top-0 right-0">-->
+<!--    <h3 class="text-lg font-bold">Budget Information</h3>-->
+<!--    <p></p>-->
+<!--  </div>-->
+
+
   <!-- Informações Alimentares -->
   <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
   <div class="grid grid-cols-2 gap-5">
@@ -80,15 +87,13 @@
     label="Número de Cama"/>
 
   <!-- Parentes -->
-  <!-- True quando estiver resolvido -->
   <h2 class="card-title mb-3 mt-4">Parentes</h2>
-  <app-input
-    [required]="false"
+  <app-select-box
     [control]="relatives"
+    [data]="relativeOptions"
     class="border-0 w-full p-0"
-    label="IDs dos Parentes"
-    placeholder="IDs separados por vírgula"
-    type="text" />
+    label="Escolha os Parentes"
+    [multiple]="true"/>
 
   <!-- Botão de Submissão -->
   <div class="flex justify-center pt-10">

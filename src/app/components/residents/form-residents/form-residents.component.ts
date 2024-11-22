@@ -1,7 +1,7 @@
 import { Component, OnInit, output, input} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../forms/input/input.component';
-import { SelectBoxComponent } from '../../forms/select-box/select-box.component';
+import { SelectBoxComponent, SelectBoxData } from '../../forms/select-box/select-box.component';
 import { ButtonComponent } from '../../forms/button/button.component';
 import { ResidentDTO } from '../../../interfaces/resident';
 import { CivilStatus } from '../../../interfaces/civil-status.enum';
@@ -12,6 +12,7 @@ import {nationalities} from '../../../data/nationalities';
 import { Mobility } from '../../../interfaces/mobility.enum';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+
 
 
 @Component({
@@ -32,6 +33,9 @@ export class FormResidentsComponent implements OnInit {
   initialData = input<ResidentDTO | undefined>();
   createRequested = output<ResidentDTO>();
   bedNumbers: { value: string, label: string }[] = [];
+  relativeOptions: SelectBoxData<number[] | null>[] = [];
+
+
 
 
   // Definindo os controles do formulário com os tipos corretos
@@ -45,7 +49,7 @@ export class FormResidentsComponent implements OnInit {
   dietRestrictions = new FormControl<string>('');
   allergies = new FormControl<string>('');
   bedNumber = new FormControl('', [Validators.required]);
-  relatives = new FormControl<number[]>([]); // Lista de IDs de parentes como `number[]`
+  relatives = new FormControl<number[]>([], [Validators.required]); // Lista de IDs de parentes como `number[]`
 
   form: FormGroup = new FormGroup({
     name: this.name,
@@ -91,7 +95,10 @@ export class FormResidentsComponent implements OnInit {
       this.diet.setValue(data.diet);
       this.dietRestrictions.setValue(data.dietRestrictions);
       this.allergies.setValue(data.allergies);
-      this.relatives.setValue(data.relatives);
+
+
+
+
 
       firstValueFrom(this.http.get<{ beds: number[] }>(`${this.environment.apiUrl}residents/beds`))
         .then(response => {
@@ -116,6 +123,7 @@ export class FormResidentsComponent implements OnInit {
             }
 
             let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
+
             if (!nationalityOption) {
               nationalityOption = this.nationalities.find(n =>
                 n.value.toLowerCase() === data.nationality.toLowerCase() ||
@@ -131,6 +139,21 @@ export class FormResidentsComponent implements OnInit {
               });
               this.nationality.setValue(data.nationality);
             }
+          }
+        });
+
+      // Fetch relatives data
+      firstValueFrom(this.http.get<{ relatives: { id: number, name: string, email: string }[] }>(`${this.environment.apiUrl}users?role=relative`))
+        .then(response => {
+          if (response && Array.isArray(response.relatives)) {
+            this.relativeOptions = response.relatives.map(relative => ({
+              value: [relative.id],
+              label: `${relative.name} (${relative.email})`
+            }));
+
+            // Set initial relatives value
+            const relativeIds = data.relatives || [];
+            this.relatives.setValue(relativeIds);
           }
         });
     }
