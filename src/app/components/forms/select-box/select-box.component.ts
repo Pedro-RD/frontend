@@ -23,6 +23,7 @@ export class SelectBoxComponent<T> implements OnInit, OnDestroy {
   showErrorSignal = signal<boolean>(false);
   showError = computed(() => this.showErrorSignal());
 
+
   subject?: Subscription;
 
   ngOnDestroy(): void {

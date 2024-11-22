@@ -11,6 +11,7 @@ import {environment} from '../../../../environments/environment';
 import {nationalities} from '../../../data/nationalities';
 import { Mobility } from '../../../interfaces/mobility.enum';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class FormResidentsComponent implements OnInit {
   diet = new FormControl<Diet | ''>('', [Validators.required]);
   dietRestrictions = new FormControl<string>('');
   allergies = new FormControl<string>('');
-  bedNumber = new FormControl<string | null>(null, [Validators.required]);
+  bedNumber = new FormControl('', [Validators.required]);
   relatives = new FormControl<number[]>([]); // Lista de IDs de parentes como `number[]`
 
   form: FormGroup = new FormGroup({
@@ -83,7 +84,6 @@ export class FormResidentsComponent implements OnInit {
     if (this.initialData()) {
       const data = this.initialData()!;
       this.name.setValue(data.name);
-      console.log(typeof new Date(data.birthDate));
       this.fiscalId.setValue(data.fiscalId);
       this.birthDate.setValue(new Date(data.birthDate).toISOString().substring(0, 10));
       this.specificCare.setValue(data.specificCare as Mobility);
@@ -91,44 +91,48 @@ export class FormResidentsComponent implements OnInit {
       this.diet.setValue(data.diet);
       this.dietRestrictions.setValue(data.dietRestrictions);
       this.allergies.setValue(data.allergies);
-      this.fetchBedNumbers();
-      this.bedNumber.setValue(data.bedNumber.toString());
       this.relatives.setValue(data.relatives);
 
+      firstValueFrom(this.http.get<{ beds: number[] }>(`${this.environment.apiUrl}residents/beds`))
+        .then(response => {
+          if (response && Array.isArray(response.beds)) {
+            this.bedNumbers = response.beds.map(bed => ({ value: bed.toString(), label: bed.toString() }));
 
+            let bedOption = this.bedNumbers.find(b => b.value === data.bedNumber.toString());
+            if (!bedOption) {
+              bedOption = this.bedNumbers.find(b =>
+                b.value === data.bedNumber.toString() ||
+                b.label === data.bedNumber.toString()
+              );
+            }
+            if (bedOption) {
+              this.bedNumber.setValue(bedOption.value);
+            } else {
+              this.bedNumbers.push({
+                value: data.bedNumber.toString(),
+                label: data.bedNumber.toString()
+              });
+              this.bedNumber.setValue(data.bedNumber.toString());
+            }
 
-      let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
-
-      if (!nationalityOption) {
-        nationalityOption = this.nationalities.find(n =>
-          n.value.toLowerCase() === data.nationality.toLowerCase() ||
-          n.label.toLowerCase() === data.nationality.toLowerCase()
-        );
-      }
-
-
-      if (nationalityOption) {
-        this.nationality.setValue(nationalityOption.value);
-      } else {
-        this.nationalities.push({
-          value: data.nationality,
-          label: data.nationality
+            let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
+            if (!nationalityOption) {
+              nationalityOption = this.nationalities.find(n =>
+                n.value.toLowerCase() === data.nationality.toLowerCase() ||
+                n.label.toLowerCase() === data.nationality.toLowerCase()
+              );
+            }
+            if (nationalityOption) {
+              this.nationality.setValue(nationalityOption.value);
+            } else {
+              this.nationalities.push({
+                value: data.nationality,
+                label: data.nationality
+              });
+              this.nationality.setValue(data.nationality);
+            }
+          }
         });
-        this.nationality.setValue(data.nationality);
-      }
-    }
-  }
-
-  async fetchBedNumbers() {
-    try {
-      const response = await this.http.get<{ beds: number[] }>(`${this.environment.apiUrl}residents/beds`).toPromise();
-      if (response && Array.isArray(response.beds)) {
-        this.bedNumbers = response.beds.map(bed => ({ value: bed.toString(), label: bed.toString() }));
-      } else {
-        console.error('Fetched bed numbers are not an array:', response?.beds);
-      }
-    } catch (error) {
-      console.error('Error fetching bed numbers:', error);
     }
   }
 
@@ -144,7 +148,7 @@ export class FormResidentsComponent implements OnInit {
         diet: this.diet.value! as Diet,
         dietRestrictions: this.dietRestrictions.value!,
         allergies: this.allergies.value!,
-        bedNumber: parseInt(`${this.bedNumber.value}`),
+        bedNumber: parseInt(`${this.bedNumber.value!}`),
         relatives: this.relatives.value!,
         nationality: this.nationality.value!,
       });
