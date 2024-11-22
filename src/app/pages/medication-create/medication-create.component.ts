@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { concatMap, Subject, Subscription } from 'rxjs';
+// import { concatMap, Subject, Subscription } from 'rxjs';
+import {Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {Medication, MedicationDTO} from '../../interfaces/medication';
 import { MedicationService } from '../../services/medication/medication.service';
