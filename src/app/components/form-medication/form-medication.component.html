@@ -58,8 +58,11 @@
       placeholder="dd/mm/yyyy"
       type="date" />
 
-    <!-- Botão de Submissão -->
+    <!-- Botão de Submissão e voltar-->
     <div class="flex justify-center pt-10">
+      <a class="btn mr-5" [routerLink]="['/residents', residentId, 'medications']">
+        Voltar
+      </a>
       <app-button label="Guardar" type="submit" />
     </div>
   </form>

@@ -20,14 +20,17 @@ export class MedicationCreateComponent implements OnDestroy {
   private isSubmitting = false;
   private submitQueue = new Subject<Medication>();
   private submitSub: Subscription;
+  residentId: number;
 
   constructor(
     private medicationService: MedicationService,
     private router: Router,
     public route: ActivatedRoute,
   ) {
+    this.residentId = parseInt(this.route.snapshot.paramMap.get('residentId') || '0', 10);
     this.submitSub = this.submitQueue.subscribe({
-      next: () => this.router.navigate(['/medications']),
+      // next: () => this.router.navigate(['/medications']),
+      next: () => this.router.navigate([`/residents/${this.residentId}/medications`]),
       error: (err) => console.error(err),
     });
   }
@@ -50,7 +53,7 @@ export class MedicationCreateComponent implements OnDestroy {
     this.medicationCreateSub = this.medicationService.create(this.residentId,medication).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.router.navigate(['/medications']);
+        this.router.navigate([`/residents/${this.residentId}/medications`]);
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -59,7 +62,7 @@ export class MedicationCreateComponent implements OnDestroy {
     });
   }
 
-  get residentId(): number {
-    return parseInt(this.route.snapshot.params['residentId']) || 0;
-  }
+  // get residentId(): number {
+  //   return parseInt(this.route.snapshot.params['residentId']) || 0;
+  // }
 }

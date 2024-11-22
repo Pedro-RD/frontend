@@ -4,6 +4,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {InputComponent} from "../forms/input/input.component";
 import {Medication} from '../../interfaces/medication';
 import {environment} from '../../../environments/environment';
+import {RouterLink, UrlTree} from '@angular/router';
 
 @Component({
   selector: 'app-form-medication',
@@ -12,7 +13,8 @@ import {environment} from '../../../environments/environment';
     ButtonComponent,
     FormsModule,
     InputComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './form-medication.component.html',
   styleUrl: './form-medication.component.css'
@@ -60,4 +62,5 @@ export class FormMedicationComponent {
     }
   }
   protected readonly environment = environment;
+  residentId: any[] | string | UrlTree | null | undefined;
 }
