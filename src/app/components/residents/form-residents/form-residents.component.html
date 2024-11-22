@@ -1,5 +1,4 @@
 <form class="lg:px-36" (ngSubmit)="onSubmit()" [formGroup]="form">
-  <h1 class="card-title text-2xl mb-5">Criar Residente</h1>
 
   <!-- Dados Pessoais -->
   <h2 class="mb-3 card-title">Dados Pessoais</h2>
@@ -27,30 +26,26 @@
       label="Data de Nascimento"
       placeholder="dd/mm/yyyy"
       type="date" />
+
+    <app-select-box
+      [control]="civilStatus"
+      [data]="civilStatuses"
+      label="Estado Civil" />
+
+    <app-select-box
+      [control]="nationality"
+      [data]="nationalities"
+      label="Nacionalidade"
+    />
   </div>
 
   <!-- Informações de Saúde -->
   <h2 class="card-title mb-3 mt-4">Informações de Saúde</h2>
-  <app-input
+  <app-select-box
     [control]="specificCare"
+    [data]="specificCareOptions"
     class="border-0 w-full p-0"
-    label="Cuidados Específicos"
-    placeholder="Ex: Cuidados especiais"
-    type="text" />
-
-  <app-select-box
-    [control]="civilStatus"
-    [data]="civilStatuses"
-    label="Estado Civil"
-     />
-
-  <!-- Dados de Nacionalidade -->
-  <h2 class="card-title mb-3 mt-4">Dados de Nacionalidade</h2>
-  <app-select-box
-    [control]="nationality"
-    [data]="nationalities"
-    label="Nacionalidade"
-     />
+    label="Problemas de Mobilidade"/>
 
   <!-- Informações Alimentares -->
   <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
@@ -78,13 +73,11 @@
 
   <!-- Informações de Quarto -->
   <h2 class="card-title mb-3 mt-4">Informações de Quarto</h2>
-  <app-input
+  <app-select-box
     [control]="bedNumber"
-    [required]="true"
+    [data]="bedNumbers"
     class="border-0 w-full p-0"
-    label="Número da Cama"
-    placeholder="Ex: 12"
-    type="number" />
+    label="Número de Cama"/>
 
   <!-- Parentes -->
   <!-- True quando estiver resolvido -->
