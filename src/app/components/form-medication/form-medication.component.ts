@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core';
+import {Component, Input, input, output} from '@angular/core';
 import {ButtonComponent} from "../forms/button/button.component";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {InputComponent} from "../forms/input/input.component";
@@ -19,7 +19,11 @@ import {RouterLink, UrlTree} from '@angular/router';
   templateUrl: './form-medication.component.html',
   styleUrl: './form-medication.component.css'
 })
+
 export class FormMedicationComponent {
+  @Input() residentId?: number;
+
+
   initialData = input<Medication | undefined>();
   createRequested = output<Medication>();
   name = new FormControl<string>('', [Validators.required]);
@@ -62,5 +66,6 @@ export class FormMedicationComponent {
     }
   }
   protected readonly environment = environment;
-  residentId: any[] | string | UrlTree | null | undefined;
+  // residentId: any[] | string | UrlTree | null | undefined;
 }
+
