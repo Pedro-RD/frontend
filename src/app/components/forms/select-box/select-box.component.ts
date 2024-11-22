@@ -1,4 +1,4 @@
-import { Component, computed, Input, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -12,6 +12,7 @@ export interface SelectBoxData<T> {
   standalone: true,
   imports: [
     ReactiveFormsModule,
+
   ],
   templateUrl: './select-box.component.html',
   styleUrl: './select-box.component.css',
@@ -22,6 +23,7 @@ export class SelectBoxComponent<T> implements OnInit, OnDestroy {
   label = input<string>('');
   showErrorSignal = signal<boolean>(false);
   showError = computed(() => this.showErrorSignal());
+  multiple = input<boolean>(false);
 
 
   subject?: Subscription;
