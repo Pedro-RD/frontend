@@ -9,6 +9,8 @@ import { Diet } from '../../../interfaces/diet.enum';
 import { AutoCompleteComponent } from '../../forms/auto-complete/auto-complete.component';
 import {environment} from '../../../../environments/environment';
 import {nationalities} from '../../../data/nationalities';
+import { Mobility } from '../../../interfaces/mobility.enum';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -28,18 +30,20 @@ import {nationalities} from '../../../data/nationalities';
 export class FormResidentsComponent implements OnInit {
   initialData = input<ResidentDTO | undefined>();
   createRequested = output<ResidentDTO>();
+  bedNumbers: { value: string, label: string }[] = [];
+
 
   // Definindo os controles do formulário com os tipos corretos
   name = new FormControl<string>('', [Validators.required]);
   fiscalId = new FormControl<string>('', [Validators.required, Validators.pattern(/^\d+$/)]);
   birthDate = new FormControl<string>( new Date().toISOString().substring(0, 10),[Validators.required]);
-  specificCare = new FormControl<string>('');
+  specificCare = new FormControl<Mobility | ''>('', [Validators.required]);
   civilStatus = new FormControl<CivilStatus | ''>('', [Validators.required]);
   nationality = new FormControl('', [Validators.required]);
   diet = new FormControl<Diet | ''>('', [Validators.required]);
   dietRestrictions = new FormControl<string>('');
   allergies = new FormControl<string>('');
-  bedNumber = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
+  bedNumber = new FormControl<string | null>(null, [Validators.required]);
   relatives = new FormControl<number[]>([]); // Lista de IDs de parentes como `number[]`
 
   form: FormGroup = new FormGroup({
@@ -56,6 +60,12 @@ export class FormResidentsComponent implements OnInit {
     relatives: this.relatives,
   });
 
+
+  specificCareOptions = Object.values(Mobility).map(mobility => ({
+    value: mobility,
+    label: String(mobility).charAt(0).toUpperCase() + String(mobility).slice(1),
+  }));
+
   civilStatuses = Object.values(CivilStatus).map(status => ({
     value: status,
     label: String(status).charAt(0).toUpperCase() + String(status).slice(1),
@@ -66,6 +76,7 @@ export class FormResidentsComponent implements OnInit {
     label: String(diet).charAt(0).toUpperCase() + String(diet).slice(1),
   }));
 
+  constructor(private http: HttpClient) {}
 
 
   ngOnInit() {
@@ -75,13 +86,16 @@ export class FormResidentsComponent implements OnInit {
       console.log(typeof new Date(data.birthDate));
       this.fiscalId.setValue(data.fiscalId);
       this.birthDate.setValue(new Date(data.birthDate).toISOString().substring(0, 10));
-      this.specificCare.setValue(data.specificCare);
+      this.specificCare.setValue(data.specificCare as Mobility);
       this.civilStatus.setValue(data.civilStatus);
       this.diet.setValue(data.diet);
       this.dietRestrictions.setValue(data.dietRestrictions);
       this.allergies.setValue(data.allergies);
-      this.bedNumber.setValue(data.bedNumber);
+      this.fetchBedNumbers();
+      this.bedNumber.setValue(data.bedNumber.toString());
       this.relatives.setValue(data.relatives);
+
+
 
       let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
 
@@ -105,6 +119,19 @@ export class FormResidentsComponent implements OnInit {
     }
   }
 
+  async fetchBedNumbers() {
+    try {
+      const response = await this.http.get<{ beds: number[] }>(`${this.environment.apiUrl}residents/beds`).toPromise();
+      if (response && Array.isArray(response.beds)) {
+        this.bedNumbers = response.beds.map(bed => ({ value: bed.toString(), label: bed.toString() }));
+      } else {
+        console.error('Fetched bed numbers are not an array:', response?.beds);
+      }
+    } catch (error) {
+      console.error('Error fetching bed numbers:', error);
+    }
+  }
+
   onSubmit() {
     console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
     if (this.form.valid) {
@@ -112,7 +139,7 @@ export class FormResidentsComponent implements OnInit {
         name: this.name.value!,
         fiscalId: this.fiscalId.value!,
         birthDate: new Date(this.birthDate.value!),
-        specificCare: this.specificCare.value!,
+        specificCare: this.specificCare.value! as Mobility,
         civilStatus: this.civilStatus.value! as CivilStatus,
         diet: this.diet.value! as Diet,
         dietRestrictions: this.dietRestrictions.value!,
