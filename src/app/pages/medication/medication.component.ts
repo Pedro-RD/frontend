@@ -37,31 +37,31 @@ export class MedicationComponent implements OnInit, OnDestroy{
         type: ColumnType.PROFILE,
         classList: ["w-40"]
       },
-      {
-        colKey: "instructions",
-        label: "Instruções",
-        classList: ["w-32"]
-      },
-      {
-        colKey: "resident",
-        label: "Residente",
-        classList: ["w-32"]
-      },
+      // {
+      //   colKey: "instructions",
+      //   label: "Instruções",
+      //   classList: ["w-32"]
+      // },
+      // {
+      //   colKey: "resident",
+      //   label: "Residente",
+      //   classList: ["w-32"]
+      // },
       {
         colKey: "quantity",
         label: "Quantidade",
         classList: ["w-32"]
       },
       {
-        colKey: "prescriptions",
+        colKey: "prescriptionQuantity",
         label: "Prescrições",
         classList: ["w-20"]
       },
       {
-        colKey: "validity",
+        colKey: "dueDate",
         label: "Validade",
         type: ColumnType.DATE,
-        dateFormat: 'dd/MM/yyyy',
+        dateFormat: 'yyyy/MM/dd',
         classList: ["w-32"]
       },
     ]
@@ -100,14 +100,18 @@ export class MedicationComponent implements OnInit, OnDestroy{
     return this.medicationService.limit$;
   }
 
-  private residentId? : number
+  get residentId(): number {
+    return parseInt(this.route.snapshot.params['residentId']) || 0;
+  }
 
   ngOnInit() {
+    console.log('pagina medicacao');
     let i = 0;
     this.medicationService.query$
       .pipe(
         tap((q) => console.log("Query: ", q)),
         switchMap(() => this.medicationService.fetchList  (parseInt(this.route.snapshot.paramMap.get("residentId")||"")||0)),
+        tap(console.log),
         map((medication) => this.medicationListSignal.set(medication))
       )
       .subscribe();
@@ -139,6 +143,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
   }
 
   protected readonly Order = Order;
+
 }
 
 
