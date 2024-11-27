@@ -44,11 +44,11 @@
       placeholder="dd/mm/yyyy"
       type="date" />
 
-    <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
-      <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medications']">
+    <div class="flex flex-wrap justify-center gap-4 pt-10">
+      <a class="btn btn-secondary" [routerLink]="['/residents', residentId, 'medications']">
         Voltar
       </a>
-      <app-button label="Guardar" type="submit" />
+      <app-button class="success" label="Guardar"  type="submit" />
     </div>
   </form>
 </div>

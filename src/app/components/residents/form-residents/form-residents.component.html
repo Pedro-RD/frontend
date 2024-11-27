@@ -10,7 +10,7 @@
     placeholder="João Silva"
     type="text" />
 
-  <div class="grid grid-cols-2 gap-2">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <app-input
       [control]="fiscalId"
       [required]="true"
@@ -29,11 +29,13 @@
 
     <app-select-box
       [control]="civilStatus"
+      [required]="true"
       [data]="civilStatuses"
       label="Estado Civil" />
 
     <app-select-box
       [control]="nationality"
+      [required]="true"
       [data]="nationalities"
       label="Nacionalidade"
     />
@@ -44,55 +46,36 @@
 
   <!-- Informações de Saúde -->
   <h2 class="card-title mb-3 mt-4">Informações de Saúde</h2>
-  <div class="grid grid-cols-2 gap-2">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <!-- Problemas de Mobilidade -->
     <app-select-box
       [control]="mobility"
+      [required]="true"
       [data]="mobilityIssues"
       class="border-0 w-full p-0"
       label="Problemas de Mobilidade" />
 
     <!-- Exibição da Mensalidade -->
-    <div class="flex-nowrap text-nowrap">
+    <div class="mb-3 flex flex-col sm:flex-row items-start">
       <div class="form-control w-full">
-        <div class="input input-bordered flex items-center gap-2 text-nowrap flex-nowrap bg-gray-100 text-gray-800">
-        {{ mensalidade !== null ? (mensalidade + ' €') : 'Mensalidade' }}
+        <div class="input input-bordered flex items-center gap-2 bg-gray-100 text-gray-800">
+          {{ budget !== null ? (budget + ' €') : 'Mensalidade' }}
         </div>
       </div>
     </div>
   </div>
 
-
-
-
   <app-input
     [control]="specificCare"
+    [required]="false"
     class="border-0 w-full p-0"
     label="Cuidados Especiais"
     placeholder="Ex: Alzheimer"
     type="text" />
-  <br>
-  <hr>
-
-  <!-- Informações Alimentares -->
-  <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
-  <div class="grid grid-cols-2 gap-5">
-    <app-select-box
-      [control]="diet"
-      [data]="diets"
-      label="Dieta"
-      />
-
-    <app-input
-      [control]="dietRestrictions"
-      class="border-0 w-full p-0"
-      label="Restrições Alimentares"
-      placeholder="Ex: Intolerância a lactose"
-      type="text" />
-  </div>
 
   <app-input
     [control]="allergies"
+    [required]="false"
     class="border-0 w-full p-0"
     label="Alergias"
     placeholder="Ex: Amendoim, glúten"
@@ -100,21 +83,48 @@
   <br>
   <hr>
 
+  <!-- Informações Alimentares -->
+  <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <app-select-box
+      [control]="diet"
+      [required]="true"
+      [data]="diets"
+      label="Dieta"
+    />
+
+    <app-input
+      [control]="dietRestrictions"
+      [required]="false"
+      class="border-0 w-full p-0"
+      label="Restrições Alimentares"
+      placeholder="Ex: Intolerância a lactose"
+      type="text" />
+  </div>
+  <br>
+  <hr>
+
   <!-- Informações de Quarto -->
   <h2 class="card-title mb-3 mt-4">Informações de Quarto</h2>
-  <app-select-box
-    [control]="bedNumber"
-    [data]="bedNumbers"
-    class="border-0 w-full p-0"
-    label="Número de Cama"/>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <app-select-box
+      [control]="bedNumber"
+      [data]="bedNumbers"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Número de Cama" />
 
-  <app-select-box-multiple
-    [data]="relativeOptions"
-    [control]="relatives"/>
-
-
-  <!-- Botão de Submissão -->
-  <div class="flex justify-center pt-10">
-    <app-button label="Guardar" type="submit" />
+    <app-select-box-multiple
+      [data]="relativeOptions"
+      [required]="true"
+      [control]="relatives" />
+  </div>
+  <div class="flex flex-wrap justify-center mb-3 gap-4 pt-10">
+    <!-- Botão de Retrocesso -->
+    <button class="btn btn-secondary" (click)="goBack()">
+      Voltar
+    </button>
+    <!-- Botão de Submissão -->
+    <app-button label="Guardar" type="submit"></app-button>
   </div>
 </form>

@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, Input, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -21,6 +21,7 @@ export class SelectBoxMultipleComponent {
   label = input<string>('');
   showErrorSignal = signal<boolean>(false);
   showError = computed(() => this.showErrorSignal());
+  required = input<boolean>(false);
   subject?: Subscription;
 
   filteredData: SelectBoxData<number>[] = []; // Opções filtradas

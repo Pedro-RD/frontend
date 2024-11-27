@@ -30,11 +30,25 @@ import {
 import {
   ResidentsAppointmentsEditComponent
 } from './pages/residents-appointments-edit/residents-appointments-edit.component';
+import { ResidentsPaymentsComponent } from './pages/residents-payments/residents-payments.component';
+import {
+  ResidentsPaymentsDetailsComponent
+} from './pages/residents-payments-details/residents-payments-details.component';
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+  {
+    path: 'residents/:residentId/payments/:id',
+    component: ResidentsPaymentsDetailsComponent
+  },
+
+  {
+   path: 'residents/:residentId/payments',
+    component: ResidentsPaymentsComponent,
+  },
 
   {
     path: 'residents/:residentId/appointments/create',
