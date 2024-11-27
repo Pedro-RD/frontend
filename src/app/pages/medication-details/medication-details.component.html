@@ -1,0 +1,57 @@
+<div class="container px-4 sm:px-0 mx-auto">
+  <form class="lg:px-36 flex flex-col" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <h1 class="card-title text-2xl mb-5 text-center">Criar Medicamento</h1>
+
+    <h2 class="mb-3 card-title">Informações do Medicamento</h2>
+    <app-input
+      [control]="name"
+      [required]="true"
+      class="border-0 w-full p-0 mb-4"
+      label="Nome"
+      placeholder="Nome do Medicamento"
+      type="text" />
+
+    <app-input
+      [control]="instructions"
+      class="border-0 w-full p-0 mb-4"
+      label="Instruções"
+      placeholder="Ex: Tomar após as refeições"
+      type="text" />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+      <app-input
+        [control]="quantity"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Quantidade"
+        placeholder="Quantidade em stock"
+        type="number" />
+
+      <app-input
+        [control]="prescriptionQuantity"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Quantidade Prescrita"
+        placeholder="Quantidade na receita"
+        type="number" />
+    </div>
+
+    <app-input
+      [control]="dueDate"
+      [required]="true"
+      class="border-0 w-full p-0 mb-4"
+      label="Data de Validade"
+      placeholder="dd/mm/yyyy"
+      type="date" />
+
+    <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
+      <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medications']">
+        Voltar
+      </a>
+      <app-button label="Guardar" type="submit" />
+      <app-button label="Administrar Medicamento" type="submit" />
+    </div>
+  </form>
+  <!--  <button (click)="selectedMedication && showModal(selectedMedication)">Show Modal</button>-->
+  <!--  <app-medication-detail-modal/>-->
+</div>

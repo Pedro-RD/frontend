@@ -21,6 +21,7 @@ import { Routes } from '@angular/router';
 import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
 import {MedicationCreateComponent} from './pages/medication-create/medication-create.component';
+import {MedicationDetailsComponent} from './pages/medication-details/medication-details.component';
 import {
   ResidentsAppointmentsCreateComponent
 } from './pages/residents-appointments-create/residents-appointments-create.component';
@@ -134,6 +135,11 @@ export const routes: Routes = [
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager]}
   },
+  {
+    path: 'residents/:residentId/medications/:id',
+    component: MedicationDetailsComponent,
+  },
+
   {path: 'forbidden', component: NotAllowedComponent},
   {path: '**', pathMatch: "full", component: NotFoundComponent}
 ];
