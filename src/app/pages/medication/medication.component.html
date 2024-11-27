@@ -30,4 +30,6 @@
       [pageNumber]="(page | async) || 1"
       [totalPages]="(totalPages | async) || 1"/>
   </section>
+  <button (click)="selectedMedication && showModal(selectedMedication)">Show Modal</button>
+  <app-medication-detail-modal/>
 </div>
