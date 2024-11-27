@@ -13,7 +13,7 @@ import { Mobility } from '../../../interfaces/mobility.enum';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { SelectBoxMultipleComponent } from '../../forms/select-box-multiple/select-box-multiple.component';
-
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -32,15 +32,13 @@ import { SelectBoxMultipleComponent } from '../../forms/select-box-multiple/sele
   styleUrls: ['./form-residents.component.css'],
 })
 export class FormResidentsComponent implements OnInit {
+
+
   initialData = input<ResidentDTO | undefined>();
   createRequested = output<ResidentDTO>();
   bedNumbers: { value: string, label: string }[] = [];
   relativeOptions: { value: number, label: string }[] = [];
-  mensalidade: number | null = null;
-
-
-
-
+  budget: number | null = null;
 
 
   // Definindo os controles do formulário com os tipos corretos
@@ -72,6 +70,9 @@ export class FormResidentsComponent implements OnInit {
     mobility: this.mobility,
   });
 
+  goBack() {
+    this.location.back();
+  }
 
   mobilityIssues = Object.values(Mobility).map(mobility => ({
     value: mobility,
@@ -88,7 +89,7 @@ export class FormResidentsComponent implements OnInit {
     label: String(diet).charAt(0).toUpperCase() + String(diet).slice(1),
   }));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private location: Location) {}
 
 
   ngOnInit() {
@@ -97,7 +98,7 @@ export class FormResidentsComponent implements OnInit {
       if (selectedMobility) {
         this.fetchMensalidade(selectedMobility);
       } else {
-        this.mensalidade = null;
+        this.budget = null;
       }
     });
 
@@ -218,14 +219,14 @@ export class FormResidentsComponent implements OnInit {
       );
 
       if (response && typeof response.budget === 'number') {
-        this.mensalidade = response.budget; // Atualizar mensalidade com o valor retornado
+        this.budget = response.budget; // Atualizar mensalidade com o valor retornado
       } else {
         console.error('Resposta inesperada:', response);
-        this.mensalidade = null;
+        this.budget = null;
       }
     } catch (error) {
       console.error('Erro ao buscar a mensalidade:', error);
-      this.mensalidade = null;
+      this.budget = null;
     }
   }
   onSubmit() {
