@@ -1,0 +1,109 @@
+<form class="lg:px-36" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <h1 class="card-title text-2xl mb-5">Criar Relatório de Saúde</h1>
+
+  <!-- Dados do Relatório de Saúde -->
+  <h2 class="mb-3 card-title">Informações de Saúde</h2>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <app-input
+      [control]="arterialBloodPressure"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Pressão Arterial"
+      placeholder="Pressão arterial (mmHg)"
+      type="text" />
+    
+    <app-input
+      [control]="temperature"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Temperatura"
+      placeholder="Temperatura (°C)"
+      type="number" />
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <app-input
+      [control]="height"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Altura"
+      placeholder="Altura (cm)"
+      type="number" />
+    
+    <app-input
+      [control]="weight"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Peso"
+      placeholder="Peso (kg)"
+      type="number" />
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <app-input
+      [control]="respiratoryRate"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Frequência Respiratória"
+      placeholder="Frequência respiratória (movimentos/minuto)"
+      type="number" />
+    
+    <app-input
+      [control]="heartRate"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Frequência Cardíaca"
+      placeholder="Frequência cardíaca (bpm)"
+      type="number" />
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <app-input
+      [control]="bloodGlucoseLevel"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Nível de Glicose no Sangue"
+      placeholder="Nível de glicose (mg/dL)"
+      type="number" />
+    
+    <app-input
+      [control]="mobility"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Mobilidade"
+      placeholder="Mobilidade (descrever a capacidade de movimentação)"
+      type="text" />
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <app-input
+      [control]="hydrationLevel"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Nível de Hidratação"
+      placeholder="Nível de hidratação"
+      type="text" />
+    
+    <app-input
+      [control]="cognitiveEmotionalAssessment"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Avaliação Cognitiva e Emocional"
+      placeholder="Avaliação cognitiva e emocional (detalhes)"
+      type="text" />
+
+    <app-input
+      [control]="bloodOxygenLevel"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Nível de Oxigénio"
+      placeholder="Nível de oxigênio (em %)"
+      type="number" />
+  </div>
+
+  <!-- Botão de Submissão -->
+  <div class="flex justify-center pt-10">
+    <app-button label="Guardar" type="submit" />
+  </div>
+</form>

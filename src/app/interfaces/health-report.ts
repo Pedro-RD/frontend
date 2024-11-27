@@ -1,20 +1,17 @@
-import { Resident } from "./resident";
-
 export interface HealthReportDTO {
   arterialBloodPressure: string;
   temperature: number;
   height: number;
   weight: number;
   respiratoryRate: number;
-  heartRate: string;
+  heartRate: number;
   bloodGlucoseLevel: number;
   mobility: string;
   hydrationLevel: string;
-  cognitiveEmotionalAssessment: number;
+  cognitiveEmotionalAssessment: string;
   bloodOxygenLevel: number;
-  resident: Resident | null;
 }
 
 export interface HealthReport extends HealthReportDTO {
-  id: number; // Propriedade obrigatória
+  id: number;
 }

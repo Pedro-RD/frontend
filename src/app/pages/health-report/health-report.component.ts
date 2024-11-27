@@ -1,16 +1,16 @@
 import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
 import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
 import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {HealthReportService} from '../../services/healthreport/healthreport.service';
+import {HealthReportService} from '../../services/health-report/health-report.service';
 import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
 import {TableComponent} from '../../components/table/table/table.component';
 import {TableConfig} from '../../interfaces/table.interface';
-import {HealthReport} from '../../interfaces/healthreport';
+import {HealthReport} from '../../interfaces/health-report';
+import { of } from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
-import {Router, RouterLink} from '@angular/router';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-healthreport',
@@ -23,10 +23,9 @@ import {Router, RouterLink} from '@angular/router';
     SelectLimitComponent,
     RouterLink,
   ],
-  templateUrl: './healthreport.component.html',
-  styleUrl: './healthreport.component.css'
+  templateUrl: './health-report.component.html',
 })
-export class HealthReportComponent implements OnInit, OnDestroy{
+export class HealthReportComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig<HealthReport> = {
     columns: [
       {
@@ -50,15 +49,18 @@ export class HealthReportComponent implements OnInit, OnDestroy{
         classList: ["w-40"]
       }
     ]
-    
-  }
-  private healthreportListSignal = signal<HealthReport[]>([]);
+  };
+
+  private healthreportListSignal = signal<HealthReport[]>([]); // Usando a nova API de signals do Angular
   healthreportList = computed(() => this.healthreportListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private healthreportService: HealthReportService, private router: Router) {
-  }
+  constructor(
+    private healthreportService: HealthReportService,
+    private router: Router,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnDestroy(): void {
     this.healthreportService.clearAll();
@@ -85,13 +87,24 @@ export class HealthReportComponent implements OnInit, OnDestroy{
     return this.healthreportService.limit$;
   }
 
+  private residentId?: number;
+
   ngOnInit() {
-    let i = 0;
     this.healthreportService.query$
       .pipe(
-        tap((q) => console.log("Query: ", q)),
-        switchMap(() => this.healthreportService.fetchList()),
-        map((healthreport) => this.healthreportListSignal.set(healthreport))
+        switchMap(() => {
+          const residentId = parseInt(this.route.snapshot.paramMap.get("residentId") || "", 10);
+
+          // Verificar se o residentId é válido
+          if (!residentId) {
+            console.error("Resident ID is missing or invalid");
+            return of([]); // Retorna um array vazio em caso de erro
+          }
+
+          // Chama o serviço para buscar os relatórios de saúde apenas para o residente específico
+          return this.healthreportService.fetchList(residentId);
+        }),
+        map((reports) => this.healthreportListSignal.set(reports)) // Atualiza a lista de relatórios
       )
       .subscribe();
   }
@@ -113,7 +126,12 @@ export class HealthReportComponent implements OnInit, OnDestroy{
   }
 
   handleRowCliked(key: number) {
-    this.router.navigate(["/healthreport/detail", key])
+    const residentId = this.route.snapshot.paramMap.get("residentId"); // Obtém o residentId da rota
+    if (residentId) {
+      this.router.navigate([`residents/${residentId}/health-reports/${key}`]);
+    } else {
+      console.error("Resident ID não encontrado na rota.");
+    }
   }
 
   handleLimitChange(limit: number) {
@@ -122,6 +140,3 @@ export class HealthReportComponent implements OnInit, OnDestroy{
 
   protected readonly Order = Order;
 }
-
-
-
