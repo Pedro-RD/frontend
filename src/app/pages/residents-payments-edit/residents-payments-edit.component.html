@@ -1,1 +1,12 @@
-<p>residents-payments-edit works!</p>
+@if (resident && payment) {
+  <app-form-residents-payment
+    [initialData]="payment || undefined"
+    (createRequested)="onFormSubmit($event)"
+  />
+} @else {
+  <app-loading />
+}
+
+@if(error ) {
+  <p class="error">{{ error }}</p>
+}

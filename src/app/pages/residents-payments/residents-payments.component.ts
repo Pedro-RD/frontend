@@ -44,7 +44,7 @@ tableConfig: TableConfig<Payment> = {
     },
     {
       colKey: "type",
-      label: "Meio de Pagamento",
+      label: "Tipo de Pagamento",
       classList: ["w-32"]
     },
     {

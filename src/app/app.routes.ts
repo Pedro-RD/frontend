@@ -34,12 +34,26 @@ import { ResidentsPaymentsComponent } from './pages/residents-payments/residents
 import {
   ResidentsPaymentsDetailsComponent
 } from './pages/residents-payments-details/residents-payments-details.component';
+import {
+  ResidentsPaymentsCreateComponent
+} from './pages/residents-payments-create/residents-payments-create.component';
+import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
 
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+  {
+    path: 'residents/:residentId/payments/create',
+    component: ResidentsPaymentsCreateComponent,
+  },
+
+  {
+    path: 'residents/:residentId/payments/:paymentId/edit',
+    component: ResidentsPaymentsEditComponent
+  },
 
   {
     path: 'residents/:residentId/payments/:id',
@@ -67,21 +81,21 @@ export const routes: Routes = [
     path: 'residents/:residentId/appointments',
     component: ResidentsAppointmentsComponent,
   },
-  { 
-    path: 'residents/:residentId/health-reports/create', 
-    component: HealthReportCreateComponent 
+  {
+    path: 'residents/:residentId/health-reports/create',
+    component: HealthReportCreateComponent
   },
-  { 
-    path: 'residents/:residentId/health-reports/:reportId/edit', 
-    component: HealthReportEditComponent 
+  {
+    path: 'residents/:residentId/health-reports/:reportId/edit',
+    component: HealthReportEditComponent
   },
-  { 
-    path: 'residents/:residentId/health-reports/:id', 
-    component: HealthReportDetailComponent 
+  {
+    path: 'residents/:residentId/health-reports/:id',
+    component: HealthReportDetailComponent
   },
-  { 
-    path: 'residents/:residentId/health-reports', 
-    component: HealthReportComponent 
+  {
+    path: 'residents/:residentId/health-reports',
+    component: HealthReportComponent
   },
   {
     path: 'residents',
