@@ -5,24 +5,6 @@
         <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Perfil do Residente</h2>
 
         <div class="flex flex-wrap justify-center md:justify-end gap-2 mb-4">
-          <a [routerLink]="['/residents', resident.id, 'healthreport']" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-primary-dark">
-            <!-- Ícone de Relatórios Médicos -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M8 9a3 3 0 110-6 3 3 0 010 6zm5-3a2 2 0 112 2 2 2 0 01-2-2zm5 5a7 7 0 01-14 0V5a7 7 0 0114 0v6zm-6 5a6 6 0 100-12 6 6 0 000 12z" />
-            </svg>
-            Relatórios
-          </a>
-          <a [routerLink]="['/residents', resident.id, 'medicaments']"  class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base hover:bg-secondary-dark">
-            <!-- Ícone de Medicação -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M12.293 7.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414l6-6zM9 11a2 2 0 10-2-2 2 2 0 002 2z" />
-            </svg>
-            Medicação
-          </a>
-          <a [routerLink]="['/residents', resident.id, 'appointments']" class="btn btn-accent inline-flex items-center gap-1 text-xs md:text-base hover:bg-accent-dark">
-            <!-- Ícone de Consultas -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M10 3a1 1 0 01.894.553l3 6a1 1 0 01-.042.967l-3 6A1 1 0 019 16H5a1 1 0 01-.894-1.447l3-6A1 1 0 019 7h4a1 1 0 01.894-.553zM9 4.5a.5.5 0 100 1 .5.5 0 000-1zm1 10a.5.5 0 100 1 .5.5 0 000-1z" />
           <!-- Botão de Saúde com Dropdown -->
           <div class="dropdown">
             <label tabindex="0" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base">
@@ -68,7 +50,6 @@
           <a [routerLink]="['/residents', resident.id, 'messages']" class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path d="M3.75 3.75a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 .75.75v12a.75.75 0 0 1-.75.75H6.061l-2.44 2.44a.75.75 0 0 1-1.28-.53v-14a.75.75 0 0 1 .75-.75Z"/>
-
             </svg>
             Mensagens
           </a>
@@ -118,9 +99,9 @@
         <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
           <div class="avatar flex-shrink-0">
             <div class="w-32 h-32 md:w-72 md:h-72 rounded-lg ring ring-neutral ring-offset-base-100 ring-offset-2 overflow-hidden">
-<!--              <img [src]="resident.image || 'https://via.placeholder.com/150'"-->
-<!--                   alt="Foto do Residente"-->
-<!--                   class="object-cover w-full h-full max-w-full" />-->
+              <!--              <img [src]="resident.image || 'https://via.placeholder.com/150'"-->
+              <!--                   alt="Foto do Residente"-->
+              <!--                   class="object-cover w-full h-full max-w-full" />-->
             </div>
           </div>
 
@@ -179,3 +160,4 @@
 <ng-template #errorTpl>
   <p class="text-error p-4">{{ error }}</p>
 </ng-template>
+
