@@ -18,8 +18,8 @@
               {{ payment.type }}
             </p>
             <p>
-              <span class="font-bold">Data:</span>
-              {{ payment.date | date: 'dd MMMM yyyy' }}
+              <span class="font-bold">Data de Pagamento:</span>
+              {{ payment.date | date: 'dd MMMM yyyy'  }}
             </p>
           </div>
           <div class="space-y-2">
@@ -47,7 +47,7 @@
             Voltar
           </button>
           <a
-            [routerLink]="['/payments', payment.id, 'edit']"
+            [routerLink]="['/residents', resident?.id, 'payments', payment.id, 'edit']"
             class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark"
           >
             <!-- Ícone de Editar -->

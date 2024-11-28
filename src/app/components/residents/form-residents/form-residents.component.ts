@@ -96,7 +96,7 @@ export class FormResidentsComponent implements OnInit {
     // Buscar mensalidade ao alterar mobilidade
     this.mobility.valueChanges.subscribe((selectedMobility) => {
       if (selectedMobility) {
-        this.fetchMensalidade(selectedMobility);
+        this.fetchBudget(selectedMobility);
       } else {
         this.budget = null;
       }
@@ -212,7 +212,7 @@ export class FormResidentsComponent implements OnInit {
   }
 
 
-  private async fetchMensalidade(mobility: Mobility) {
+  private async fetchBudget(mobility: Mobility) {
     try {
       const response = await firstValueFrom(
         this.http.get<{ budget: number }>(`${environment.apiUrl}residents/budget?mobility=${mobility}`)
@@ -229,6 +229,8 @@ export class FormResidentsComponent implements OnInit {
       this.budget = null;
     }
   }
+
+
   onSubmit() {
     console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
 

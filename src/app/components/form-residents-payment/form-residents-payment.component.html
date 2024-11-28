@@ -1,1 +1,73 @@
-<p>form-residents-payment works!</p>
+<form class="lg:px-36" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!-- Informações do Pagamento -->
+  <h2 class="mb-3 card-title">Informações do Pagamento</h2>
+
+  <app-input
+    [control]="amount"
+    [required]="true"
+    class="border-0 w-full p-0"
+    [ngClass]="{ 'bg-gray-200 text-gray-500': amount.disabled }"
+  label="Montante"
+  placeholder="Ex: 1200"
+  type="number">
+  </app-input>
+
+  <!-- Campo Data -->
+  <app-input
+    [control]="date"
+    [required]="true"
+    class="border-0 w-full p-0"
+    label="Data"
+    placeholder="dd/mm/yyyy"
+    type="date">
+  </app-input>
+
+  <!-- Seção Tipo de Pagamento: Apenas no modo de criação -->
+  <ng-container *ngIf="!isEditMode">
+    <app-select-box
+      [control]="type"
+      [required]="true"
+      [data]="types"
+      label="Tipo de Pagamento">
+    </app-select-box>
+
+    <div *ngIf="type.value === 'Mensalidade'" class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <app-input
+        [control]="month"
+        class="border-0 w-full p-0"
+        label="Mês"
+        [required]="true"
+        placeholder="Ex: 11"
+        type="number">
+      </app-input>
+
+      <app-input
+        [control]="year"
+        class="border-0 w-full p-0"
+        label="Ano"
+        [required]="true"
+        placeholder="Ex: 2029"
+        type="number">
+      </app-input>
+    </div>
+  </ng-container>
+
+  <!-- Campo Observação -->
+  <app-input
+    [control]="observation"
+    [required]="false"
+    class="border-0 w-full p-0"
+    label="Observação"
+    placeholder="Escreva aqui alguma observação"
+    type="textarea">
+  </app-input>
+
+  <!-- Botões de Ação -->
+  <div class="flex flex-wrap justify-center mb-3 gap-4 pt-10">
+    <!-- Botão de Retrocesso -->
+    <button class="btn btn-secondary" type="button" (click)="goBack()">Voltar</button>
+
+    <!-- Botão de Submissão -->
+    <app-button label="Guardar" type="submit"></app-button>
+  </div>
+</form>
