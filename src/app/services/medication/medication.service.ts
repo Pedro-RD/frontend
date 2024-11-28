@@ -84,6 +84,7 @@ export class MedicationService extends ListService<Medication> {
 
   getMedicationById(residentId: string, medicationId: string): Observable<Medication> {
     return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
+      tap(console.log),
       catchError((err) => {
         console.error(err);
         this.toastService.error('Erro ao buscar medicação');
