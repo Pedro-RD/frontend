@@ -7,6 +7,7 @@ import { ResidentAppointmentsService } from '../../services/residentsAppointment
 import { DatePipe, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Resident } from '../../interfaces/resident';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -33,9 +34,14 @@ private subs: Subscription[] = [];
 constructor(
   private residentAppointmentsService: ResidentAppointmentsService,
   private route: ActivatedRoute,
-  private router: Router
+  private router: Router,
+  private location: Location
 
 ) {}
+
+  goBack() {
+    this.location.back();
+  }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));

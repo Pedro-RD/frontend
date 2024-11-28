@@ -38,9 +38,15 @@
     placeholder="Ex: Detalhes adicionais"
     type="text" />
 
-  <!-- Botão de Submissão -->
-  <div class="flex justify-center pt-10">
-    <app-button label="Guardar" type="submit" />
+  <div class="flex flex-wrap justify-center gap-4 pt-10">
+    <!-- Botão de Retrocesso -->
+    <button class="btn btn-secondary" (click)="goBack()">
+      Voltar
+    </button>
+
+    <!-- Botão de Submissão -->
+    <app-button label="Guardar" type="submit"></app-button>
   </div>
+
 </form>
 

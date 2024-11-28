@@ -1,0 +1,59 @@
+<label class="form-control w-full">
+  <label class="w-full flex items-center">
+    <span class="label-text">{{ label() }}</span>
+  </label>
+
+  <!-- Botão para abrir/fechar o dropdown -->
+  <button
+    type="button"
+    class="select select-bordered grow flex justify-between items-center"
+    (click)="toggleDropdown()"
+    [ngClass]="{ 'dropdown-open': isDropdownOpen }"
+  >
+    <span>Parente Responsável pelo Residente</span>
+  </button>
+
+  <!-- Dropdown -->
+  <div
+    *ngIf="isDropdownOpen"
+    class="relative mt-2 border border-gray-300 rounded-md shadow-md bg-white z-10"
+  >
+    <!-- Barra de pesquisa -->
+    <div class="p-2">
+      <input
+        type="text"
+        class="input input-bordered w-full pl-10"
+        placeholder="Pesquisar..."
+        (input)="onSearch($event)"
+      />
+    </div>
+
+    <!-- Lista de checkboxes -->
+    <div class="max-h-60 overflow-y-auto p-2">
+      <div
+        *ngFor="let item of filteredData; trackBy: trackByValue"
+        class="flex items-center mb-2"
+      >
+        <input
+          id="checkbox-{{ item.value }}"
+          type="checkbox"
+          class="checkbox checkbox-primary"
+          [value]="item.value"
+          (change)="onCheckboxChange(item.value, $event)"
+          [checked]="isChecked(item.value)"
+        />
+        <label
+          for="checkbox-{{ item.value }}"
+          class="ml-2 text-sm font-medium text-gray-700 cursor-pointer"
+        >
+          {{ item.label }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="showError()" class="label">
+    <span class="label-text-alt text-error">Este campo é obrigatório</span>
+  </div>
+</label>
