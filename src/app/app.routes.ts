@@ -21,6 +21,7 @@ import { Routes } from '@angular/router';
 import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
 import {MedicationCreateComponent} from './pages/medication-create/medication-create.component';
+import {MedicationDetailsComponent} from './pages/medication-details/medication-details.component';
 import {
   ResidentsAppointmentsCreateComponent
 } from './pages/residents-appointments-create/residents-appointments-create.component';
@@ -140,23 +141,28 @@ export const routes: Routes = [
     component: UsersEditComponent,
   },
   {
-    path: 'residents/:residentId/medications',
+    path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {
-    path: 'residents/:residentId/medications/create',
+    path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager]}
   },
   {
-    path: 'residents/:residentId/medications/:id/edit',
+    path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationCreateComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager]}
   },
+  {
+    path: 'residents/:residentId/medicaments/:id',
+    component: MedicationDetailsComponent,
+  },
+
   {path: 'forbidden', component: NotAllowedComponent},
   {path: '**', pathMatch: "full", component: NotFoundComponent}
 ];

@@ -31,8 +31,7 @@ export class MedicationCreateComponent implements OnDestroy {
   ) {
     this.residentId = parseInt(this.route.snapshot.paramMap.get('residentId') || '0', 10);
     this.submitSub = this.submitQueue.subscribe({
-      // next: () => this.router.navigate(['/medications']),
-      next: () => this.router.navigate([`/residents/${this.residentId}/medications`]),
+      next: () => this.router.navigate([`/residents/${this.residentId}/medicaments`]),
       error: (err) => console.error(err),
     });
   }
@@ -55,7 +54,7 @@ export class MedicationCreateComponent implements OnDestroy {
     this.medicationCreateSub = this.medicationService.create(this.residentId,medication).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.router.navigate([`/residents/${this.residentId}/medications`]);
+        this.router.navigate([`/residents/${this.residentId}/medicaments`]);
       },
       error: (err) => {
         this.isSubmitting = false;

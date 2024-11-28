@@ -1,5 +1,4 @@
 import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
-import {MedicationTableComponent} from '../../components/old/medication-table/medication-table.component';
 import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
 import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
 import {MedicationService} from '../../services/medication/medication.service';
@@ -11,19 +10,21 @@ import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-
+import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-medication',
   standalone: true,
   imports: [
-    MedicationTableComponent,
     SearchBoxComponent,
     PaginatorComponent,
     TableComponent,
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
+    MedicationDetailModalComponent,
+    NgClass
   ],
   templateUrl: './medication.component.html',
   styleUrl: './medication.component.css'
@@ -134,8 +135,12 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.medicationService.setOrderBy(key);
   }
 
-  handleRowClicked(key: number) {
-    this.router.navigate(["/medication/detail", key])
+  // handleRowClicked(key: number) {
+  //   this.router.navigate(["/medicaments/detail", key])
+  // }
+
+  handleRowClicked(medicationId: number) {
+    this.router.navigate([`/residents/${this.residentId}/medicaments/${medicationId}`]);
   }
 
   handleLimitChange(limit: number) {
@@ -143,7 +148,11 @@ export class MedicationComponent implements OnInit, OnDestroy{
   }
 
   protected readonly Order = Order;
+  selectedMedication: any;
 
+  showModal(selectedMedication: any) {
+    return false;
+  }
 }
 
 

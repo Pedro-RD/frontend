@@ -11,5 +11,5 @@ export interface MedicationDTO {
 
 export interface Medication extends MedicationDTO {
   id: number,
-  resident?: ResidentDTO; // Tornando a propriedade opcional
+  resident?: ResidentDTO;
 }
