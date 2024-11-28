@@ -118,25 +118,25 @@ export const routes: Routes = [
     component: UsersEditComponent,
   },
   {
-    path: 'residents/:residentId/medications',
+    path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {
-    path: 'residents/:residentId/medications/create',
+    path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager]}
   },
   {
-    path: 'residents/:residentId/medications/:id/edit',
+    path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationCreateComponent,
     // canActivate: [authGuard],
     // data: {roles: [Role.Admin, Role.Manager]}
   },
   {
-    path: 'residents/:residentId/medications/:id',
+    path: 'residents/:residentId/medicaments/:id',
     component: MedicationDetailsComponent,
   },
 

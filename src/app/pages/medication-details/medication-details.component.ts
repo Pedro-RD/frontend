@@ -1,73 +1,57 @@
-import { Component } from '@angular/core';
-import {ButtonComponent} from "../../components/forms/button/button.component";
-import {Input, input, output} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Medication} from '../../interfaces/medication';
-import {environment} from '../../../environments/environment';
-import {RouterLink} from '@angular/router';
-import {InputComponent} from '../../components/forms/input/input.component';
-// import {MedicationDetailModalComponent} from '../medication-detail-modal/medication-detail-modal.component';
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Medication } from '../../interfaces/medication';
+import { MedicationService } from '../../services/medication/medication.service';
+import { DatePipe, NgIf } from '@angular/common';
+import { LoadingComponent } from '../../components/forms/loading/loading.component';
+import {ModalConfirmComponent} from '../../components/forms/modal-confirm/modal-confirm.component';
+import {ButtonComponent} from '../../components/forms/button/button.component';
+
 
 @Component({
   selector: 'app-medication-details',
+  templateUrl: './medication-details.component.html',
   standalone: true,
   imports: [
-    ButtonComponent,
-    FormsModule,
+    DatePipe,
     RouterLink,
-    ReactiveFormsModule,
-    InputComponent,
+    CommonModule,
+    ModalConfirmComponent,
+    LoadingComponent,
+    NgIf,
+    ButtonComponent,
   ],
-  templateUrl: './medication-details.component.html',
-  styleUrl: './medication-details.component.css'
+  styleUrls: ['./medication-details.component.css']
 })
+export class MedicationDetailsComponent implements OnInit {
+  medication?: Medication;
+  error?: string;
+  residentId?: string | null;
 
-export class MedicationDetailsComponent {
-  selectedMedication?: Medication;
-  isModalVisible = false;
+  constructor(
+    private route: ActivatedRoute,
+    private medicationService: MedicationService
+  ) {}
 
-  @Input() residentId?: number;
-
-  initialData = input<Medication | undefined>();
-  createRequested = output<Medication>();
-  name = new FormControl<string>('', [Validators.required]);
-  instructions = new FormControl<string>('');
-  quantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  prescriptionQuantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  dueDate = new FormControl<Date>( new Date(),[Validators.required]);
-
-
-  form: FormGroup = new FormGroup({
-    name: this.name,
-    instructions: this.instructions,
-    quantity: this.quantity,
-    prescriptionQuantity: this.prescriptionQuantity,
-    dueDate: this.dueDate,
-  });
-
-  ngOnInit() {
-    if (this.initialData()) {
-      const data = this.initialData()!;
-      this.name.setValue(data.name);
-      this.instructions.setValue(data.instructions);
-      this.quantity.setValue(data.quantity);
-      this.prescriptionQuantity.setValue(data.prescriptionQuantity);
-      this.dueDate.setValue(new Date(data.dueDate));
+  ngOnInit(): void {
+    this.residentId = this.route.snapshot.paramMap.get('residentId');
+    const medicationId = this.route.snapshot.paramMap.get('id');
+    if (this.residentId && medicationId) {
+      this.medicationService.getMedicationById(this.residentId, medicationId).subscribe(
+        (medication) => this.medication = medication,
+        (error) => this.error = error.message
+      );
+    } else {
+      this.error = 'Invalid route parameters';
     }
   }
 
-  onSubmit() {
-    console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
-    if (this.form.valid) {
-      this.createRequested.emit({
-        id: 0,
-        name: this.name.value!,
-        instructions: this.instructions.value!,
-        quantity: this.quantity.value!,
-        prescriptionQuantity: this.prescriptionQuantity.value!,
-        dueDate: this.dueDate.value!,
-      });
-    }
+  showDeleteModal(): void {
+    // Lógica para exibir modal de confirmação
   }
-  protected readonly environment = environment;
+
+  onDelete(): void {
+    // Lógica para deletar o medicamento
+  }
 }

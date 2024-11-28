@@ -135,8 +135,12 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.medicationService.setOrderBy(key);
   }
 
-  handleRowClicked(key: number) {
-    this.router.navigate(["/medication/detail", key])
+  // handleRowClicked(key: number) {
+  //   this.router.navigate(["/medicaments/detail", key])
+  // }
+
+  handleRowClicked(medicationId: number) {
+    this.router.navigate([`/residents/${this.residentId}/medicaments/${medicationId}`]);
   }
 
   handleLimitChange(limit: number) {
