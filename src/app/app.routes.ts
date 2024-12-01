@@ -38,12 +38,18 @@ import {
   ResidentsPaymentsCreateComponent
 } from './pages/residents-payments-create/residents-payments-create.component';
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
+import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
+
 
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'login', component: FormLoginComponent},
+
+
+  { path: 'employees/:id/shifts',
+    component: EmployeesShiftsComponent },
 
   {
     path: 'residents/:residentId/payments/create',

@@ -1,0 +1,56 @@
+<div class="container mx-auto p-4 md:p-6">
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <!-- Identificação do Mês e Ano (Centralizado e Maior) -->
+      <div class="flex justify-center mb-4">
+        <span class="text-3xl font-bold">{{ currentMonth }} {{ currentYear }}</span>
+      </div>
+
+      <!-- Barra de Ações -->
+      <div class="flex justify-center sm:justify-end gap-2 mb-4">
+        <button class="btn btn-primary text-sm sm:text-base" (click)="navigate('prev')">
+          Mês Anterior
+        </button>
+        <button class="btn btn-info text-sm sm:text-base" (click)="navigate('today')">
+          Hoje
+        </button>
+        <button class="btn btn-success text-sm sm:text-base" (click)="navigate('next')">
+          Próximo Mês
+        </button>
+      </div>
+
+      <!-- Calendário -->
+      <div class="bg-white rounded-lg border border-gray-200 shadow overflow-x-auto">
+        <full-calendar #calendar [options]="calendarOptions" class="bg-white">
+        </full-calendar>
+      </div>
+
+      <!-- Legenda -->
+      <div class="mt-4">
+        <h3 class="text-lg font-semibold mb-2">Legenda:</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded" style="background-color: #fc8e8e;"></div>
+            <span>Manhã</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded" style="background-color: #9bb6ff;"></div>
+            <span>Tarde</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded" style="background-color: #f6d860;"></div>
+            <span>Noite</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded" style="background-color: #92ffb3;"></div>
+            <span>Férias</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded" style="background-color: #f1f1f1;"></div>
+            <span>Folga</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
