@@ -35,37 +35,42 @@ export class EmployeesShiftsService {
       );
   }
 
-
   createOrUpdate(item: ShiftDTO, employeeId: number): Observable<Shift> {
     const url = `${this.url}${employeeId}/shifts`;
 
-    // Se o item já tiver um id, é um update, caso contrário, é um create.
-    const request$ = item.id ?
-      this.httpClient.put<Shift>(`${url}/${item.id}`, item) :
-      this.httpClient.post<Shift>(url, item);
+    // Construindo o payload como um array de turnos
+    const payload = {
+      shifts: [
+        {
+          day: item.day.toISOString().split('T')[0], // Converte para 'YYYY-MM-DD'
+          shift: item.shift, // O tipo de turno
+        },
+      ],
+    };
 
-    return request$.pipe(
-      tap((shift) => {
-        if (!environment.production) {
-          if (item.id) {
-            console.log('Turno atualizado:', shift);
-          } else {
-            console.log('Turno criado:', shift);
-          }
+    console.log('Payload enviado ao backend:', payload);
+
+    return this.httpClient.post<Shift>(url, payload).pipe(
+      tap((response) => {
+        if (item.id) {
+          console.log('Turno atualizado:', response);
+          this.toastService.success('Turno atualizado com sucesso');
+        } else {
+          console.log('Turno criado:', response);
+          this.toastService.success('Turno criado com sucesso');
         }
-        // Exibe uma mensagem de sucesso dependendo se foi um create ou update
-        const successMessage = item.id ? 'Turno atualizado com sucesso' : 'Turno criado com sucesso';
-        this.toastService.success(successMessage);
       }),
       catchError((error) => {
-        if (!environment.production) {
-          console.error(item.id ? 'Erro ao atualizar turno:' : 'Erro ao criar turno:', error);
+        if (item.id) {
+          console.error('Erro ao atualizar turno:', error);
+          this.toastService.error('Erro ao atualizar turno');
+        } else {
+          console.error('Erro ao criar turno:', error);
+          this.toastService.error('Erro ao criar turno');
         }
-        this.toastService.error(item.id ? 'Erro ao atualizar turno' : 'Erro ao criar turno');
-        return of({} as Shift);  // Retorna um objeto vazio como fallback
+        return of({} as Shift); // Retorna um objeto vazio como fallback
       })
     );
   }
-
 
 }

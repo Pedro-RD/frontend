@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 import { User } from '../../interfaces/user';
 
 interface AuthInfo {
-  token: string;
+  access_token: string;
   user: User;
 }
 
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   public getToken(): Observable<string | null> {
-    return this.subject.asObservable().pipe(map((x) => x?.token || null));
+    return this.subject.asObservable().pipe(map((x) => x?.access_token || null));
   }
 
   public getUser(): Observable<User | null> {
