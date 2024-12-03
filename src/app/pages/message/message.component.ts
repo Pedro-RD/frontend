@@ -15,7 +15,7 @@ import { Role } from '../../interfaces/roles.enum';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './message.component.html',
-  styleUrls: [],
+  styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
@@ -24,6 +24,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   isEditing: boolean = false;
   loggedUserId: number | null = null;
   private pollingSubscription: Subscription | null = null;
+  currentPage: number = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -98,23 +99,26 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   fetchLastMessages(): void {
-    if (!this.residentId) {
-      return;
+    if (!this.residentId || this.currentPage >= 10) {
+      return; // Impede a busca se não houver mais páginas
     }
-
-    this.messageService.fetchList(this.residentId, 1, 10).subscribe({
+  
+    this.currentPage++; // Avança para a próxima página
+  
+    this.messageService.fetchList(this.residentId, this.currentPage, 10).subscribe({
       next: (newMessages) => {
         const uniqueMessages = [
-          ...newMessages.reverse(),
-          ...this.messages.reverse()
+          ...newMessages.reverse(), // Garante a ordem cronológica
+          ...this.messages,
         ].filter((message, index, self) =>
-          index === self.findIndex(m => m.id === message.id)
+          index === self.findIndex((m) => m.id === message.id)
         );
-
+  
         this.messages = uniqueMessages;
       },
       error: (err) => {
-        console.error('Erro ao buscar últimas mensagens:', err);
+        console.error('Erro ao buscar mensagens:', err);
+        this.currentPage--; // Reverte a página em caso de erro
       },
     });
   }

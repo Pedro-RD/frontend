@@ -1,6 +1,19 @@
 <div class="container mx-auto p-4 h-screen flex flex-col">
   <!-- Lista de Mensagens -->
-  <div *ngIf="messages.length > 0" class="space-y-4 flex-1 overflow-y-auto">
+  <div *ngIf="messages.length > 0" class="space-y-4 flex-1 overflow-y-auto custom-scrollbar">
+    <!-- Botão de Buscar -->
+    <div class="flex justify-center my-4">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="fetchLastMessages()"
+        [disabled]="currentPage >= 10"
+      >
+        Buscar Últimas 10 Mensagens
+      </button>
+    </div>
+
+    <!-- Mensagens -->
     <div
       *ngFor="let message of messages"
       class="chat"
@@ -20,43 +33,45 @@
       </div>
 
       <!-- Cabeçalho -->
-      <div class="chat-header">
-        {{ message.user.name }}
-        <time class="text-xs opacity-50">
-          {{ message.createdAt | date: 'short' }}
-        </time>
+      <div class="chat-header flex items-center justify-between">
+        <div>
+          {{ message.user.name }}
+          <time class="text-xs opacity-50">
+            {{ message.createdAt | date: 'short' }}
+          </time>
+        </div>
+        <button
+          *ngIf="message.user.id === loggedUserId"
+          (click)="deleteMessage(message.id)"
+          class="ml-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
 
       <!-- Mensagem -->
       <div class="chat-bubble">
         {{ message.content }}
       </div>
-
-      <!-- Botão de Exclusão (apenas se for a mensagem do usuário logado) -->
-      <button
-        *ngIf="message.user.id === loggedUserId"
-        (click)="deleteMessage(message.id)"
-        class="btn btn-error btn-xs mt-2"
-      >
-        Excluir
-      </button>
     </div>
   </div>
 
   <!-- Sem mensagens -->
   <div *ngIf="messages.length === 0" class="text-gray-500 text-center mt-6">
     Nenhuma mensagem encontrada.
-  </div>
-
-  <!-- Botão para Buscar Últimas Mensagens -->
-  <div class="mt-4 flex justify-center">
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="fetchLastMessages()"
-    >
-      Buscar Últimas 10 Mensagens
-    </button>
   </div>
 
   <!-- Formulário de Envio de Mensagem -->
