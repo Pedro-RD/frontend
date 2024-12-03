@@ -6,6 +6,7 @@ export interface ShiftDTO {
   id?: number
 
 
+
 }
 export interface Shift extends ShiftDTO {
   shifts: Shift [];
