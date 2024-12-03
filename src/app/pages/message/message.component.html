@@ -1,0 +1,92 @@
+<div class="container mx-auto p-4 h-screen flex flex-col">
+  <!-- Lista de Mensagens -->
+  <div *ngIf="messages.length > 0" class="space-y-4 flex-1">
+    <div
+      *ngFor="let message of messages"
+      class="chat"
+      [ngClass]="{
+        'chat-end': message.user.id === loggedUserId,
+        'chat-start': message.user.id !== loggedUserId
+      }"
+    >
+      <!-- Avatar -->
+      <div class="chat-image avatar">
+        <div class="w-10 rounded-full">
+          <img
+            [alt]="'Avatar de ' + message.user.name"
+            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+          />
+        </div>
+      </div>
+
+      <!-- Cabeçalho -->
+      <div class="chat-header">
+        {{ message.user.name }}
+        <time class="text-xs opacity-50">
+          {{ message.createdAt | date: 'short' }}
+        </time>
+      </div>
+
+      <!-- Mensagem -->
+      <div class="chat-bubble">
+        {{ message.content }}
+      </div>
+
+      <!-- Botão de Exclusão (apenas se for a mensagem do usuário logado) -->
+      <button
+        *ngIf="message.user.id === loggedUserId"
+        (click)="deleteMessage(message.id)"
+        class="btn btn-error btn-xs mt-2"
+      >
+        Excluir
+      </button>
+    </div>
+  </div>
+
+  <!-- Sem mensagens -->
+  <div *ngIf="messages.length === 0" class="text-gray-500 text-center mt-6">
+    Nenhuma mensagem encontrada.
+  </div>
+
+  <!-- Formulário de Envio de Mensagem -->
+  <div class="message-form mt-6 flex-shrink-0">
+    <form [formGroup]="form" (ngSubmit)="saveMessage()">
+      <div class="form-control">
+        <label class="label" for="content">
+          <span class="label-text">Conteúdo da Mensagem</span>
+        </label>
+        <textarea
+          id="content"
+          class="textarea textarea-bordered w-full"
+          formControlName="content"
+          placeholder="Digite sua mensagem..."
+          rows="3"
+          aria-label="Digite o conteúdo da mensagem"
+        ></textarea>
+        <div
+          *ngIf="form.get('content')?.invalid && form.get('content')?.touched"
+          class="text-red-500 text-sm mt-2"
+        >
+          O conteúdo é obrigatório e deve ter no máximo 255 caracteres.
+        </div>
+      </div>
+
+      <div class="mt-4 flex space-x-2">
+        <button
+          type="submit"
+          class="btn btn-success"
+        >
+          {{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}
+        </button>
+        <button
+          *ngIf="isEditing"
+          type="button"
+          (click)="resetForm()"
+          class="btn btn-secondary"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
