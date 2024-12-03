@@ -28,7 +28,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private authService: AuthService, // Serviço de autenticação
+    private authService: AuthService,
     private route: ActivatedRoute
   ) {
     this.form = this.fb.group({
@@ -45,7 +45,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     // Obtém o ID do usuário logado via AuthService
     this.authService
       .getUser()
-      .pipe(take(1)) // Obtém o valor atual apenas uma vez
+      .pipe(take(1))
       .subscribe((user) => {
         this.loggedUserId = user?.id || null;
       });
@@ -66,7 +66,6 @@ export class MessageComponent implements OnInit, OnDestroy {
     if (this.residentId) {
       this.messageService.fetchList(this.residentId).subscribe({
         next: (response) => {
-          // Inverte a ordem das mensagens
           this.messages = response.reverse();
         },
         error: (err) => {
@@ -75,26 +74,50 @@ export class MessageComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
 
   startPolling(): void {
     this.pollingSubscription = interval(5000)
       .pipe(
-        switchMap(() => this.messageService.fetchList(this.residentId!))
+        switchMap(() => this.messageService.fetchList(this.residentId!, 1, 10))
       )
       .subscribe({
         next: (newMessages) => {
-          // Inverte a ordem das novas mensagens
-          if (JSON.stringify(newMessages) !== JSON.stringify(this.messages)) {
-            this.messages = newMessages.reverse();
-          }
+          const uniqueMessages = [
+            ...newMessages.reverse(),
+            ...this.messages
+          ].filter((message, index, self) =>
+            index === self.findIndex(m => m.id === message.id)
+          );
+
+          this.messages = uniqueMessages;
         },
         error: (err) => {
           console.error('Erro durante o polling de mensagens:', err);
         },
       });
   }
-  
+
+  fetchLastMessages(): void {
+    if (!this.residentId) {
+      return;
+    }
+
+    this.messageService.fetchList(this.residentId, 1, 10).subscribe({
+      next: (newMessages) => {
+        const uniqueMessages = [
+          ...newMessages.reverse(),
+          ...this.messages.reverse()
+        ].filter((message, index, self) =>
+          index === self.findIndex(m => m.id === message.id)
+        );
+
+        this.messages = uniqueMessages;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar últimas mensagens:', err);
+      },
+    });
+  }
 
   saveMessage(): void {
     if (this.form.invalid || !this.residentId) {
@@ -117,7 +140,6 @@ export class MessageComponent implements OnInit, OnDestroy {
     if (this.residentId) {
       this.messageService.delete(messageId, this.residentId).subscribe({
         next: () => {
-          // Após excluir, recarrega a lista de mensagens
           this.loadMessages();
         },
         error: (err) => {
@@ -126,8 +148,6 @@ export class MessageComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
-  
 
   resetForm(): void {
     this.form.reset();

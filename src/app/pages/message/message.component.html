@@ -1,6 +1,6 @@
 <div class="container mx-auto p-4 h-screen flex flex-col">
   <!-- Lista de Mensagens -->
-  <div *ngIf="messages.length > 0" class="space-y-4 flex-1">
+  <div *ngIf="messages.length > 0" class="space-y-4 flex-1 overflow-y-auto">
     <div
       *ngFor="let message of messages"
       class="chat"
@@ -46,6 +46,17 @@
   <!-- Sem mensagens -->
   <div *ngIf="messages.length === 0" class="text-gray-500 text-center mt-6">
     Nenhuma mensagem encontrada.
+  </div>
+
+  <!-- Botão para Buscar Últimas Mensagens -->
+  <div class="mt-4 flex justify-center">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="fetchLastMessages()"
+    >
+      Buscar Últimas 10 Mensagens
+    </button>
   </div>
 
   <!-- Formulário de Envio de Mensagem -->
