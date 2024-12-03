@@ -14,8 +14,7 @@ import { FormMedicationComponent } from '../../components/form-medication/form-m
     RouterModule,
     FormMedicationComponent,
   ],
-  templateUrl: './medication-create.component.html',
-  styleUrl: './medication-create.component.css'
+  templateUrl: './medication-create.component.html'
 })
 export class MedicationCreateComponent implements OnDestroy {
   medicationCreateSub: Subscription | undefined;
