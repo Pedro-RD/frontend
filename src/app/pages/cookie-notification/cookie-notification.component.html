@@ -1,0 +1,6 @@
+<div *ngIf="!cookiesAccepted" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-info text-black p-4 rounded-lg shadow-lg flex items-center space-x-4">
+    <p class="text-sm md:text-base">Este site utiliza cookies para garantir que tenha a melhor experiência. Ao continuar a navegar, concorda com o uso de cookies.</p>
+    <button (click)="acceptCookies()" class="bg-success hover:bg-success text-black py-2 px-4 rounded-md text-xs md:text-sm font-bold">
+      Aceitar Cookies
+    </button>
+</div>
