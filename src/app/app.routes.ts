@@ -32,6 +32,7 @@ import { ResidentsPaymentsDetailsComponent } from './pages/residents-payments-de
 import { ResidentsPaymentsCreateComponent } from './pages/residents-payments-create/residents-payments-create.component';
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
 import { MedicationEditComponent } from './pages/medication-edit/medication-edit.component';
+import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
