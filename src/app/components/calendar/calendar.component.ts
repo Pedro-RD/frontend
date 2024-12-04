@@ -59,7 +59,6 @@ export class CalendarComponent implements OnInit {
           console.log('Role do Utilizador:', this.userRole);
           this.calendarOptions = {
             ...this.calendarOptions,
-            editable: true, // Torna o calendário editável para managers
             selectable: true, // Permite selecionar intervalos
             select: this.onDateSelect.bind(this), // Captura a seleção de datas
           };
@@ -67,7 +66,6 @@ export class CalendarComponent implements OnInit {
         } else {
           this.calendarOptions = {
             ...this.calendarOptions,
-            editable: false, // Somente visualização para outros roles
             selectable: false, // Não permite selecionar intervalos
             select: undefined, // Remove a função de seleção
           };
@@ -92,11 +90,12 @@ export class CalendarComponent implements OnInit {
     const currentDate = new Date(dateInfo.start);
     this.updateMonthAndYear(currentDate);
 
-    const from = this.formatDate(dateInfo.start); // Data de início do mês
-    const to = this.formatDate(dateInfo.end); // Data de fim do mês
+    const from = this.formatDate(new Date(dateInfo.start.getFullYear(), dateInfo.start.getMonth() -2,0)); // Data de início de -3 meses
+    const to = this.formatDate(new Date(dateInfo.end.getFullYear(), dateInfo.end.getMonth() + 2, 0)); // Data de fim de +3 meses
     console.log(`Atualizando eventos para o intervalo: ${from} até ${to}`);
     this.loadShifts(from, to); // Carrega os turnos automaticamente
   }
+
 
 
   private updateMonthAndYear(date: Date) {
@@ -169,8 +168,9 @@ export class CalendarComponent implements OnInit {
 
   showShiftModal = false; // Controla a visibilidade do modal
   shiftForm = {
-    date: '',
-    type: ShiftType.Morning as ShiftType, // Defina como ShiftType para suportar qualquer valor do enum
+    startDate: '', // Data inicial (ou única)
+    endDate: '', // Data final (opcional)
+    type: ShiftType.Morning as ShiftType, // Tipo de turno
   };
 
   shiftTypes = [
@@ -183,17 +183,29 @@ export class CalendarComponent implements OnInit {
 
   onDateClick(arg: DateClickArg) {
     const selectedDate = arg.date.toISOString().split('T')[0];
-    this.openShiftModal(selectedDate);
+    console.log('Selecionada data única:', selectedDate);
+
+    this.shiftForm.startDate = selectedDate;
+    this.shiftForm.endDate = ''; // Sem intervalo
+    this.showShiftModal = true; // Exibe o modal
   }
 
   onDateSelect(arg: DateSelectArg) {
-    const selectedDate = arg.start.toISOString().split('T')[0];
-    this.openShiftModal(selectedDate);
+    const startDate = arg.start.toISOString().split('T')[0];
+    const endDate = new Date(arg.end);
+    endDate.setDate(endDate.getDate() - 1); // Ajusta a data final para não incluir um dia extra
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
+    console.log(`Selecionado intervalo de ${startDate} até ${formattedEndDate}`);
+
+    this.shiftForm.startDate = startDate;
+    this.shiftForm.endDate = formattedEndDate;
+    this.showShiftModal = true; // Exibe o modal
   }
 
   openShiftModal(date: string) {
     console.log('Abrindo modal para a data:', date);
-    this.shiftForm.date = date;
+
 
     // Verifica se já existe um evento para o dia selecionado
     const existingEvent = this.calendarComponent
@@ -218,43 +230,89 @@ export class CalendarComponent implements OnInit {
   }
 
   addShift() {
-    const { date, type } = this.shiftForm;
+    const { startDate, endDate, type } = this.shiftForm;
 
-    // Criar o turno no formato esperado
-    const shiftDTO = {
-      day: new Date(date), // Mantém 'day' como Date
-      shift: type, // Tipo do turno
-    };
+    if (!endDate || startDate === endDate) {
+      // Caso de um único turno
+      const shiftDTO = {
+        day: new Date(startDate),
+        shift: type,
+      };
 
-    console.log('Enviando shiftDTO:', shiftDTO);
+      // Verifica se já existe um evento para o dia selecionado
+      const calendarApi = this.calendarComponent.getApi();
+      const existingEvent = calendarApi.getEvents().some(
+        (event) => event.start?.toISOString().split('T')[0] === shiftDTO.day.toISOString().split('T')[0]
+      );
 
-    // Verificar se o turno já existe localmente
-    const existingShift = this.calendarComponent
-      ?.getApi()
-      ?.getEvents()
-      ?.some(event => event.start?.toISOString().split('T')[0] === shiftDTO.day.toISOString().split('T')[0]);
+      // Envia a requisição de criação/atualização
+      this.employeesShiftsService.createOrUpdate(shiftDTO, this.employeeId).subscribe({
+        next: (response) => {
+          if (existingEvent) {
+            this.toastService.success('Turno Atualizado com Sucesso');
+          } else {
+            this.toastService.success('Turno Criado com Sucesso');
+          }
 
-    // Enviar o turno ao backend
-    this.employeesShiftsService.createOrUpdate(shiftDTO, this.employeeId).subscribe({
-      next: (response) => {
-        if (existingShift) {
-          console.log('Turno atualizado com sucesso:', response);
-          this.toastService.success('Turno atualizado com sucesso');
-        } else {
-          console.log('Turno criado com sucesso:', response);
-          this.toastService.success('Turno criado com sucesso');
-        }
+          this.showShiftModal = false; // Fecha o modal
+          this.loadShifts(
+            this.formatDate(new Date(new Date().getFullYear(), 0, 1)), // Início do ano atual
+            this.formatDate(new Date(new Date().getFullYear() + 1, 11, 31)) // Fim do próximo ano
+          );
+        },
+        error: (error) => {
+          console.error('Erro ao criar ou atualizar turno:', error);
+          this.toastService.error('Erro ao criar ou atualizar turno. Verifique os dados e tente novamente.');
+        },
+      });
+    } else {
+      // Caso de múltiplos turnos
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      end.setDate(end.getDate() + 1); // Ajusta a data final para incluir o último dia
+      const dates = [];
 
-        this.showShiftModal = false; // Fecha o modal em caso de sucesso
-        this.loadShifts(
-          this.getStartOfMonth(new Date()),
-          this.getEndOfMonth(new Date())
-        ); // Atualiza o calendário
-      },
-      error: (error) => {
-        console.error('Erro ao criar turno:', error);
-        this.toastService.error('Erro ao criar turno. Verifique os dados e tente novamente.');
-      },
-    });
+      for (let date = start; date < end; date.setDate(date.getDate() + 1)) {
+        dates.push(new Date(date)); // Clona a data
+      }
+
+      const shiftsDTO = dates.map((date) => ({
+        day: date,
+        shift: type,
+      }));
+
+      // Verifica status dos eventos selecionados
+      const calendarApi = this.calendarComponent.getApi();
+      const datesStatus = dates.map((date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        const hasEvent = calendarApi.getEvents().some(
+          (event) => event.start?.toISOString().split('T')[0] === formattedDate
+        );
+        return { date, hasEvent };
+      });
+
+      const allNew = datesStatus.every((status) => !status.hasEvent);
+
+      // Envia os turnos ao backend
+      this.employeesShiftsService.createOrUpdateBulk(shiftsDTO, this.employeeId).subscribe({
+        next: (response) => {
+          if (allNew) {
+            this.toastService.success('Turno Criado com Sucesso');
+          } else {
+            this.toastService.success('Turnos Atualizados com Sucesso');
+          }
+
+          this.showShiftModal = false; // Fecha o modal
+          this.loadShifts(
+            this.formatDate(new Date(new Date().getFullYear(), 0, 1)), // Início do ano atual
+            this.formatDate(new Date(new Date().getFullYear() + 1, 11, 31)) // Fim do próximo ano
+          );
+        },
+        error: (error) => {
+          console.error('Erro ao criar ou atualizar turnos:', error);
+          this.toastService.error('Erro ao criar ou atualizar turnos. Verifique os dados e tente novamente.');
+        },
+      });
+    }
   }
 }
