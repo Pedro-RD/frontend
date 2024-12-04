@@ -14,7 +14,7 @@ import { SelectBoxComponent } from '../../components/forms/select-box/select-box
 import { environment } from '../../../environments/environment';
 import { nationalities } from '../../data/nationalities';
 import { ButtonComponent } from '../../components/forms/button/button.component';
-import { UserDTO } from '../../interfaces/user';
+import { UserDTO, UserRxpDTO } from '../../interfaces/user';
 import { Role } from '../../interfaces/roles.enum';
 import { UserEmployee } from '../../interfaces/employee';
 
@@ -32,7 +32,7 @@ import { UserEmployee } from '../../interfaces/employee';
   styleUrl: './form-users.component.css',
 })
 export class FormUsersComponent implements OnInit {
-  initialData = input<UserEmployee | undefined>();
+  initialData = input<UserRxpDTO | undefined>();
   createRequested = output<UserEmployee>();
 
   name = new FormControl('', [Validators.required]);
@@ -55,8 +55,8 @@ export class FormUsersComponent implements OnInit {
   nationality = new FormControl('', [Validators.required]);
   fiscalCode = new FormControl('', [Validators.required]);
   role = new FormControl<Role | ''>('', [Validators.required]);
-  contractStart = new FormControl<Date | null>(new Date(), [Validators.required]);
-  contractEnds = new FormControl<Date | null>(new Date(), [Validators.required]);
+  contractStart = new FormControl<string>(new Date().toISOString().substring(0, 10), [Validators.required]);
+  contractEnds = new FormControl<string>( new Date().toISOString().substring(0, 10),[Validators.required]);
   salary = new FormControl<number | null>(0, [Validators.required]);
 
 
@@ -100,6 +100,12 @@ export class FormUsersComponent implements OnInit {
       this.postcode.setValue(data.postcode);
       this.fiscalCode.setValue(data.fiscalId);
       this.role.setValue(data.role);
+
+      if (data.role !== Role.Relative) {
+        this.contractStart.setValue(new Date(data.employee?.contractStart || 0).toISOString().substring(0, 10));
+        this.contractEnds.setValue(new Date(data.employee?.contractEnds || 0).toISOString().substring(0, 10));
+        this.salary.setValue(data.employee?.salary || null);
+      }
 
       let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
 
@@ -146,8 +152,8 @@ export class FormUsersComponent implements OnInit {
         nationality: this.nationality.value!,
         role: this.role.value! as Role,
         salary: parseFloat(`${this.salary.value!}`),
-        contractStart: this.contractStart.value!,
-        contractEnds: this.contractEnds.value!,
+        contractStart: new Date(this.contractStart.value!),
+        contractEnds: new Date(this.contractEnds.value!),
       });
     }
   }

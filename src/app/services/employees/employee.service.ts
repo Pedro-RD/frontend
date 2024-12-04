@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../toast/toast.service';
-import { Employee, EmployeeDTO } from '../../interfaces/employee';
-import { catchError, map, Observable } from 'rxjs';
+import { Employee, EmployeeDTO, UserEmployee } from '../../interfaces/employee';
+import { catchError, map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { User } from '../../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,21 @@ export class EmployeeService {
   ) {
     // super();
   }
-  //findOne
-  //update
 
+  //findOne
+  fetchItem(id: number): Observable<Employee> {
+    return this.httpClient.get<Employee>(`${this.url}/${id}`).pipe(
+      tap((employee) => {
+        if (!environment.production) console.log('Fetched employee:', employee);
+      }),
+      catchError((error) => {
+        if (!environment.production) console.error('Error fetching user:', error);
+        throw error;
+      })
+    );
+  }
+
+  //create
   create(item: EmployeeDTO): Observable<Employee> {
     if (!environment.production) console.log('Creating employee:', item);
     return this.httpClient.post<Employee>(this.url, item).pipe(
@@ -34,5 +47,20 @@ export class EmployeeService {
       })
     );
   }
+
+  //update
+  update(employeeData: Partial<Employee>): Observable<Employee> {
+    if (!environment.production) console.log('Updating employee:', employeeData);
+    return this.httpClient.patch<Employee>(`${this.url}/${employeeData.id}`, employeeData).pipe(
+      map(employee => {
+        if (!environment.production) console.log('Employee updated:', employee);
+        this.toastService.success('Employee updated successfully');
+        return employee;
+      }),
+      catchError((error) => {
+        if (!environment.production) console.error('Error updating employee:', error);
+        throw error;
+      })
+    );  }
 
 }

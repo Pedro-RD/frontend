@@ -51,12 +51,17 @@ export class UsersCreateComponent implements OnDestroy {
       take(1),
       // merge entre os observables
       mergeMap((user) => {
-        return iif(() => user.role !== Role.Relative, this.employeeService.create({
-          salary: userDTO.salary!,
-          contractStart: userDTO.contractStart!,
-          contractEnds: userDTO.contractEnds!,
-          userId: user.id,
-        }), of(user)) //of() == observable vazio
+        return iif(
+          () => user.role !== Role.Relative,
+          this.employeeService.create({
+            salary: userDTO.salary!,
+            contractStart: userDTO.contractStart!,
+            contractEnds: userDTO.contractEnds!,
+            userId: user.id,
+        }),
+          //of() == observable vazio
+          of(user)
+        );
       })
     ).subscribe({
       next: () => {

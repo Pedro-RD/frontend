@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../services/users/users.service';
-import { User } from '../../interfaces/user';
-import { Subscription } from 'rxjs';
+import { User, UserRxpDTO } from '../../interfaces/user';
+import { Subscription, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { LoadingComponent } from "../../components/forms/loading/loading.component";
+import { Role } from '../../interfaces/roles.enum';
 
 @Component({
   selector: 'app-users-detail',
@@ -15,7 +16,7 @@ import { LoadingComponent } from "../../components/forms/loading/loading.compone
   styleUrl: './users-detail.component.css'
 })
 export class UsersDetailComponent implements OnInit, OnDestroy {
-  user: User | null = null;
+  user: UserRxpDTO | null = null;
   error: string | null = null;
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
@@ -30,7 +31,9 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.subs.push(
-        this.usersService.fetchItem(id).subscribe({
+        this.usersService.fetchItem(id).pipe(
+          tap(console.log)
+        ).subscribe({
           next: (user) => this.user = user,
           error: (err) => {
             console.error(err);
@@ -47,7 +50,7 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
 
   onDelete() {
     if (!this.user?.id) return;
-    
+
     this.subs.push(
       this.usersService.delete(this.user.id).subscribe({
         next: () => this.router.navigate(['/users']),
@@ -62,4 +65,6 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
   showDeleteModal() {
     this.deleteModal.show();
   }
+
+  protected readonly Role = Role;
 }

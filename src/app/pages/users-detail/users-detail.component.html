@@ -29,6 +29,15 @@
         <p><strong>Nationality:</strong> {{user.nationality}}</p>
         <p><strong>Role:</strong> {{user.role}}</p>
       </div>
+
+      @if(user.role !== Role.Relative) {
+      <div class="card bg-base-200 p-4">
+        <h2 class="card-title mb-2">Employee Information</h2>
+        <p><strong>Salary:</strong> {{user.employee?.salary}}</p>
+        <p><strong>Contract Start:</strong> {{  user.employee?.contractStart | date  }}</p>
+        <p><strong>Contract Ends:</strong> {{  user.employee?.contractEnds | date  }}</p>
+      </div>
+      }
     </div>
 
     <app-modal-confirm

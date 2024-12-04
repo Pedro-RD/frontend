@@ -1,4 +1,5 @@
 import {Role} from './roles.enum';
+import { Employee, EmployeeDTO, UserEmployee } from './employee';
 
 export interface UserDTO {
   email: string,
@@ -17,3 +18,14 @@ export interface UserDTO {
 export interface User extends UserDTO {
   id: number,
 }
+
+export interface UserRxpDTO extends User {
+  // employee: null | UserEmployee;
+  employee: null | Employee;
+  // relatives: Relative
+}
+
+// export interface UserUpDTO extends User {
+//   employee: null | Employee;
+//   // relatives: Relative
+// }

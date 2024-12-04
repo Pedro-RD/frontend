@@ -7,7 +7,7 @@ export interface EmployeeDTO {
   userId: number,
 }
 
-export interface Employee extends EmployeeDTO {
+export interface Employee extends UserEmployee {
   id: number;
 }
 
