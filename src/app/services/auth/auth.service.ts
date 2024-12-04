@@ -1,17 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  map,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { User } from '../../interfaces/user';
+import { User, UserRxpDTO } from '../../interfaces/user';
+import { sub } from 'date-fns';
 
 interface AuthInfo {
   access_token: string;
-  user: User;
+  user: UserRxpDTO;
 }
 
 @Injectable({
@@ -35,15 +32,17 @@ export class AuthService {
           this.saveLoginInfo(rxp);
           this.subject.next(rxp);
           return rxp.user;
-        })
+        }),
       );
   }
 
   public getToken(): Observable<string | null> {
-    return this.subject.asObservable().pipe(map((x) => x?.access_token || null));
+    return this.subject
+      .asObservable()
+      .pipe(map((x) => x?.access_token || null));
   }
 
-  public getUser(): Observable<User | null> {
+  public getUser(): Observable<UserRxpDTO | null> {
     return this.subject.asObservable().pipe(map((x) => x?.user || null));
   }
 

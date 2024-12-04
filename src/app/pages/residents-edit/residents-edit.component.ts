@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Resident, ResidentDTO } from '../../interfaces/resident';
-import { UserDTO } from '../../interfaces/user';
+
 
 @Component({
   selector: 'app-residents-edit',
