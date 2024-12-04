@@ -7,17 +7,20 @@
       </div>
 
       <!-- Barra de Ações -->
-      <div class="flex justify-center sm:justify-end gap-2 mb-4">
-        <button class="btn btn-primary text-sm sm:text-base" (click)="navigate('prev')">
-          Mês Anterior
-        </button>
-        <button class="btn btn-info text-sm sm:text-base" (click)="navigate('today')">
-          Hoje
-        </button>
-        <button class="btn btn-success text-sm sm:text-base" (click)="navigate('next')">
-          Próximo Mês
-        </button>
+      <div class="flex justify-center sm:justify-end mb-4 w-full">
+        <div class="flex w-full max-w-lg justify-between gap-2">
+          <button class="btn btn-primary text-sm sm:text-base flex-1" (click)="navigate('prev')">
+            Mês Anterior
+          </button>
+          <button class="btn btn-info text-sm sm:text-base flex-1" (click)="navigate('today')">
+            Hoje
+          </button>
+          <button class="btn btn-success text-sm sm:text-base flex-1" (click)="navigate('next')">
+            Próximo Mês
+          </button>
+        </div>
       </div>
+
 
       <!-- Calendário -->
       <div class="bg-white rounded-lg border border-gray-200 shadow overflow-x-auto">

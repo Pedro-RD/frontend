@@ -72,5 +72,19 @@ export class EmployeesShiftsService {
       })
     );
   }
+  createOrUpdateBulk(shifts: any[], employeeId: number): Observable<any> {
+    const url = `${this.url}${employeeId}/shifts`;
+    return this.httpClient.post(url, { shifts }).pipe(
+      tap((response) => {
+        console.log('Turnos atualizados:', response);
+        this.toastService.success('Turnos atualizados com sucesso');
+      }),
+      catchError((error) => {
+        console.error('Erro ao atualizar turnos:', error);
+        this.toastService.error('Erro ao atualizar turnos');
+        return of({}); // Retorna um objeto vazio como fallback
+      })
+    );
+  }
 
 }
