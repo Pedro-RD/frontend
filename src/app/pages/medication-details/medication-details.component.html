@@ -7,14 +7,13 @@
         <!-- Detalhes do Medicamento -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full">
           <div class="space-y-2">
-            <p><span class="font-bold">Nome:</span> {{ medication?.name }}</p>
-            <p><span class="font-bold">Instruções:</span> {{ medication?.instructions }}</p>
-            <p><span class="font-bold">Quantidade:</span> {{ medication?.quantity }}</p>
+            <p><span class="font-bold">Nome:</span> {{ medication.name }}</p>
+            <p><span class="font-bold">Instruções:</span> {{ medication.instructions }}</p>
+            <p><span class="font-bold">Quantidade:</span> {{ medication.quantity }}</p>
           </div>
           <div class="space-y-2">
-            <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication?.prescriptionQuantity }}</p>
-            <p><span class="font-bold">Data de Validade:</span> {{ medication?.dueDate }}</p>
-          </div>
+            <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication.prescriptionQuantity }}</p>
+            <p><span class="font-bold">Data de Validade:</span> {{ medication.dueDate | date:'yyyy-MM-dd' }}</p>          </div>
         </div>
 
         <div class="divider my-4"></div>

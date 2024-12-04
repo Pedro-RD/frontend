@@ -22,6 +22,8 @@ import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
 import {MedicationCreateComponent} from './pages/medication-create/medication-create.component';
 import {MedicationDetailsComponent} from './pages/medication-details/medication-details.component';
+import { MedicationEditComponent } from './pages/medication-edit/medication-edit.component';
+
 import {
   ResidentsAppointmentsCreateComponent
 } from './pages/residents-appointments-create/residents-appointments-create.component';
@@ -39,6 +41,7 @@ import {
   ResidentsPaymentsCreateComponent
 } from './pages/residents-payments-create/residents-payments-create.component';
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
+// import {MedicationEditComponent} from './pages/medication-edit/medication-edit.component';
 
 
 
@@ -143,24 +146,18 @@ export const routes: Routes = [
   {
     path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {
     path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager]}
-  },
-  {
-    path: 'residents/:residentId/medicaments/:id/edit',
-    component: MedicationCreateComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager]}
   },
   {
     path: 'residents/:residentId/medicaments/:id',
     component: MedicationDetailsComponent,
+  },
+  {
+    path: 'residents/:residentId/medicaments/:id/edit',
+    component: MedicationEditComponent,
   },
 
   {path: 'forbidden', component: NotAllowedComponent},
