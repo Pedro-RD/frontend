@@ -3,7 +3,7 @@ import {Router, RouterLink} from '@angular/router';
 import {map, Observable} from 'rxjs';
 import {AuthService} from '../../../services/auth/auth.service';
 import {User} from '../../../interfaces/user';
-import {AsyncPipe, NgComponentOutlet, NgIf} from '@angular/common';
+import { AsyncPipe, NgComponentOutlet, NgIf, NgOptimizedImage } from '@angular/common';
 import {NavbarPublicComponent} from '../navbar-public/navbar-public.component';
 import {Role} from '../../../interfaces/roles.enum';
 import {NavbarAdminComponent} from '../navbar-admin/navbar-admin.component';
@@ -18,7 +18,8 @@ import {NavbarRelativeComponent} from '../navbar-relative/navbar-relative.compon
     RouterLink,
     AsyncPipe,
     NgIf,
-    NgComponentOutlet
+    NgComponentOutlet,
+    NgOptimizedImage,
   ],
   templateUrl: './navbar-main.component.html',
   styleUrl: './navbar-main.component.css'
