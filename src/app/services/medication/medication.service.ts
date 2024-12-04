@@ -68,7 +68,7 @@ export class MedicationService extends ListService<Medication> {
 
   // Update Medication:
   update(residentId: string, medicationId: string, item: Medication): Observable<Medication> {
-    return this.httpClient.put<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`, item).pipe(
+    return this.httpClient.patch<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`, item).pipe(
       tap((medicament) => {
         this.toastService.success("Medicação atualizada com sucesso");
       }),
@@ -81,7 +81,7 @@ export class MedicationService extends ListService<Medication> {
   }
 
   // Delete Medication:
-  delete(residentId: number, medicationId: number): Observable<void> {
+  delete(residentId: string, medicationId: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
       tap(() => {
         this.toastService.info("Medicação eliminada com sucesso");
