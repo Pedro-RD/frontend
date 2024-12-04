@@ -8,6 +8,7 @@ import { InputComponent } from '../forms/input/input.component';
 import { AutoCompleteComponent } from '../forms/auto-complete/auto-complete.component';
 import { SelectBoxComponent } from '../forms/select-box/select-box.component';
 import { ButtonComponent } from '../forms/button/button.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-residents-appointment',
@@ -24,6 +25,12 @@ import { ButtonComponent } from '../forms/button/button.component';
   styleUrl: './form-residents-appointment.component.css'
 })
 export class FormResidentsAppointmentComponent implements OnInit {
+  constructor(private location: Location) {}
+
+  goBack() {
+    this.location.back();
+  }
+
   initialData = input<AppointmentDTO | undefined>();
   createRequested = output<AppointmentDTO>();
 

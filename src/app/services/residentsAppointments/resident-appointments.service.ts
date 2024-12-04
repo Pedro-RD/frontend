@@ -105,5 +105,4 @@ isDeleting = false;
       })
     );
   }
-
 }

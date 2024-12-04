@@ -25,7 +25,7 @@ export class MedicationService extends ListService<Medication> {
 
   // mandar resident ID » + "&residentId=$`residentId`"
   //Read Medication:
-  fetchList(residentId:number): Observable<Medication[]> {
+  fetchList(residentId: number): Observable<Medication[]> {
     console.log(this.queryString);
     return this.httpClient.get<PagedResponse<Medication>>(this.url + residentId + "/medicaments" + this.queryString).pipe(
       tap((rxp) => {
@@ -41,7 +41,7 @@ export class MedicationService extends ListService<Medication> {
   }
 
   //Create Medication:
-  create(residentId:number, item: Medication): Observable<Medication> {
+  create(residentId: number, item: Medication): Observable<Medication> {
     console.log("MedicationService.create", item);
     return this.httpClient.post<Medication>(this.url + residentId + "/medicaments", item).pipe(
       tap((medicament) => {
@@ -81,6 +81,15 @@ export class MedicationService extends ListService<Medication> {
     //   )
     throw new Error('Method not implemented.');
   }
+
+  getMedicationById(residentId: string, medicationId: string): Observable<Medication> {
+    return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
+      tap(console.log),
+      catchError((err) => {
+        console.error(err);
+        this.toastService.error('Erro ao buscar medicação');
+        return of({} as Medication);
+      })
+    );
+  }
 }
-
-

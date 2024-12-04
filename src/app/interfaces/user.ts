@@ -1,23 +1,22 @@
-import {Role} from './roles.enum';
+import { Role } from './roles.enum';
 import { Employee, EmployeeDTO, UserEmployee } from './employee';
 
 export interface UserDTO {
-  email: string,
-  password?: string,
-  repeatPassword?: string,
-  phoneNumber: string,
-  name: string,
-  address: string,
-  city: string,
-  postcode: string,
-  fiscalId: string,
-  nationality: string,
-  role: Role,
-  employeeId?: {id: number},
+  email: string;
+  password?: string;
+  repeatPassword?: string;
+  phoneNumber: string;
+  name: string;
+  address: string;
+  city: string;
+  postcode: string;
+  fiscalId: string;
+  nationality: string;
+  role: Role;
 }
 
 export interface User extends UserDTO {
-  id: number,
+  id: number;
 }
 
 export interface UserRxpDTO extends User {
