@@ -14,6 +14,7 @@ import { ResidentsDetailComponent } from './pages/residents-detail/residents-det
 import { ResidentsCreateComponent } from './pages/residents-create/residents-create.component';
 import { ResidentsEditComponent } from './pages/residents-edit/residents-edit.component';
 import { HealthReportComponent } from './pages/health-report/health-report.component';
+import { MessageComponent } from './pages/message/message.component';
 import { HealthReportDetailComponent } from './pages/health-report-detail/health-report-detail.component';
 import { HealthReportCreateComponent } from './pages/health-report-create/health-report-create.component';
 import { HealthReportEditComponent } from './pages/health-report-edit/health-report-edit.component';
@@ -103,6 +104,12 @@ export const routes: Routes = [
   {
     path: 'residents/:residentId/health-reports',
     component: HealthReportComponent
+  },
+  { 
+    path: 'residents/:residentId/messages', 
+    component: MessageComponent ,
+    canActivate: [authGuard],
+    data: {roles: [Role.Relative, Role.Manager, Role.Caretaker]}
   },
   {
     path: 'residents',
