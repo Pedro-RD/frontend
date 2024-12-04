@@ -7,7 +7,7 @@ import { Medication } from '../../interfaces/medication';
 import { ListService } from '../list/list.service';
 import { ToastService } from '../toast/toast.service';
 import PagedResponse from '../../interfaces/paged-response.interface';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,7 @@ export class MedicationService extends ListService<Medication> {
     super();
   }
 
-  // mandar resident ID » + "&residentId=$`residentId`"
-  //Read Medication:
+  // Read Medication:
   fetchList(residentId: number): Observable<Medication[]> {
     console.log(this.queryString);
     return this.httpClient.get<PagedResponse<Medication>>(this.url + residentId + "/medicaments" + this.queryString).pipe(
@@ -37,10 +36,10 @@ export class MedicationService extends ListService<Medication> {
         console.log(err);
         return of([] as Medication[]);
       })
-    )
+    );
   }
 
-  //Create Medication:
+  // Create Medication:
   create(residentId: number, item: Medication): Observable<Medication> {
     console.log("MedicationService.create", item);
     return this.httpClient.post<Medication>(this.url + residentId + "/medicaments", item).pipe(
@@ -55,38 +54,51 @@ export class MedicationService extends ListService<Medication> {
     );
   }
 
-  fetchItem(id: number): Observable<Medication> {
-    throw new Error('Method not implemented.');
-  }
-
-  update(item: Medication): Observable<Medication> {
-    throw new Error('Method not implemented.');
-  }
-
-  delete(id: number): Observable<void> {
-    // return this.httpClient.delete<void>(`${this.url}/${id}`)
-    //   .pipe(
-    //     tap((rxp) => (!environment.production) && console.log(rxp)),
-    //     tap(() => {
-    //       this.toastService.info("Medicação Eliminada")
-    //     }),
-    //     // mergeMap(() => this.fetchList()),
-    //     map(() => undefined),
-    //     catchError((err) => {
-    //         if (!environment.production) console.error(err);
-    //         this.toastService.error('Erro ao eliminar medicação');
-    //         return of();
-    //       }
-    //     )
-    //   )
-    throw new Error('Method not implemented.');
-  }
-
-  getMedicationById(residentId: string, medicationId: string): Observable<Medication> {
+  // Fetch a single Medication item:
+  fetchItem(residentId: number, medicationId: number): Observable<Medication> {
     return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
       tap(console.log),
       catchError((err) => {
         console.error(err);
+        this.toastService.error('Erro ao buscar medicação');
+        return of({} as Medication);
+      })
+    );
+  }
+
+  // Update Medication:
+  update(residentId: string, medicationId: string, item: Medication): Observable<Medication> {
+    return this.httpClient.patch<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`, item).pipe(
+      tap((medicament) => {
+        this.toastService.success("Medicação atualizada com sucesso");
+      }),
+      catchError((err) => {
+        console.error(err);
+        this.toastService.error("Erro ao atualizar medicação");
+        return of({} as Medication);
+      })
+    );
+  }
+
+  // Delete Medication:
+  delete(residentId: string, medicationId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
+      tap(() => {
+        this.toastService.info("Medicação eliminada com sucesso");
+      }),
+      catchError((err) => {
+        console.error(err);
+        this.toastService.error('Erro ao eliminar medicação');
+        return of();
+      })
+    );
+  }
+
+  // Get Medication by ID:
+  getMedicationById(residentId: string, medicationId: string): Observable<Medication> {
+    return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
+      tap(console.log),
+      catchError((err) => {
         this.toastService.error('Erro ao buscar medicação');
         return of({} as Medication);
       })

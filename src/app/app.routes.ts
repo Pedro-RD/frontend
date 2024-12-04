@@ -21,37 +21,24 @@ import { HealthReportEditComponent } from './pages/health-report-edit/health-rep
 import { Routes } from '@angular/router';
 import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
-import {MedicationCreateComponent} from './pages/medication-create/medication-create.component';
-import {MedicationDetailsComponent} from './pages/medication-details/medication-details.component';
-import {
-  ResidentsAppointmentsCreateComponent
-} from './pages/residents-appointments-create/residents-appointments-create.component';
-import {
-  ResidentsAppointmentsDetailComponent
-} from './pages/residents-appointments-detail/residents-appointments-detail.component';
-import {
-  ResidentsAppointmentsEditComponent
-} from './pages/residents-appointments-edit/residents-appointments-edit.component';
+import { MedicationCreateComponent } from './pages/medication-create/medication-create.component';
+import { MedicationDetailsComponent } from './pages/medication-details/medication-details.component';
+
+import { ResidentsAppointmentsCreateComponent } from './pages/residents-appointments-create/residents-appointments-create.component';
+import { ResidentsAppointmentsDetailComponent } from './pages/residents-appointments-detail/residents-appointments-detail.component';
+import { ResidentsAppointmentsEditComponent } from './pages/residents-appointments-edit/residents-appointments-edit.component';
 import { ResidentsPaymentsComponent } from './pages/residents-payments/residents-payments.component';
-import {
-  ResidentsPaymentsDetailsComponent
-} from './pages/residents-payments-details/residents-payments-details.component';
-import {
-  ResidentsPaymentsCreateComponent
-} from './pages/residents-payments-create/residents-payments-create.component';
+import { ResidentsPaymentsDetailsComponent } from './pages/residents-payments-details/residents-payments-details.component';
+import { ResidentsPaymentsCreateComponent } from './pages/residents-payments-create/residents-payments-create.component';
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
+import { MedicationEditComponent } from './pages/medication-edit/medication-edit.component';
 import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
 
-
-
-
 export const routes: Routes = [
-  {path: '', component: HomepageComponent},
-  {path: 'login', component: FormLoginComponent},
+  { path: '', component: HomepageComponent },
+  { path: 'login', component: FormLoginComponent },
 
-
-  { path: 'employees/:id/shifts',
-    component: EmployeesShiftsComponent },
+  { path: 'employees/:id/shifts', component: EmployeesShiftsComponent },
 
   {
     path: 'residents/:residentId/payments/create',
@@ -60,22 +47,22 @@ export const routes: Routes = [
 
   {
     path: 'residents/:residentId/payments/:paymentId/edit',
-    component: ResidentsPaymentsEditComponent
+    component: ResidentsPaymentsEditComponent,
   },
 
   {
     path: 'residents/:residentId/payments/:id',
-    component: ResidentsPaymentsDetailsComponent
+    component: ResidentsPaymentsDetailsComponent,
   },
 
   {
-   path: 'residents/:residentId/payments',
+    path: 'residents/:residentId/payments',
     component: ResidentsPaymentsComponent,
   },
 
   {
     path: 'residents/:residentId/appointments/create',
-    component:ResidentsAppointmentsCreateComponent,
+    component: ResidentsAppointmentsCreateComponent,
   },
   {
     path: 'residents/:residentId/appointments/:appointmentId/edit',
@@ -91,25 +78,25 @@ export const routes: Routes = [
   },
   {
     path: 'residents/:residentId/health-reports/create',
-    component: HealthReportCreateComponent
+    component: HealthReportCreateComponent,
   },
   {
     path: 'residents/:residentId/health-reports/:reportId/edit',
-    component: HealthReportEditComponent
+    component: HealthReportEditComponent,
   },
   {
     path: 'residents/:residentId/health-reports/:id',
-    component: HealthReportDetailComponent
+    component: HealthReportDetailComponent,
   },
   {
     path: 'residents/:residentId/health-reports',
-    component: HealthReportComponent
+    component: HealthReportComponent,
   },
-  { 
-    path: 'residents/:residentId/messages', 
-    component: MessageComponent ,
+  {
+    path: 'residents/:residentId/messages',
+    component: MessageComponent,
     canActivate: [authGuard],
-    data: {roles: [Role.Relative, Role.Manager, Role.Caretaker]}
+    data: { roles: [Role.Relative, Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents',
@@ -134,7 +121,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard],
-    data: {roles: [ Role.Manager, Role.Caretaker, Role.Relative]}
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
     // Role.Admin
   },
   {
@@ -156,26 +143,20 @@ export const routes: Routes = [
   {
     path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
   },
   {
     path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager]}
-  },
-  {
-    path: 'residents/:residentId/medicaments/:id/edit',
-    component: MedicationCreateComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager]}
   },
   {
     path: 'residents/:residentId/medicaments/:id',
     component: MedicationDetailsComponent,
   },
+  {
+    path: 'residents/:residentId/medicaments/:id/edit',
+    component: MedicationEditComponent,
+  },
 
-  {path: 'forbidden', component: NotAllowedComponent},
-  {path: '**', pathMatch: "full", component: NotFoundComponent}
+  { path: 'forbidden', component: NotAllowedComponent },
+  { path: '**', pathMatch: 'full', component: NotFoundComponent },
 ];
