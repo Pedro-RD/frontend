@@ -1,50 +1,109 @@
 <ng-container *ngIf="!error; else errorTpl">
-  <div *ngIf="user" class="p-6">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold">User Details</h1>
-      <div class="space-x-2">
-        <a [routerLink]="['/users', user.id, 'edit']" class="btn btn-primary">Edit</a>
-        <button class="btn btn-error" (click)="showDeleteModal()">Delete</button>
+  <div *ngIf="user" class="container mx-auto p-4 md:p-6">
+    <div class="card bg-base-100 shadow-xl relative">
+      <div class="card-body pt-6">
+        <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Perfil do Utilizador</h2>
+
+        <!-- Botões de Ação -->
+        <div class="flex flex-wrap justify-center md:justify-end gap-2 mb-4">
+
+          @if(user.role === Role.Manager) {
+            <a [routerLink]="['/employees', employeeId, 'shift']"
+               class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
+              <!-- Ícone de Editar -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20"
+                   fill="currentColor">
+                <path d="M17.586 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.758-7.758a2 2 0 000-2.828z" />
+                <path fill-rule="evenodd"
+                      d="M3 14.75A2.75 2.75 0 015.75 12h8.5A2.75 2.75 0 0117 14.75v2.5A2.75 2.75 0 0114.25 20h-8.5A2.75 2.75 0 013 17.25v-2.5zM5.75 13.5a.75.75 0 00-.75.75v2.5a.75.75 0 00.75.75h8.5a.75.75 0 00.75-.75v-2.5a.75.75 0 00-.75-.75h-8.5z"
+                      clip-rule="evenodd" />
+              </svg>
+              Turnos
+            </a>
+          }
+          <a [routerLink]="['/users', user.id, 'edit']"
+             class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
+            <!-- Ícone de Editar -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20"
+                 fill="currentColor">
+              <path d="M17.586 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.758-7.758a2 2 0 000-2.828z" />
+              <path fill-rule="evenodd"
+                    d="M3 14.75A2.75 2.75 0 015.75 12h8.5A2.75 2.75 0 0117 14.75v2.5A2.75 2.75 0 0114.25 20h-8.5A2.75 2.75 0 013 17.25v-2.5zM5.75 13.5a.75.75 0 00-.75.75v2.5a.75.75 0 00.75.75h8.5a.75.75 0 00.75-.75v-2.5a.75.75 0 00-.75-.75h-8.5z"
+                    clip-rule="evenodd" />
+            </svg>
+            Editar
+          </a>
+          <button (click)="showDeleteModal()"
+                  class="btn btn-error inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">
+            <!-- Ícone de Eliminar -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20"
+                 fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M6 2a2 2 0 012-2h4a2 2 0 012 2h5a1 1 0 010 2h-1v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4H1a1 1 0 110-2h5zm4 5a1 1 0 00-1 1v6a1 1 0 002 0V8a1 1 0 00-1-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            Eliminar
+          </button>
+        </div>
+
+        <!-- Perfil e informações do utilizador -->
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
+          <div class="avatar">
+            <div
+              class="w-32 h-32 md:w-40 md:h-52 rounded-lg ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+              <!-- <img [src]="user.image || 'https://via.placeholder.com/150'" alt="Foto do Utilizador" class="object-cover w-full h-full" /> -->
+            </div>
+          </div>
+
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full md:h-52">
+            <div class="space-y-2">
+              <p><span class="font-bold">Nome:</span> {{ user.name }}</p>
+              <p><span class="font-bold">Email:</span> {{ user.email }}</p>
+              <p><span class="font-bold">Número de Telefone:</span> {{ user.phoneNumber }}</p>
+            </div>
+            <div class="space-y-2">
+              <p><span class="font-bold">Morada:</span> {{ user.address }}</p>
+              <p><span class="font-bold">Cidade:</span> {{ user.city }}</p>
+              <p><span class="font-bold">Código Postal:</span> {{ user.postcode }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider my-4"></div>
+
+        <!-- Personal Information  -->
+        <div>
+          <h3 class="text-xl font-semibold mb-2 text-center md:text-left">Informações Pessoais</h3>
+          <p><span class="font-bold">ID Fiscal:</span> {{ user.fiscalId }}</p>
+          <p><span class="font-bold">Nacionalidade:</span> {{ user.nationality }}</p>
+          <p><span class="font-bold">Função:</span> {{ user.role }}</p>
+        </div>
+
+        <div class="divider my-4"></div>
+        @if(user.role !== Role.Relative) {
+          <div>
+            <h3 class="text-xl font-semibold mb-2 text-center md:text-left">Informações Pessoais</h3>
+            <p><span class="font-bold">Salário:</span> {{ user.employee?.salary }}</p>
+            <p><span class="font-bold">Início do Contrato:</span> {{ user.employee?.contractStart }}</p>
+            <p><span class="font-bold">Fim do Contrato:</span> {{ user.employee?.contractEnds }}</p>
+          </div>
+        }
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="card bg-base-200 p-4">
-        <h2 class="card-title mb-2">Contact Information</h2>
-        <p><strong>Name:</strong> {{user.name}}</p>
-        <p><strong>Email:</strong> {{user.email}}</p>
-        <p><strong>Phone:</strong> {{user.phoneNumber}}</p>
-      </div>
-
-      <div class="card bg-base-200 p-4">
-        <h2 class="card-title mb-2">Address</h2>
-        <p><strong>Street:</strong> {{user.address}}</p>
-        <p><strong>City:</strong> {{user.city}}</p>
-        <p><strong>Postcode:</strong> {{user.postcode}}</p>
-      </div>
-
-      <div class="card bg-base-200 p-4">
-        <h2 class="card-title mb-2">Personal Information</h2>
-        <p><strong>Fiscal ID:</strong> {{user.fiscalId}}</p>
-        <p><strong>Nationality:</strong> {{user.nationality}}</p>
-        <p><strong>Role:</strong> {{user.role}}</p>
-      </div>
-    </div>
-
-    <app-modal-confirm
-      title="Apagar Utilizador"
-      message=""
-      confirmLabel="Delete"
-      (confirm)="onDelete()"
-    ></app-modal-confirm>
+    <!-- Modal de Confirmação -->
+    <app-modal-confirm title="Apagar Utilizador" message="Tem certeza de que deseja excluir este utilizador?"
+                       confirmLabel="Eliminar" (confirm)="onDelete()">
+    </app-modal-confirm>
   </div>
 
   @if(!user) {
     <app-loading />
   }
-
 </ng-container>
 
+<!-- Template de Erro -->
 <ng-template #errorTpl>
   <p class="text-error p-4">{{ error }}</p>
 </ng-template>

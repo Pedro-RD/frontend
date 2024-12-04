@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, map, Observable, of, take, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { User, UserDTO } from '../../interfaces/user';
+import { User, UserDTO, UserRxpDTO } from '../../interfaces/user';
 import { ListService } from '../list/list.service';
 import { ToastService } from '../toast/toast.service';
 import PagedResponse from '../../interfaces/paged-response.interface';
@@ -35,9 +35,12 @@ export class UsersService extends ListService<User> {
     );
   }
 
-  fetchItem(id: number): Observable<User> {
-    return this.httpClient.get<User>(`${this.url}/${id}`).pipe(
+  fetchItem(id: number): Observable<UserRxpDTO> {
+    return this.httpClient.get<UserRxpDTO>(`${this.url}/${id}`).pipe(
       tap((user) => {
+        if (user.employee?.contractStart) {
+          user.employee.contractStart = new Date(user.employee?.contractStart); // Parse the birthDate string into a Date object
+        }
         if (!environment.production) console.log('Fetched user:', user);
       }),
       catchError((error) => {
@@ -64,7 +67,7 @@ export class UsersService extends ListService<User> {
 
   update(item: User): Observable<User> {
     if (!environment.production) console.log('Updating user:', item);
-    return this.httpClient.put<User>(`${this.url}/${item.id}`, item).pipe(
+    return this.httpClient.patch<User>(`${this.url}/${item.id}`, item).pipe(
       map(user => {
         if (!environment.production) console.log('User updated:', user);
         this.toastService.success('User updated successfully');

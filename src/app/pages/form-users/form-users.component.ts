@@ -14,8 +14,9 @@ import { SelectBoxComponent } from '../../components/forms/select-box/select-box
 import { environment } from '../../../environments/environment';
 import { nationalities } from '../../data/nationalities';
 import { ButtonComponent } from '../../components/forms/button/button.component';
-import { UserDTO } from '../../interfaces/user';
+import { UserDTO, UserRxpDTO } from '../../interfaces/user';
 import { Role } from '../../interfaces/roles.enum';
+import { UserEmployee } from '../../interfaces/employee';
 
 @Component({
   selector: 'app-form-users',
@@ -31,8 +32,8 @@ import { Role } from '../../interfaces/roles.enum';
   styleUrl: './form-users.component.css',
 })
 export class FormUsersComponent implements OnInit {
-  initialData = input<UserDTO | undefined>();
-  createRequested = output<UserDTO>();
+  initialData = input<UserRxpDTO | undefined>();
+  createRequested = output<UserEmployee>();
 
   name = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email]);
@@ -54,6 +55,10 @@ export class FormUsersComponent implements OnInit {
   nationality = new FormControl('', [Validators.required]);
   fiscalCode = new FormControl('', [Validators.required]);
   role = new FormControl<Role | ''>('', [Validators.required]);
+  contractStart = new FormControl<string>(new Date().toISOString().substring(0, 10), [Validators.required]);
+  contractEnds = new FormControl<string>( new Date().toISOString().substring(0, 10),[Validators.required]);
+  salary = new FormControl<number | null>(0, [Validators.required]);
+
 
   private passwordMatchValidator(): ValidatorFn {
     return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -96,16 +101,22 @@ export class FormUsersComponent implements OnInit {
       this.fiscalCode.setValue(data.fiscalId);
       this.role.setValue(data.role);
 
+      if (data.role !== Role.Relative) {
+        this.contractStart.setValue(new Date(data.employee?.contractStart || 0).toISOString().substring(0, 10));
+        this.contractEnds.setValue(new Date(data.employee?.contractEnds || 0).toISOString().substring(0, 10));
+        this.salary.setValue(data.employee?.salary || null);
+      }
+
       let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
-      
+
       if (!nationalityOption) {
-        nationalityOption = this.nationalities.find(n => 
+        nationalityOption = this.nationalities.find(n =>
           n.value.toLowerCase() === data.nationality.toLowerCase() ||
           n.label.toLowerCase() === data.nationality.toLowerCase()
         );
       }
-      
-      
+
+
       if (nationalityOption) {
         this.nationality.setValue(nationalityOption.value);
       } else {
@@ -140,10 +151,38 @@ export class FormUsersComponent implements OnInit {
         fiscalId: this.fiscalCode.value!,
         nationality: this.nationality.value!,
         role: this.role.value! as Role,
+        salary: parseFloat(`${this.salary.value!}`),
+        contractStart: new Date(this.contractStart.value!),
+        contractEnds: new Date(this.contractEnds.value!),
       });
     }
   }
 
   protected readonly environment = environment;
   protected readonly nationalities = nationalities;
+
+  onRoleChange() {
+    /*const selectedRole = this.role.value;
+
+    //add funcionaries inputs
+    if (selectedRole == 'manager' || selectedRole == 'caretaker') {
+      if (!this.form.contains('contractStart'))
+        this.form.addControl('contractStart', new FormControl('', Validators.required));
+      if (!this.form.contains('contractEnd'))
+        this.form.addControl('contractEnd', new FormControl('', Validators.required));
+      if (!this.form.contains('salary'))
+        this.form.addControl('salary', new FormControl('', Validators.required));
+    }
+    //remove funcionaries inputs
+    else {
+      if (this.form.contains('contractStart'))
+        this.form.removeControl('contractStart');
+      if (this.form.contains('contractEnd'))
+        this.form.removeControl('contractEnd');
+      if (this.form.contains('salary'))
+        this.form.removeControl('salary');
+    }*/
+  }
+
+  protected readonly FormControl = FormControl;
 }

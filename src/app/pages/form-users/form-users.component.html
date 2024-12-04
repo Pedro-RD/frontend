@@ -105,7 +105,7 @@
       [required]="true"
       class="border-0 w-full p-0"
       label="Cidade"
-      placeholder="7778-234"
+      placeholder="Lisboa"
       type="text" />
   </div>
 
@@ -131,8 +131,42 @@
   <app-select-box
     [control]="role"
     [data]="roles"
+    (change)="onRoleChange()"
     label="Função"
   />
+
+  @if(form.controls['role'].getRawValue()==='manager' || form.controls['role'].getRawValue()==='caretaker') {
+    <h2 class="card-title mb-3 mt-4">Dados de Contrato</h2>
+
+    <div class="grid grid-cols-2 gap-5">
+      <app-input
+        [control]="contractStart"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Início do Contrato"
+        placeholder="YYYY-MM-DD"
+        type="date">
+      </app-input>
+
+      <app-input
+        [control]="contractEnds"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Fim do Contrato"
+        placeholder="YYYY-MM-DD"
+        type="date">
+      </app-input>
+    </div>
+
+    <app-input
+      [control]="salary"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Salário"
+      placeholder="50000.00"
+      type="number">
+    </app-input>
+  }
 
   <div class="flex justify-center pt-10">
     <app-button label="Guardar" type="submit" (click)="onSubmit()" />
