@@ -5,7 +5,7 @@ import { User, UserRxpDTO } from '../../interfaces/user';
 import { map, Subscription, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
-import { LoadingComponent } from "../../components/forms/loading/loading.component";
+import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Role } from '../../interfaces/roles.enum';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth/auth.service';
   standalone: true,
   imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent],
   templateUrl: './users-detail.component.html',
-  styleUrl: './users-detail.component.css'
+  styleUrl: './users-detail.component.css',
 })
 export class UsersDetailComponent implements OnInit, OnDestroy {
   user: UserRxpDTO | null = null;
@@ -34,30 +34,31 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.subs.push(
-        this.usersService.fetchItem(id).pipe(
-          tap(console.log)
-        ).subscribe({
-          next: (user) => this.user = user,
-          error: (err) => {
-            console.error(err);
-            this.error = 'User not found';
-          }
-        })
+        this.usersService
+          .fetchItem(id)
+          .pipe(tap(console.log))
+          .subscribe({
+            next: (user) => (this.user = user),
+            error: (err) => {
+              console.error(err);
+              this.error = 'User not found';
+            },
+          }),
       );
     }
 
-    return this.authService.getUser().pipe(
-      tap((user) => console.log('User: ', user)),
-      map((user: User | null) => user?.employeeId?.id)
-    ).subscribe((id) => {
-      if (id) {
-        this.employeeId = id;
-      }
-    })
+    return this.authService
+      .getUser()
+      .pipe(map((user: UserRxpDTO | null) => user?.employee?.id))
+      .subscribe((id) => {
+        if (id) {
+          this.employeeId = id;
+        }
+      });
   }
 
   ngOnDestroy() {
-    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs.forEach((sub) => sub.unsubscribe());
   }
 
   onDelete() {
@@ -69,8 +70,8 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error(err);
           this.error = 'Failed to delete user';
-        }
-      })
+        },
+      }),
     );
   }
 
