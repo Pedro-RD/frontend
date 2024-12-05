@@ -3,7 +3,7 @@
 
   <!-- Dados do Relatório de Saúde -->
   <h2 class="mb-3 card-title">Informações de Saúde</h2>
-  
+
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
     <app-input
       [control]="arterialBloodPressure"
@@ -12,7 +12,7 @@
       label="Pressão Arterial"
       placeholder="Pressão arterial (mmHg)"
       type="text" />
-    
+
     <app-input
       [control]="temperature"
       [required]="true"
@@ -30,7 +30,7 @@
       label="Altura"
       placeholder="Altura (cm)"
       type="number" />
-    
+
     <app-input
       [control]="weight"
       [required]="true"
@@ -48,7 +48,7 @@
       label="Frequência Respiratória"
       placeholder="Frequência respiratória (movimentos/minuto)"
       type="number" />
-    
+
     <app-input
       [control]="heartRate"
       [required]="true"
@@ -66,7 +66,7 @@
       label="Nível de Glicose no Sangue"
       placeholder="Nível de glicose (mg/dL)"
       type="number" />
-    
+
     <app-input
       [control]="mobility"
       [required]="true"
@@ -84,7 +84,7 @@
       label="Nível de Hidratação"
       placeholder="Nível de hidratação"
       type="text" />
-    
+
     <app-input
       [control]="cognitiveEmotionalAssessment"
       [required]="true"
@@ -103,7 +103,12 @@
   </div>
 
   <!-- Botão de Submissão -->
-  <div class="flex justify-center pt-10">
+  <div class="flex justify-center pt-10 gap-4">
+    <button class="btn btn-secondary flex items-center gap-2" (click)="goBack()">
+      <img src="left-arrow.svg" alt="Left Arrow Icon" class="w-5 h-5" />
+      Voltar
+    </button>
+
     <app-button label="Guardar" type="submit" />
   </div>
 </form>

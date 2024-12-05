@@ -38,7 +38,7 @@ export class EmployeeService {
     return this.httpClient.post<Employee>(this.url, item).pipe(
       map(employee => {
         if (!environment.production) console.log('Employee created:', employee);
-        this.toastService.success('Employee created successfully');
+        this.toastService.success('Funcionário criado com sucesso');
         return employee;
       }),
       catchError((error) => {
@@ -53,7 +53,7 @@ export class EmployeeService {
     if (!environment.production) console.log('Updating employee:', employeeData);
     return this.httpClient.patch<Employee>(`${this.url}/${employeeData.id}`, employeeData).pipe(
       map(employee => {
-        if (!environment.production) console.log('Employee updated:', employee);
+        if (!environment.production) console.log('Funcionário atualizado com sucesso:', employee);
         this.toastService.success('Employee updated successfully');
         return employee;
       }),

@@ -44,11 +44,12 @@
       placeholder="dd/mm/yyyy"
       type="date" />
 
-<div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
-      <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">
+    <div class="flex flex-col md:flex-row justify-center items-center pt-10 gap-4">
+      <a class="btn btn-warning flex items-center gap-2" [routerLink]="['/residents', residentId, 'medicaments']">
+        <img src="left-arrow.svg" alt="Left Arrow Icon" class="w-4 h-4 md:w-6 md:h-6" />
         Voltar
       </a>
-      <app-button label="Guardar" type="submit" />
+      <app-button label="Guardar" type="submit"></app-button>
     </div>
   </form>
 <!--  <button (click)="selectedMedication && showModal(selectedMedication)">Show Modal</button>-->

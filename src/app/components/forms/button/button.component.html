@@ -1,6 +1,8 @@
 <button
   [type]="type()"
-  class="btn btn-active btn-success px-10 text-white">
-  {{ label() }}
+  class="btn btn-success"
+>
+  <img src="check.svg" alt="Check Icon" class="w-6 h-6" />
+  <span>{{ label() }}</span>
   <ng-content></ng-content>
 </button>

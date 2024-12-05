@@ -2,7 +2,9 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ['Nunito', 'ui-sans-serif', 'system-ui', 'Arial', 'sans-serif'],
+    },
   },
   plugins: [
     require("daisyui"),

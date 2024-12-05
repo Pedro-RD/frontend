@@ -4,8 +4,31 @@
     <p class="py-4">{{message()}}</p>
     <div class="modal-action">
       <form method="dialog" class="space-x-2">
-        <button [class]="'btn ' + confirmClass" (click)="onConfirm()">{{confirmLabel()}}</button>
-        <button class="btn" (click)="close()">{{cancelLabel()}}</button>
+        <button
+          [class]="'btn btn-primary ' + confirmClass"
+          (click)="onConfirm()"
+          class="inline-flex items-center"
+        >
+          <!-- Ícone de Não -->
+          <img
+            src="no.svg"
+            alt="No Icon"
+            class="w-6 h-6"
+          />
+          {{ confirmLabel() }}
+        </button>
+        <button
+          class="btn btn-warning inline-flex items-center gap-2"
+          (click)="close()"
+        >
+          <!-- Warning Icon -->
+          <img
+            src="warning.svg"
+            alt="Warning Icon"
+            class="w-6 h-6"
+          />
+          {{ cancelLabel() }}
+        </button>
       </form>
     </div>
   </div>
