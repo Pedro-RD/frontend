@@ -1,31 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule, DatePipe, NgIf } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Medication } from '../../interfaces/medication';
 import { MedicationService } from '../../services/medication/medication.service';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
-import { ButtonComponent } from '../../components/forms/button/button.component';
 
 @Component({
   selector: 'app-medication-details',
   templateUrl: './medication-details.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    DatePipe,
-    NgIf,
-    LoadingComponent,
-    ModalConfirmComponent,
-    ButtonComponent,
-  ],
   styleUrls: ['./medication-details.component.css']
 })
 export class MedicationDetailsComponent implements OnInit {
   medication?: Medication;
   error?: string;
   residentId?: string | null;
+  isAdministrationModalVisible = false;
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
   constructor(
@@ -48,7 +37,7 @@ export class MedicationDetailsComponent implements OnInit {
         }
       });
     } else {
-      this.error = 'Invalid route parameters';
+      this.error = 'Invalid resident or medication ID';
     }
   }
 
@@ -57,18 +46,34 @@ export class MedicationDetailsComponent implements OnInit {
     if (this.residentId && medicationId) {
       this.medicationService.delete(this.residentId, medicationId).subscribe({
         next: () => {
-          this.router.navigate([`/residents/${this.residentId}/medicaments`]);
+          this.router.navigate(['/residents', this.residentId, 'medicaments']);
         },
         error: (err) => {
           this.error = 'Failed to delete medication';
         }
       });
-    } else {
-      this.error = 'Invalid route parameters';
     }
+  }
+
+  showAdministrationModal = false; // Controla a visibilidade da modal
+
+  openAdministrationModal(): void {
+    this.showAdministrationModal = true;
+  }
+
+  closeAdministrationModal(): void {
+    this.showAdministrationModal = false;
   }
 
   showDeleteModal(): void {
     this.deleteModal.show();
+  }
+
+  openAdministrationModal(): void {
+    this.isAdministrationModalVisible = true;
+  }
+
+  closeAdministrationModal(): void {
+    this.isAdministrationModalVisible = false;
   }
 }

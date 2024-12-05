@@ -23,6 +23,8 @@ import { MedicationComponent } from './pages/medication/medication.component';
 import { ResidentsAppointmentsComponent } from './pages/residents-appointments/residents-appointments.component';
 import { MedicationCreateComponent } from './pages/medication-create/medication-create.component';
 import { MedicationDetailsComponent } from './pages/medication-details/medication-details.component';
+import { MedicationAdministrationComponent } from './pages/medication-administration/medication-administration.component';
+
 
 import { ResidentsAppointmentsCreateComponent } from './pages/residents-appointments-create/residents-appointments-create.component';
 import { ResidentsAppointmentsDetailComponent } from './pages/residents-appointments-detail/residents-appointments-detail.component';
@@ -149,9 +151,9 @@ export const routes: Routes = [
     component: MedicationCreateComponent,
   },
   {
-    path: 'residents/:residentId/medicaments/:id',
-    component: MedicationDetailsComponent,
-  },
+    path: 'residents/:residentId/medicaments/:id', component: MedicationDetailsComponent, children: [
+      { path: 'administration', component: MedicationAdministrationComponent }
+    ]},
   {
     path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationEditComponent,

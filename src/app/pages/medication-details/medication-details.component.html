@@ -13,7 +13,8 @@
 <!--          </div>-->
 <!--          <div class="space-y-2">-->
 <!--            <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication.prescriptionQuantity }}</p>-->
-<!--            <p><span class="font-bold">Data de Validade:</span> {{ medication.dueDate | date:'yyyy-MM-dd' }}</p>          </div>-->
+<!--            <p><span class="font-bold">Data de Validade:</span> {{ medication.dueDate | date:'yyyy-MM-dd' }}</p>-->
+<!--          </div>-->
 <!--        </div>-->
 
 <!--        <div class="divider my-4"></div>-->
@@ -29,9 +30,20 @@
 <!--      &lt;!&ndash; Ícone de Editar &ndash;&gt;-->
 <!--      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">-->
 <!--        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />-->
-<!--        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />-->
+<!--        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />-->
 <!--      </svg>-->
 <!--      Editar-->
+<!--    </a>-->
+
+
+<!--&lt;!&ndash;    <app-medication-administration&ndash;&gt;-->
+<!--&lt;!&ndash;      *ngIf="isAdministrationModalVisible"&ndash;&gt;-->
+<!--&lt;!&ndash;      [medication]="medication"&ndash;&gt;-->
+<!--&lt;!&ndash;      (close)="closeAdministrationModal()"&ndash;&gt;-->
+<!--&lt;!&ndash;    ></app-medication-administration>&ndash;&gt;-->
+
+<!--    <a [routerLink]="['/residents', residentId, 'medicaments', medication?.id, 'administration']" class="btn btn-primary">-->
+<!--      Administrar Medicação-->
 <!--    </a>-->
 <!--    <button (click)="showDeleteModal()" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">-->
 <!--      &lt;!&ndash; Ícone de Eliminar &ndash;&gt;-->
@@ -47,60 +59,195 @@
 <!--  </div>-->
 <!--</ng-container>-->
 
+<!--&lt;!&ndash; Modal de Confirmação &ndash;&gt;-->
+<!--<app-modal-confirm-->
+<!--  title="Apagar Medicamento"-->
+<!--  message="Tem certeza de que deseja eliminar este medicamento?"-->
+<!--  confirmLabel="Eliminar"-->
+<!--  (confirm)="onDelete()"-->
+<!--&gt;</app-modal-confirm>-->
+
 <!--&lt;!&ndash; Template de Erro &ndash;&gt;-->
 <!--<ng-template #errorTpl>-->
 <!--  <p class="text-error p-4">{{ error }}</p>-->
 <!--</ng-template>-->
 
+<!--<router-outlet></router-outlet>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<ng-container *ngIf="!error; else errorTpl">-->
+<!--  <div class="container mx-auto p-4 md:p-6">-->
+<!--    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">-->
+<!--      &lt;!&ndash; Coluna da Esquerda: Detalhes do Medicamento &ndash;&gt;-->
+<!--      <div class="card bg-base-100 shadow-xl relative">-->
+<!--        <div class="card-body pt-6">-->
+<!--          <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Detalhes do Medicamento</h2>-->
+<!--          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full">-->
+<!--            <div class="space-y-2">-->
+<!--              <p><span class="font-bold">Nome:</span> {{ medication?.name }}</p>-->
+<!--              <p><span class="font-bold">Instruções:</span> {{ medication?.instructions }}</p>-->
+<!--              <p><span class="font-bold">Quantidade:</span> {{ medication?.quantity }}</p>-->
+<!--            </div>-->
+<!--            <div class="space-y-2">-->
+<!--              <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication?.prescriptionQuantity }}</p>-->
+<!--              <p><span class="font-bold">Data de Validade:</span> {{ medication?.dueDate | date:'yyyy-MM-dd' }}</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="divider my-4"></div>-->
+<!--          <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">-->
+<!--            <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">Voltar</a>-->
+<!--            <a [routerLink]="['/residents', residentId, 'medicaments', medication?.id, 'edit']" class="btn btn-info">Editar</a>-->
+<!--            <button (click)="showDeleteModal()" class="btn btn-primary">Eliminar</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Coluna da Direita: Administração de Medicação &ndash;&gt;-->
+<!--      <app-medication-administration></app-medication-administration>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->
+
+<!--&lt;!&ndash; Modal de Confirmação &ndash;&gt;-->
+<!--<app-modal-confirm-->
+<!--  title="Apagar Medicamento"-->
+<!--  message="Tem certeza de que deseja eliminar este medicamento?"-->
+<!--  confirmLabel="Eliminar"-->
+<!--  (confirm)="onDelete()"-->
+<!--&gt;</app-modal-confirm>-->
+
+<!--&lt;!&ndash; Template de Erro &ndash;&gt;-->
+<!--<ng-template #errorTpl>-->
+<!--  <p class="text-error p-4">{{ error }}</p>-->
+<!--</ng-template>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<ng-container *ngIf="!error; else errorTpl">-->
+<!--  <div class="container mx-auto p-4 md:p-6">-->
+<!--    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">-->
+<!--      &lt;!&ndash; Coluna da Esquerda: Detalhes do Medicamento &ndash;&gt;-->
+<!--      <div class="card bg-base-100 shadow-xl relative">-->
+<!--        <div class="card-body pt-6">-->
+<!--          <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Detalhes do Medicamento</h2>-->
+<!--          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full">-->
+<!--            <div class="space-y-2">-->
+<!--              <p><span class="font-bold">Nome:</span> {{ medication?.name }}</p>-->
+<!--              <p><span class="font-bold">Instruções:</span> {{ medication?.instructions }}</p>-->
+<!--              <p><span class="font-bold">Quantidade:</span> {{ medication?.quantity }}</p>-->
+<!--            </div>-->
+<!--            <div class="space-y-2">-->
+<!--              <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication?.prescriptionQuantity }}</p>-->
+<!--              <p><span class="font-bold">Data de Validade:</span> {{ medication?.dueDate | date:'yyyy-MM-dd' }}</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="divider my-4"></div>-->
+<!--          <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">-->
+<!--            <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">Voltar</a>-->
+<!--            <a [routerLink]="['/residents', residentId, 'medicaments', medication?.id, 'edit']" class="btn btn-info">Editar</a>-->
+<!--            <button (click)="toggleAdministration()" class="btn btn-primary">Administrar</button>-->
+<!--            <button (click)="showDeleteModal()" class="btn btn-primary">Eliminar</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Coluna da Direita: Administração de Medicação &ndash;&gt;-->
+<!--      <app-medication-administration *ngIf="isAdministrationVisible" (close)="closeAdministration()" [medication]="medication"></app-medication-administration>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->
+
+<!--&lt;!&ndash; Modal de Confirmação &ndash;&gt;-->
+<!--<app-modal-confirm-->
+<!--  title="Apagar Medicamento"-->
+<!--  message="Tem certeza de que deseja eliminar este medicamento?"-->
+<!--  confirmLabel="Eliminar"-->
+<!--  (confirm)="onDelete()"-->
+<!--&gt;</app-modal-confirm>-->
+
+<!--&lt;!&ndash; Template de Erro &ndash;&gt;-->
+<!--<ng-template #errorTpl>-->
+<!--  <p class="text-error p-4">{{ error }}</p>-->
+<!--</ng-template>-->
+
+
+
+
+
+
+
+
+
+
+
 <ng-container *ngIf="!error; else errorTpl">
-  <div *ngIf="medication" class="container mx-auto p-4 md:p-6">
+  <div class="container mx-auto p-4 md:p-6">
     <div class="card bg-base-100 shadow-xl relative">
       <div class="card-body pt-6">
         <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Detalhes do Medicamento</h2>
-
-        <!-- Detalhes do Medicamento -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full">
           <div class="space-y-2">
-            <p><span class="font-bold">Nome:</span> {{ medication.name }}</p>
-            <p><span class="font-bold">Instruções:</span> {{ medication.instructions }}</p>
-            <p><span class="font-bold">Quantidade:</span> {{ medication.quantity }}</p>
+            <p><span class="font-bold">Nome:</span> {{ medication?.name }}</p>
+            <p><span class="font-bold">Instruções:</span> {{ medication?.instructions }}</p>
+            <p><span class="font-bold">Quantidade:</span> {{ medication?.quantity }}</p>
           </div>
           <div class="space-y-2">
-            <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication.prescriptionQuantity }}</p>
-            <p><span class="font-bold">Data de Validade:</span> {{ medication.dueDate | date:'yyyy-MM-dd' }}</p>
+            <p><span class="font-bold">Quantidade Prescrita:</span> {{ medication?.prescriptionQuantity }}</p>
+            <p><span class="font-bold">Data de Validade:</span> {{ medication?.dueDate | date:'yyyy-MM-dd' }}</p>
           </div>
         </div>
-
         <div class="divider my-4"></div>
+        <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
+          <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">Voltar</a>
+          <a [routerLink]="['/residents', residentId, 'medicaments', medication?.id, 'edit']" class="btn btn-info">Editar</a>
+          <button (click)="openAdministrationModal()" class="btn btn-primary">Administrar</button>
+          <button (click)="showDeleteModal()" class="btn btn-primary">Eliminar</button>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
-    <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">
-      Voltar
-    </a>
-    <a [routerLink]="['/residents', residentId, 'medicaments', medication?.id, 'edit']" class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
-      <!-- Ícone de Editar -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
-        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
-      </svg>
-      Editar
-    </a>
-    <button (click)="showDeleteModal()" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">
-      <!-- Ícone de Eliminar -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
-      </svg>
-      Eliminar
-    </button>
-  </div>
-
-  <div *ngIf="!medication">
-    <app-loading />
-  </div>
 </ng-container>
+
+<!-- Modal de Administração -->
+<div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50" *ngIf="showAdministrationModal">
+  <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg">
+    <div class="flex justify-end">
+      <button class="text-gray-500 hover:text-gray-800 text-xl transition duration-200" (click)="closeAdministrationModal()">&times;</button>
+    </div>
+    <h3 class="text-2xl font-bold text-gray-700 text-center mb-6">Administrar Medicação</h3>
+    <app-medication-administration [medication]="medication" (close)="closeAdministrationModal()"></app-medication-administration>
+    <app-administration-list [medicationId]="medication?.id"></app-administration-list>
+  </div>
+</div>
 
 <!-- Modal de Confirmação -->
 <app-modal-confirm
