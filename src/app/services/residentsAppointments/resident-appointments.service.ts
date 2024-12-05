@@ -50,7 +50,7 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
       }),
       catchError((err) => {
         if (!environment.production) console.error('Erro ao buscar consulta:', err);
-        this.toastService.error('Erro ao buscar consulta');
+        this.toastService.error('Erro ao encontrar consulta');
         return of({} as Appointment);
       })
     );

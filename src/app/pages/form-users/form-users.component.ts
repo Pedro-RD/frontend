@@ -17,6 +17,8 @@ import { ButtonComponent } from '../../components/forms/button/button.component'
 import { UserDTO, UserRxpDTO } from '../../interfaces/user';
 import { Role } from '../../interfaces/roles.enum';
 import { UserEmployee } from '../../interfaces/employee';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-form-users',
@@ -34,6 +36,9 @@ import { UserEmployee } from '../../interfaces/employee';
 export class FormUsersComponent implements OnInit {
   initialData = input<UserRxpDTO | undefined>();
   createRequested = output<UserEmployee>();
+
+  constructor(private location: Location) {
+  }
 
   name = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email]);
@@ -185,4 +190,8 @@ export class FormUsersComponent implements OnInit {
   }
 
   protected readonly FormControl = FormControl;
+
+  goBack() {
+    this.location.back();
+  }
 }

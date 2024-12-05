@@ -2,16 +2,82 @@
   <ul
     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
     tabindex="0">
-    <li><a routerLink="/users" routerLinkActive="font-bold border-b-2 border-info">Utilizadores</a></li>
-    <li><a routerLink="/residents" routerLinkActive="font-bold border-b-2 border-info">Residentes</a></li>
-    <li><a [routerLink]="['employees', employeeId, 'shifts']" routerLinkActive="font-bold border-b-2 border-info" >Turnos</a></li>
+    <li>
+      <a
+        routerLink="/users"
+        routerLinkActive="translate-x-1 font-bold border-b-2 border-info duration-500"
+        class="flex items-center space-x-2"
+      >
+        <!-- Icon -->
+        <img src="team.svg" alt="team" class="w-8 h-8" />
+        <!-- Link Text -->
+        <span>Utilizadores</span>
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/residents"
+        routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500"
+        class="flex items-center space-x-2"
+      >
+        <!-- Icon -->
+        <img src="friends.svg" alt="users" class="w-8 h-8" />
+        <!-- Link Text -->
+        <span>Residentes</span>
+      </a>
+    </li>
+    <li>
+      <a
+        [routerLink]="['employees', employeeId, 'shifts']"
+        routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500"
+        class="flex items-center space-x-2"
+      >
+        <!-- Icon -->
+        <img src="scheduling.svg" alt="schedule" class="w-8 h-8" />
+        <!-- Link Text -->
+        <span>Turnos</span>
+      </a>
+    </li>
   </ul>
 } @else {
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-      <li><a routerLink="/users" routerLinkActive="translate-x-1 font-bold border-b-2 border-info duration-500">Utilizadores</a></li>
-      <li><a routerLink="/residents" routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500">Residentes</a></li>
-      <li><a [routerLink]="['employees', employeeId, 'shifts']" routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500">Turnos</a></li>
+      <li>
+        <a
+          routerLink="/users"
+          routerLinkActive="translate-x-1 font-bold border-b-2 border-info duration-500"
+          class="flex items-center space-x-2"
+        >
+          <!-- Icon -->
+          <img src="team.svg" alt="team" class="w-8 h-8" />
+          <!-- Link Text -->
+          <span>Utilizadores</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/residents"
+          routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500"
+          class="flex items-center space-x-2"
+        >
+          <!-- Icon -->
+          <img src="friends.svg" alt="users" class="w-8 h-8" />
+          <!-- Link Text -->
+          <span>Residentes</span>
+        </a>
+      </li>
+      <li>
+        <a
+          [routerLink]="['employees', employeeId, 'shifts']"
+          routerLinkActive="translate-x-1 scale-105 font-bold border-b-2 border-info duration-500"
+          class="flex items-center space-x-2"
+        >
+          <!-- Icon -->
+          <img src="scheduling.svg" alt="schedule" class="w-8 h-8" />
+          <!-- Link Text -->
+          <span>Turnos</span>
+        </a>
+      </li>
     </ul>
   </div>
 }

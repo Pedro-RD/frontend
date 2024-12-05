@@ -37,7 +37,7 @@
   <tbody>
     @for (row of data(); track row.id) {
       <tr
-        class="cursor-pointer hover:bg-amber-100"
+        class="cursor-pointer hover:bg-info"
         (click)="handleRowClicked(row.id)"
       >
         @for (col of tableConfig().columns; track $index; let i = $index) {
