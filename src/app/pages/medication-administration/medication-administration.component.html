@@ -2,13 +2,18 @@
 <!--  <div class="card bg-base-100 shadow-xl relative">-->
 <!--    <div class="card-body pt-6">-->
 <!--      <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Administrar Medicação</h2>-->
+<!--&lt;!&ndash;      <p><strong>Nome:</strong> {{ medication?.name }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;      <p><strong>Instruções:</strong> {{ medication?.instructions }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;      <p><strong>Quantidade:</strong> {{ medication?.quantity }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;      <p><strong>Data de Validade:</strong> {{ medication?.dueDate | date:'yyyy-MM-dd' }}</p>&ndash;&gt;-->
+<!--      &lt;!&ndash; Adicione campos para hora e dose &ndash;&gt;-->
 <!--      <div>-->
 <!--        <label for="hour">Hora:</label>-->
-<!--        <input id="hour" type="time">-->
+<!--        <input id="hour" type="time" [(ngModel)]="hour">-->
 <!--      </div>-->
 <!--      <div>-->
 <!--        <label for="dose">Dose:</label>-->
-<!--        <input id="dose" type="number">-->
+<!--        <input id="dose" type="number" [(ngModel)]="dose">-->
 <!--      </div>-->
 <!--      <button (click)="onAdminister()" class="btn btn-primary mt-4">Administrar</button>-->
 <!--    </div>-->
@@ -18,59 +23,25 @@
 
 
 
+<div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+  <div class="bg-white rounded-lg p-6 w-96">
+    <h2 class="text-2xl font-bold mb-4">Administrar Medicação - {{ medication?.name }}</h2>
 
-
-
-
-
-
-
-
-
-<!--<div class="card bg-base-100 shadow-xl relative">-->
-<!--  <div class="card-body pt-6">-->
-<!--    <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Administrar Medicação</h2>-->
-<!--    <div>-->
-<!--      <label for="hour">Hora:</label>-->
-<!--      <input id="hour" type="time">-->
-<!--    </div>-->
-<!--    <div>-->
-<!--      <label for="dose">Dose:</label>-->
-<!--      <input id="dose" type="number">-->
-<!--    </div>-->
-<!--    <button (click)="onAdminister()" class="btn btn-primary mt-4">Administrar</button>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-
-
-
-
-
-
-
-<div class="card bg-base-100 shadow-xl relative">
-  <div class="card-body pt-6">
-    <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Administrar Medicação</h2>
-    <div>
-      <form class="max-w-[8rem] mx-auto">
-        <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select time:</label>
-        <div class="relative">
-          <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-              <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <input type="time" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
-        </div>
-      </form>
+    <!-- Campos de Administração -->
+    <div class="mb-4">
+      <label class="block text-sm font-semibold mb-2">Hora</label>
+      <input type="time" [(ngModel)]="hour" class="w-full p-2 border rounded">
     </div>
-    <div>
-      <label for="dose">Dose:</label>
-      <input id="dose" type="number">
+    <div class="mb-4">
+      <label class="block text-sm font-semibold mb-2">Dose</label>
+      <input type="number" [(ngModel)]="dose" class="w-full p-2 border rounded">
     </div>
-    <button (click)="onAdminister()" class="btn btn-primary mt-4">Administrar</button>
-    <button (click)="onClose()" class="btn btn-secondary mt-4">Fechar</button>
+
+    <!-- Botões -->
+    <div class="flex justify-between">
+      <button class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+      <button class="btn btn-primary" (click)="onAdminister()">Administrar</button>
+    </div>
   </div>
 </div>
+
