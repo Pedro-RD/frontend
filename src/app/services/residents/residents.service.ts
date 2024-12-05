@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, Observable, of, tap} from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import {environment} from '../../../environments/environment';
 import { Resident, ResidentDTO } from '../../interfaces/resident';
 import {ListService} from '../list/list.service';
@@ -13,6 +13,8 @@ import PagedResponse from '../../interfaces/paged-response.interface';
 })
 export class ResidentsService extends ListService<Resident> {
   readonly url: string = environment.apiUrl + 'residents';
+  private residentSubject = new BehaviorSubject<Resident | null>(null);
+  resident$ = this.residentSubject.asObservable();
 
   constructor(
     private httpClient: HttpClient,
@@ -98,4 +100,17 @@ isDeleting = false;
       })
     );
   }
+
+  updateResidentPhoto(newPhoto: string): void{
+    // Obtém o residente atual
+    const currentResident = this.residentSubject.value;
+    if (currentResident) {
+      const updatedResident = {
+        ...currentResident,
+        profilePicture: newPhoto,
+      }
+      this.residentSubject.next(updatedResident);
+    }
+  }
+
 }
