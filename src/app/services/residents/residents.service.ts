@@ -59,7 +59,7 @@ export class ResidentsService extends ListService<Resident> {
     return this.httpClient.post<Resident>(this.url, item).pipe(
       map(resident => {
         if (!environment.production) console.log('Resident created:', resident);
-        this.toastService.success('Resident created successfully');
+        this.toastService.success('Residente criado com sucesso');
         return resident;
       }),
       catchError((error) => {

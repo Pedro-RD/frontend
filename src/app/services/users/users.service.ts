@@ -55,7 +55,7 @@ export class UsersService extends ListService<User> {
     return this.httpClient.post<User>(this.url, item).pipe(
       map(user => {
         if (!environment.production) console.log('User created:', user);
-        this.toastService.success('User created successfully');
+        this.toastService.success('Utilizador criado com sucesso');
         return user;
       }),
       catchError((error) => {
@@ -70,7 +70,7 @@ export class UsersService extends ListService<User> {
     return this.httpClient.patch<User>(`${this.url}/${item.id}`, item).pipe(
       map(user => {
         if (!environment.production) console.log('User updated:', user);
-        this.toastService.success('User updated successfully');
+        this.toastService.success('Utilizador atualizado com sucesso');
         return user;
       }),
       catchError((error) => {
@@ -83,7 +83,7 @@ export class UsersService extends ListService<User> {
   delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}/${id}`).pipe(
       map(() => {
-        this.toastService.success('User deleted successfully');
+        this.toastService.success('Utilizador eliminado com sucesso');
       }),
       catchError((error) => {
         if (!environment.production) console.error('Error deleting user:', error);

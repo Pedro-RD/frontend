@@ -5,6 +5,7 @@ import {DatePipe, NgClass} from '@angular/common';
 import {TableCellProfileComponent} from '../table-cell-profile/table-cell-profile.component';
 import {TableCellTextComponent} from '../table-cell-text/table-cell-text.component';
 import {Order} from '../../../interfaces/paged-response.interface';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-table',
@@ -14,6 +15,8 @@ import {Order} from '../../../interfaces/paged-response.interface';
   styleUrl: './table.component.css',
 })
 export class TableComponent<T extends Entity> {
+  constructor(private location: Location) {}
+
   tableConfig = input.required<TableConfig<T>>();
   data = input.required<T[]>();
 
@@ -33,6 +36,10 @@ export class TableComponent<T extends Entity> {
 
   getValue<T>(obj: T, key: string): any {
     return (obj as { [key: string]: any })[key];
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   protected readonly Order = Order;

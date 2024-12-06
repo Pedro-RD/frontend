@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { environment } from '../../../environments/environment';
 import { InputComponent } from '../forms/input/input.component';
 import { ButtonComponent } from '../forms/button/button.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-health-report',
@@ -19,6 +20,9 @@ import { ButtonComponent } from '../forms/button/button.component';
 export class FormHealthReportComponent implements OnInit {
   @Input() initialData: HealthReportDTO | undefined;
   @Output() createRequested = new EventEmitter<HealthReportDTO>();
+
+  constructor(private location: Location) {}
+
 
   arterialBloodPressure = new FormControl<string>('', [Validators.required]);
   temperature = new FormControl<number | null>(null, [Validators.required]);
@@ -83,4 +87,8 @@ export class FormHealthReportComponent implements OnInit {
   }
 
   protected readonly environment = environment;
+
+  goBack() {
+    this.location.back();
+  }
 }

@@ -64,7 +64,7 @@ export class ResidentPaymentsService extends ListService<Payment> {
         if(!environment.production) console.log('Pagamento encontrado:', payment);
       }),
       catchError((err) => {
-        if (!environment.production) console.error('Erro ao buscar pagamento:', err);
+        if (!environment.production) console.error('Erro ao encontrar pagamento:', err);
         this.toastService.error('Erro ao buscar pagamento');
         return of({} as Payment);
       })
@@ -76,7 +76,7 @@ export class ResidentPaymentsService extends ListService<Payment> {
     return this.httpClient.post<Payment>(this.url+residentId +'/payments', item).pipe(
       map(payment =>  {
         if (!environment.production) console.log('Pagamento criado:', payment);
-        this.toastService.success('Pagamento criada com sucesso');
+        this.toastService.success('Pagamento criado com sucesso');
         return payment;
       }),
       catchError((error) => {
@@ -89,8 +89,8 @@ export class ResidentPaymentsService extends ListService<Payment> {
   update(id: number, item: PaymentDTO, residentId: number): Observable<Payment> {
     return this.httpClient.patch<Payment>(`${this.url}${residentId}/payments/${id}`, item).pipe(
       tap((updatedPayment) => {
-        if (!environment.production) console.log('Pagamento atualizada:', updatedPayment);
-        this.toastService.success('Pagamento atualizada com sucesso');
+        if (!environment.production) console.log('Pagamento atualizado:', updatedPayment);
+        this.toastService.success('Pagamento atualizado com sucesso');
       }),
       catchError((error) => {
         if (!environment.production) console.error('Erro ao atualizar pagamento:', error);
