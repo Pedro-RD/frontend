@@ -1,72 +1,86 @@
 <div class="navbar bg-base-100">
   <div class="navbar-start">
+    <!-- Menu lateral para dispositivos móveis -->
     <div class="dropdown">
       <div class="btn btn-ghost lg:hidden" role="button" tabindex="0">
-        <svg
-          class="h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M4 6h16M4 12h8m-8 6h16"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"/>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h8m-8 6h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
         </svg>
       </div>
-      <ng-container *ngComponentOutlet="( navbarLinks | async ); inputs: { side: true }"/>
+      <ng-container *ngComponentOutlet="(navbarLinks | async); inputs: { side: true }" />
     </div>
 
-    <img src="/logo.png" alt="logo" class="h-10 w-auto"/>
+    <!-- Logo -->
+    <img src="/logo.png" alt="logo" class="h-10 w-auto" />
   </div>
 
-<ng-container *ngComponentOutlet="( navbarLinks | async ); inputs: { side: false }"/>
+  <!-- Menu principal -->
+  <ng-container *ngComponentOutlet="(navbarLinks | async); inputs: { side: false }" />
 
+  <!-- Menu de notificações e avatar -->
   <div class="navbar-end">
-    <!-- Dropdown de Notificações -->
+    <!-- Menu de notificações -->
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle indicator mr-4">
-        <!-- Ícone do Sininho -->
         <div class="indicator relative">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
           </svg>
-          <!-- Badge sobre o sininho -->
-          <span class="badge badge-xs badge-primary absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">3</span>
+          <span
+            class="badge badge-xs badge-primary absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
+          >
+            {{ notifications.length }}
+          </span>
         </div>
       </div>
-      <!-- Dropdown de notificações -->
+
       <ul
         tabindex="0"
-        class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow">
-        <li><a><span>Nova mensagem</span></a></li>
-        <li><a><span>Tarefa concluída</span></a></li>
-        <li><a><span>Atualização disponível</span></a></li>
+        class="menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-96 max-h-[30rem] p-4 shadow overflow-y-auto"
+      >
+        <!-- Renderizar todas as notificações -->
+        <li
+          *ngFor="let notification of notifications"
+          class="p-2 border-b border-gray-300 last:border-none"
+        >
+          <div>
+            <a class="block">
+              <span class="font-semibold text-base">
+                {{ notification.message }}
+              </span>
+              <span class="text-sm text-gray-500">
+                {{ notification.createdAt | date: 'dd/MM/yyyy HH:mm' }} - ({{ notification.type }})
+              </span>
+            </a>
+          </div>
+          <button
+            class="btn btn-error btn-xs ml-2"
+            (click)="deleteNotification(notification.id)"
+          >
+            Excluir
+          </button>
+        </li>
       </ul>
+
+      
     </div>
 
-    <!-- Avatar Dropdown -->
+    <!-- Avatar e menu do usuário -->
     <div *ngIf="loggedIn | async" class="dropdown dropdown-end">
       <div class="btn btn-ghost btn-circle avatar" role="button" tabindex="0">
         <div class="w-10 rounded-full">
           <img
-            alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
+            alt="User Avatar"
+            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+          />
         </div>
       </div>
-      <ul
-        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-        tabindex="0">
+      <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" tabindex="0">
         <li>
           <a class="justify-between">
             Profile
