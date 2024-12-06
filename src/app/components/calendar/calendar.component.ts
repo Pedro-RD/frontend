@@ -45,6 +45,15 @@ export class CalendarComponent implements OnInit {
     selectable: false, // Permite selecionar um intervalo de dias
     dateClick: this.onDateClick.bind(this),
     select: this.onDateSelect.bind(this),
+    // Add Tailwind classes to day cells
+    dayCellClassNames: (args) => {
+      return ['border', 'border-black']; // Apply black border using Tailwind
+    },
+
+    // Optional: Add classes to the header cells
+    dayHeaderClassNames: (args) => {
+      return ['border', 'border-black']; // Apply black border to header cells
+    },
   };
 
   constructor(private employeesShiftsService: EmployeesShiftsService, private authService: AuthService, private toastService: ToastService) {}
@@ -59,6 +68,12 @@ export class CalendarComponent implements OnInit {
           console.log('Role do Utilizador:', this.userRole);
           this.calendarOptions = {
             ...this.calendarOptions,
+            dayCellDidMount: (info) => {
+              info.el.style.cursor = 'pointer'; // Change the cursor for day cells
+            },
+            eventDidMount: (info) => {
+              info.el.style.cursor = 'default'; // Change the cursor for events
+            },
             selectable: true, // Permite selecionar intervalos
             select: this.onDateSelect.bind(this), // Captura a seleção de datas
           };
@@ -139,7 +154,7 @@ export class CalendarComponent implements OnInit {
       backgroundColor: this.getShiftColor(shift.shift), // Cor do turno
       allDay: true, // Evento ocupa o dia inteiro
       rendering: 'background', // Define como evento de fundo
-      borderColor: 'transparent', // Borda transparente
+      borderColor: 'black', // Borda transparente
     }));
   }
 

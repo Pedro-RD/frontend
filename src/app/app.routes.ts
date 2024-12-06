@@ -33,10 +33,18 @@ import { ResidentsPaymentsCreateComponent } from './pages/residents-payments-cre
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
 import { MedicationEditComponent } from './pages/medication-edit/medication-edit.component';
 import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
+import {
+  EmployeeShiftsManagementComponent
+} from './pages/employee-shifts-management/employee-shifts-management.component';
+import { DashboardManagerComponent } from './components/dashboards/dashboard-manager/dashboard-manager.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: FormLoginComponent },
+
+  {
+    path:'employees/:id/shifts', component: EmployeeShiftsManagementComponent
+  },
 
   { path: 'employees/:id/shifts', component: EmployeesShiftsComponent },
 
@@ -122,8 +130,9 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
-    // Role.Admin
+
   },
+
   {
     path: 'users',
     component: UsersComponent,

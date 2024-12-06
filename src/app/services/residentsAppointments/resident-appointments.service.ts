@@ -4,8 +4,9 @@ import { Appointment, AppointmentDTO } from '../../interfaces/appointment';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../toast/toast.service';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import PagedResponse from '../../interfaces/paged-response.interface';
+import { Resident } from '../../interfaces/resident';
 
 
 
@@ -14,7 +15,6 @@ import PagedResponse from '../../interfaces/paged-response.interface';
 })
 export class ResidentAppointmentsService  extends ListService<Appointment> {
   readonly url: string = environment.apiUrl + 'residents/';
-
 
   constructor(
     private httpClient: HttpClient,
@@ -50,7 +50,7 @@ export class ResidentAppointmentsService  extends ListService<Appointment> {
       }),
       catchError((err) => {
         if (!environment.production) console.error('Erro ao buscar consulta:', err);
-        this.toastService.error('Erro ao buscar consulta');
+        this.toastService.error('Erro ao encontrar consulta');
         return of({} as Appointment);
       })
     );

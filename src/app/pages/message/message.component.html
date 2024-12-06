@@ -5,7 +5,7 @@
     <div class="flex justify-center my-4">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-info"
         (click)="fetchLastMessages()"
         [disabled]="currentPage >= 10"
       >
@@ -24,7 +24,7 @@
     >
       <!-- Avatar -->
       <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
+        <div class="w-10 rounded-full mr-2">
           <img
             [alt]="'Avatar de ' + message.user.name"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
@@ -45,23 +45,9 @@
           (click)="deleteMessage(message.id)"
           class="ml-2"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <img src="no.svg" alt="Delete" class="w-4 h-4" />
         </button>
       </div>
-
       <!-- Mensagem -->
       <div class="chat-bubble">
         {{ message.content }}
@@ -100,17 +86,19 @@
       <div class="mt-4 flex space-x-2">
         <button
           type="submit"
-          class="btn btn-success"
+          class="btn btn-success flex items-center space-x-2"
         >
-          {{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}
+          <img src="check.svg" alt="Check" class="w-6 h-6" />
+          <span>{{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}</span>
         </button>
         <button
           *ngIf="isEditing"
           type="button"
           (click)="resetForm()"
-          class="btn btn-secondary"
+          class="btn btn-secondary flex items-center space-x-2"
         >
-          Cancelar
+          <img src="no.svg" alt="Delete" class="w-6 h-6" />
+          <span>Cancelar</span>
         </button>
       </div>
     </form>
