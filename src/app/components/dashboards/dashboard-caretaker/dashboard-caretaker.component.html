@@ -1,1 +1,99 @@
-<p>dashboard-caretaker works!</p>
+<div *ngIf="isLoading" class="flex items-center justify-center h-screen">
+  <p class="text-lg font-medium text-gray-500">Loading data...</p>
+</div>
+
+<div *ngIf="!isLoading && dashboardData" class="p-4 md:p-6">
+  <!-- Overview Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+    <!-- Card: Residentes -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden md:col-span-3">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Número de Residentes</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-info text-center">{{ dashboardData.numberOfResidents }}</p>
+      </div>
+      <img
+        src="couple.svg"
+        alt="Residents Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Consultas Este Mês -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Consultas Este Mês</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-secondary text-center">{{ dashboardData.appointmentsThisMonth }}</p>
+      </div>
+      <img
+        src="calendar (1).svg"
+        alt="Appointments This Month Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Consultas Hoje -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Consultas Hoje</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-primary text-center">{{ dashboardData.appointmentsToday }}</p>
+      </div>
+      <img
+        src="appointment.svg"
+        alt="Appointments Today Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Consultas Amanhã -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Consultas Amanhã</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-info text-center">{{ dashboardData.appointmentsTomorrow }}</p>
+      </div>
+      <img
+        src="medical-check.svg"
+        alt="Appointments Tomorrow Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Número de Medicamentos -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Número de Medicamentos</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-secondary text-center">{{ dashboardData.numberOfMedicaments }}</p>
+      </div>
+      <img
+        src="medicine.svg"
+        alt="Medicaments Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Relatórios de Saúde Hoje -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Relatórios de Saúde Hoje</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-primary text-center">{{ dashboardData.healthReportsToday }}</p>
+      </div>
+      <img
+        src="medical-report (1).svg"
+        alt="Health Reports Today Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+
+    <!-- Card: Relatórios de Saúde Esta Semana -->
+    <div class="bg-white shadow-lg p-4 md:p-6 rounded-lg flex flex-col relative overflow-hidden">
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Relatórios de Saúde Esta Semana</h2>
+      <div class="flex-grow flex items-center justify-center relative mt-16 pb-24 md:pb-20">
+        <p class="text-4xl font-bold text-secondary text-center">{{ dashboardData.healthReportsThisWeek }}</p>
+      </div>
+      <img
+        src="health-report.svg"
+        alt="Health Reports This Week Icon"
+        class="h-14 w-14 md:h-20 md:w-20 absolute bottom-4 right-4"
+      />
+    </div>
+  </div>
+</div>
