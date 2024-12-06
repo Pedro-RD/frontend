@@ -101,6 +101,47 @@
       label="Nacionalidade" />
   </div>
 
+  <h2 class="card-title mb-3 mt-4">Permissões</h2>
+  <app-select-box
+    [control]="role"
+    [data]="roles"
+    (change)="onRoleChange()"
+    label="Função"
+  />
+
+  @if(form.controls['role'].getRawValue()==='manager' || form.controls['role'].getRawValue()==='caretaker') {
+    <h2 class="card-title mb-3 mt-4">Dados de Contrato</h2>
+
+    <div class="grid grid-cols-2 gap-5">
+      <app-input
+        [control]="contractStart"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Início do Contrato"
+        placeholder="YYYY-MM-DD"
+        type="date">
+      </app-input>
+
+      <app-input
+        [control]="contractEnds"
+        [required]="true"
+        class="border-0 w-full p-0"
+        label="Fim do Contrato"
+        placeholder="YYYY-MM-DD"
+        type="date">
+      </app-input>
+    </div>
+
+    <app-input
+      [control]="salary"
+      [required]="true"
+      class="border-0 w-full p-0"
+      label="Salário"
+      placeholder="50000.00"
+      type="number">
+    </app-input>
+  }
+
   <div class="flex flex-row items-center justify-center gap-4 mt-6">
     <button class="btn btn-secondary flex items-center gap-2 sm:w-auto" (click)="goBack()">
       <img src="left-arrow.svg" alt="Left Arrow Icon" class="w-6 h-6 max-w-full">

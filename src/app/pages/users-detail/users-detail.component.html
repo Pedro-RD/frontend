@@ -12,9 +12,9 @@
           <!-- Botões de Ação -->
           <div class="flex flex-wrap justify-center md:justify-end gap-2">
             <!-- Botão de Turnos (Apenas para Managers) -->
-            <ng-container *ngIf="user.role === Role.Manager">
+            <ng-container *ngIf="(loggedUser | async)?.role === Role.Manager && user.role !== RolePt.Familiar">
               <a
-                [routerLink]="['/employees', user.id, 'shift']"
+                [routerLink]="['/employees', user.employee?.id, 'shifts']"
                 class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base"
               >
                 <img src="shift.svg" alt="Shift Icon" class="w-6 h-6" />
@@ -74,8 +74,14 @@
               <p><span class="font-bold">Código Postal:</span> {{ user.postcode }}</p>
               <ng-container *ngIf="user.role !== Role.Relative">
                 <p><span class="font-bold">Salário:</span> {{ user.employee?.salary }}</p>
-                <p><span class="font-bold">Início do Contrato:</span> {{ user.employee?.contractStart | date: 'dd MMMM yyyy' }}</p>
-                <p><span class="font-bold">Fim do Contrato:</span> {{ user.employee?.contractEnds | date: 'dd MMMM yyyy' }}</p>
+                <p>
+                  <span class="font-bold">Início do Contrato:</span>
+                  {{ formatDateToPortuguese(user.employee?.contractStart) }}
+                </p>
+                <p>
+                  <span class="font-bold">Fim do Contrato:</span>
+                  {{ formatDateToPortuguese(user.employee?.contractEnds) }}
+                </p>
               </ng-container>
             </div>
           </div>

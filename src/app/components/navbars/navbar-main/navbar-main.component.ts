@@ -6,7 +6,6 @@ import {User} from '../../../interfaces/user';
 import { AsyncPipe, NgComponentOutlet, NgIf, NgOptimizedImage } from '@angular/common';
 import {NavbarPublicComponent} from '../navbar-public/navbar-public.component';
 import {Role} from '../../../interfaces/roles.enum';
-import {NavbarAdminComponent} from '../navbar-admin/navbar-admin.component';
 import {NavbarManagerComponent} from '../navbar-manager/navbar-manager.component';
 import {NavbarCaretakerComponent} from '../navbar-caretaker/navbar-caretaker.component';
 import {NavbarRelativeComponent} from '../navbar-relative/navbar-relative.component';
@@ -34,6 +33,7 @@ export class NavbarMainComponent {
     )
   }
 
+
   get navbarLinks() {
     return this.authService.getUser().pipe(map((user: User | null) => {
       switch (user?.role) {
@@ -49,7 +49,10 @@ export class NavbarMainComponent {
           return NavbarPublicComponent;
       }
     }));
+
   }
+
+
 
   logout() {
     this.authService.logout();
