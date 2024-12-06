@@ -10,6 +10,7 @@ import { Role, RolePt } from '../../interfaces/roles.enum';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-users-detail',
@@ -36,6 +37,7 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private datePipe: DatePipe,
     private http: HttpClient,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
@@ -138,7 +140,7 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error(err);
-          this.error = 'Falha ao enviar imagem';
+          this.toastService.error('Falha ao enviar imagem');
         },
       });
     }
@@ -152,7 +154,7 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error(err);
-        this.error = 'Falha ao remover imagem';
+        this.toastService.error('Falha ao remover imagem');
       },
     });
   }
