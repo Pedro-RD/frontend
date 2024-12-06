@@ -43,17 +43,58 @@
         </div>
 
         <!-- Perfil e informações do utilizador -->
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
-          <!-- Foto de Perfil -->
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 ">
           <div class="avatar flex-shrink-0">
-            <div
-              class="w-32 h-32 md:w-72 md:h-72 rounded-lg ring ring-neutral ring-offset-base-100 ring-offset-2 overflow-hidden"
-            >
-              <!-- <img
-                [src]="user.image || 'https://via.placeholder.com/150'"
-                alt="Foto do Utilizador"
-                class="object-cover w-full h-full"
-              /> -->
+            <div class="w-32 h-32 md:w-72 md:h-72 rounded-lg ring ring-neutral ring-offset-base-100 ring-offset-2 overflow-hidden">
+              <!--              img-->
+              <!-- Foto de perfil -->
+              <div class="relative group">
+                <img
+                  *ngIf="profilePicture; else defaultPicture"
+                  [src]="profilePicture"
+                  alt="Foto de Perfil"
+                  class="object-cover w-full h-full max-w-full"
+                >
+                <ng-template #defaultPicture>
+                  <img
+                    src="/user.svg"
+                    alt="Foto de Perfil"
+                    class="object-cover w-full h-full max-w-full"
+                  >
+                </ng-template>
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition">
+                  <div class="flex flex-col space-y-2">
+                    <!-- Botão de editar sobreposto -->
+                    <button
+                      class="w-full bg-white text-gray-800 text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-200"
+                      (click)="fileUpload.click()"
+                    >
+                      Alterar Foto
+                    </button>
+
+                    <!-- Botão para remover foto -->
+                    <button
+                      *ngIf="profilePicture"
+                      class="w-full bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                      (click)="removeProfilePicture()"
+                    >
+                      Remover Foto
+                    </button>
+                  </div>
+                </div>
+
+
+                <!-- Input oculto para upload -->
+                <input type="file"
+                       accept="image/*"
+                       class="hidden"
+                       (change)="onProfilePictureSelected($event)"
+                       #fileUpload>
+              </div>
+
+              <!--              <img [src]="resident.image || 'https://via.placeholder.com/150'"-->
+              <!--                   alt="Foto do Residente"-->
+              <!--                   class="object-cover w-full h-full max-w-full" />-->
             </div>
           </div>
 

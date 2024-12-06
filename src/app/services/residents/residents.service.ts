@@ -101,16 +101,4 @@ isDeleting = false;
     );
   }
 
-  updateResidentPhoto(newPhoto: string): void{
-    // Obtém o residente atual
-    const currentResident = this.residentSubject.value;
-    if (currentResident) {
-      const updatedResident = {
-        ...currentResident,
-        profilePicture: newPhoto,
-      }
-      this.residentSubject.next(updatedResident);
-    }
-  }
-
 }
