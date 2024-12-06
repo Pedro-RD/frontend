@@ -1,1 +1,82 @@
-<p>dashboard-manager works!</p>
+<div *ngIf="isLoading" class="flex items-center justify-center h-screen">
+  <p class="text-lg font-medium text-gray-500">Loading data...</p>
+</div>
+
+<div *ngIf="!isLoading && dashboardData" class="p-6">
+  <!-- Overview Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="card bg-base-100 shadow-lg p-6 rounded-lg flex flex-col relative">
+      <!-- Title fully at the top -->
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Número de Funcionários</h2>
+
+      <!-- Dashboard data with a gap below the title -->
+      <div class="flex-grow flex items-center justify-center mt-16">
+        <p class="text-4xl font-bold text-info text-center">{{ dashboardData.employees }}</p>
+      </div>
+      <!-- Icon in the bottom-right corner -->
+      <img src="workers.svg" alt="Workers Icon" class="h-24 w-24 absolute bottom-4 right-4" />
+    </div>
+    <div class="card bg-base-100 shadow-lg p-6 rounded-lg flex flex-col relative">
+      <!-- Título totalmente no topo -->
+      <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Número de Residentes</h2>
+      <!-- Dados centralizados abaixo do título -->
+      <div class="flex-grow flex items-center justify-center mt-16">
+        <p class="text-4xl font-bold text-secondary text-center">{{ dashboardData.residents }}</p>
+      </div>
+      <!-- Ícone no canto inferior direito -->
+      <img src="couple.svg" alt="Coupe Icon" class="h-24 w-24 absolute bottom-4 right-4" />
+    </div>
+    <div class="card bg-base-100 shadow-lg p-6 rounded-lg flex flex-col relative">
+    <!-- Título totalmente no topo -->
+    <h2 class="text-lg font-semibold text-center absolute top-4 left-0 right-0">Número de Utilizadores</h2>
+    <!-- Dados centralizados abaixo do título -->
+    <div class="flex-grow flex items-center justify-center mt-16">
+      <p class="text-4xl font-bold text-primary text-center">{{ dashboardData.users }}</p>
+    </div>
+    <!-- Ícone no canto inferior direito -->
+    <img src="team (3).svg" alt="Team Icon" class="h-24 w-24 absolute bottom-4 right-4" />
+  </div>
+  </div>
+
+  <!-- Side-by-Side Charts -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Pie Chart Section -->
+    <div class="card bg-base-100 shadow-lg p-6 rounded-lg flex flex-col min-h-[400px]">
+      <h3 class="text-xl font-bold text-gray-700 mb-4">Total de Utilizadores</h3>
+      <ngx-charts-pie-chart
+        [view]="[chartWidth, chartHeight]"
+        [customColors]="customColors"
+        [results]="pieChartData"
+        [gradient]="true"
+        [legend]="true"
+        [legendPosition]="legendPosition"
+        [doughnut]="false"
+        [legendTitle]="'Legenda'"
+        class="flex-grow"
+      >
+      </ngx-charts-pie-chart>
+    </div>
+
+    <!-- Grouped Bar Chart Section -->
+    <div class="card bg-base-100 shadow-lg p-6 rounded-lg flex flex-col min-h-[500px]">
+      <h3 class="text-xl font-bold text-gray-700 mb-4">Pagamentos e Salários</h3>
+      <ngx-charts-bar-vertical-2d
+        [view]="[chartWidth, chartHeight]"
+        [customColors]="customColorsBars"
+        [results]="groupedBarChartData"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="true"
+        [legendPosition]="legendPosition"
+        [showXAxisLabel]="true"
+        [xAxisLabel]="'Meses'"
+        [showYAxisLabel]="true"
+        [yAxisLabel]="'Total Gasto (€)'"
+        [legendTitle]="'Legenda'"
+        class="flex-grow"
+      >
+      </ngx-charts-bar-vertical-2d>
+    </div>
+  </div>
+</div>

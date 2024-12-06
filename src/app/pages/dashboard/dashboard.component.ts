@@ -3,7 +3,6 @@ import {AuthService} from '../../services/auth/auth.service';
 import {map} from 'rxjs';
 import {User} from '../../interfaces/user';
 import {Role} from '../../interfaces/roles.enum';
-import {DashboardAdminComponent} from '../../components/dashboards/dashboard-admin/dashboard-admin.component';
 import {DashboardManagerComponent} from '../../components/dashboards/dashboard-manager/dashboard-manager.component';
 import {
   DashboardCaretakerComponent
@@ -30,8 +29,6 @@ export class DashboardComponent {
     return this.authService.getUser().pipe(
       map((user: User | null) => {
         switch (user?.role) {
-          // case Role.Admin:
-          //   return DashboardAdminComponent;
           case  Role.Manager:
             return DashboardManagerComponent;
           case Role.Caretaker:
