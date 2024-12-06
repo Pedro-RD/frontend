@@ -36,6 +36,7 @@ import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shi
 import {
   EmployeeShiftsManagementComponent
 } from './pages/employee-shifts-management/employee-shifts-management.component';
+import { DashboardManagerComponent } from './components/dashboards/dashboard-manager/dashboard-manager.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -129,8 +130,9 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
-    // Role.Admin
+
   },
+
   {
     path: 'users',
     component: UsersComponent,

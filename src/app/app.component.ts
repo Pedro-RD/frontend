@@ -4,12 +4,14 @@ import {NavbarMainComponent} from './components/navbars/navbar-main/navbar-main.
 import {ToastComponent} from './components/toast/toast.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CookieNotificationComponent } from './pages/cookie-notification/cookie-notification.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarMainComponent, ToastComponent, FullCalendarModule, CookieNotificationComponent],
+  imports: [RouterOutlet, NavbarMainComponent, ToastComponent, FullCalendarModule, CookieNotificationComponent, NgxChartsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
