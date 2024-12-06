@@ -11,6 +11,7 @@ import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import {Router, RouterLink} from '@angular/router';
+import { Role, RolePt } from '../../interfaces/roles.enum';
 
 @Component({
   selector: 'app-users',
@@ -49,9 +50,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
       },
       {
-        colKey: "address",
-        label: "Endereço",
-        classList: ["w-64"]
+        colKey: "role",
+        label: "Função",
+        classList: ["w-32"]
       },
     ]
   }
@@ -95,6 +96,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       .pipe(
         tap((q) => console.log("Query: ", q)),
         switchMap(() => this.usersService.fetchList()),
+        map((users) => users.map((u) => ({...u, role: this.translateRole(u.role)}))),
         map((users) => this.userListSignal.set(users))
       )
       .subscribe();
@@ -124,5 +126,17 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersService.setPageSize(limit);
   }
 
+  translateRole(role: Role | RolePt): RolePt {
+    switch (role) {
+      case Role.Manager:
+        return RolePt.Manager;
+      case Role.Caretaker:
+        return RolePt.Cuidador;
+      case Role.Relative:
+        return RolePt.Familiar
+      default:
+        return RolePt.Desconhecido;
+    }
+  }
   protected readonly Order = Order;
 }

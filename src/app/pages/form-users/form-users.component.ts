@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
 import { nationalities } from '../../data/nationalities';
 import { ButtonComponent } from '../../components/forms/button/button.component';
 import { UserDTO, UserRxpDTO } from '../../interfaces/user';
-import { Role } from '../../interfaces/roles.enum';
+import { Role, RolePt } from '../../interfaces/roles.enum';
 import { UserEmployee } from '../../interfaces/employee';
 import { Location } from '@angular/common';
 
@@ -91,9 +91,20 @@ export class FormUsersComponent implements OnInit {
 
   roles = Object.values(Role).map((role) => ({
     value: role,
-    label: String(role).charAt(0).toUpperCase() + String(role).slice(1),
+    label: this.translateRole(role),
   }));
-
+  translateRole(role: Role | RolePt): RolePt {
+    switch (role) {
+      case Role.Manager:
+        return RolePt.Manager;
+      case Role.Caretaker:
+        return RolePt.Cuidador;
+      case Role.Relative:
+        return RolePt.Familiar
+      default:
+        return RolePt.Desconhecido;
+    }
+  }
   ngOnInit() {
     if (this.initialData()) {
       const data = this.initialData()!;
@@ -104,13 +115,17 @@ export class FormUsersComponent implements OnInit {
       this.city.setValue(data.city);
       this.postcode.setValue(data.postcode);
       this.fiscalCode.setValue(data.fiscalId);
-      this.role.setValue(data.role);
+      this.role.setValue(data.role as Role);
+
+
 
       if (data.role !== Role.Relative) {
         this.contractStart.setValue(new Date(data.employee?.contractStart || 0).toISOString().substring(0, 10));
         this.contractEnds.setValue(new Date(data.employee?.contractEnds || 0).toISOString().substring(0, 10));
         this.salary.setValue(data.employee?.salary || null);
       }
+
+
 
       let nationalityOption = this.nationalities.find(n => n.value === data.nationality);
 
@@ -132,6 +147,8 @@ export class FormUsersComponent implements OnInit {
         this.nationality.setValue(data.nationality);
       }
 
+
+
       // Clear all password-related validators
       this.password.clearValidators();
       this.repeatPassword.clearValidators();
@@ -141,6 +158,7 @@ export class FormUsersComponent implements OnInit {
       this.form.updateValueAndValidity();
     }
   }
+
 
   onSubmit() {
     console.log('Form submitted:', this.form.value, this.form.valid);

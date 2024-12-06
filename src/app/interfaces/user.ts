@@ -1,4 +1,4 @@
-import { Role } from './roles.enum';
+import { Role, RolePt } from './roles.enum';
 import { Employee, EmployeeDTO, UserEmployee } from './employee';
 
 export interface UserDTO {
@@ -12,7 +12,7 @@ export interface UserDTO {
   postcode: string;
   fiscalId: string;
   nationality: string;
-  role: Role;
+  role: Role | RolePt;
 }
 
 export interface User extends UserDTO {
