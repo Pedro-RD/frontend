@@ -13,6 +13,7 @@ export interface UserDTO {
   fiscalId: string;
   nationality: string;
   role: Role | RolePt;
+  profilePicture?: string;
 }
 
 export interface User extends UserDTO {
