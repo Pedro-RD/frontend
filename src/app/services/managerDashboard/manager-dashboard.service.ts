@@ -21,8 +21,9 @@ export class ManagerDashboardService  {
   }
 
   getRelativeDashboard(): Observable<any> {
-    return this.http.get(`${this.url}/relative}`);
+    return this.http.get(`${this.url}/relative`);
   }
+
 
 
 
