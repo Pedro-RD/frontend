@@ -1,4 +1,4 @@
-import {ResidentDTO} from './resident';
+import { Resident } from './resident';
 
 export interface MedicationDTO {
   name: string;
@@ -10,6 +10,6 @@ export interface MedicationDTO {
 }
 
 export interface Medication extends MedicationDTO {
-  id: number,
-  resident?: ResidentDTO;
+  id: number;
+  resident?: Resident;
 }

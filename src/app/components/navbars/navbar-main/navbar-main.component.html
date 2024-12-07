@@ -19,7 +19,7 @@
 
   <!-- Menu de notificações e avatar -->
   <div class="navbar-end">
-    <app-sidebar *ngIf="loggedIn | async">
+    <app-sidebar *ngIf="(loggedIn | async) && (user | async)?.role !== 'relative'">
       <span class="indicator relative" icon>
         <img src="./task.svg" alt="Task Icon" class="w-6 h-6" />
         <span
@@ -27,8 +27,15 @@
           {{(tasks | async)?.length}}
         </span>
       </span>
+      <app-task-filter />
       @for (task of (tasks | async); track task.id) {
-      <app-task [task]="task"></app-task>
+      <li>
+        <app-task [task]="task"></app-task>
+      </li>
+      }@empty {
+      <li>
+        <span class="text-gray-500">Sem tarefas</span>
+      </li>
       }
     </app-sidebar>
     <div class="dropdown dropdown-end" *ngIf="loggedIn | async">

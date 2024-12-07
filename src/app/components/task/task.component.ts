@@ -5,19 +5,38 @@ import {
   NotificationType,
   TasksService,
 } from '../../services/tasks/tasks.service';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import { Resident } from '../../interfaces/resident';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [DatePipe, RouterModule],
+  imports: [DatePipe, RouterModule, AsyncPipe],
   templateUrl: './task.component.html',
 })
 export class TaskComponent {
   taskService = inject(TasksService);
+  authService = inject(AuthService);
+
   router = inject(Router);
   task = input.required<NotificationMessage>();
+
+  get resident(): Resident | undefined {
+    switch (this.task().type) {
+      case NotificationType.MEDICAMENT:
+      case NotificationType.MEDICAMENT_STOCK:
+      case NotificationType.MEDICAMENT_LOW:
+        return this.task().medicament?.resident;
+      case NotificationType.APPOINTMENT:
+        return this.task().appointment?.resident;
+      case NotificationType.MESSAGE:
+        return this.task().userMessage?.resident;
+      default:
+        return undefined;
+    }
+  }
 
   get NotificationStatus() {
     return NotificationStatus;
@@ -25,6 +44,23 @@ export class TaskComponent {
 
   get NotificationType() {
     return NotificationType;
+  }
+
+  get title() {
+    switch (this.task().type) {
+      case NotificationType.MEDICAMENT:
+        return 'Medicação';
+      case NotificationType.MEDICAMENT_LOW:
+        return 'Baixo Stock de Medicação';
+      case NotificationType.MEDICAMENT_STOCK:
+        return 'Sem Stock de Medicação';
+      case NotificationType.APPOINTMENT:
+        return 'Consulta ou exame';
+      case NotificationType.MESSAGE:
+        return 'Novas mensagens';
+      default:
+        return '';
+    }
   }
 
   setTaskAsOngoing() {
@@ -39,6 +75,10 @@ export class TaskComponent {
     this.taskService.setTaskAsCanceled(this.task().id);
   }
 
+  setTaskAsPending() {
+    this.taskService.setTaskAsPending(this.task().id);
+  }
+
   seeResident(task: NotificationMessage) {
     switch (task.type) {
       case NotificationType.MEDICAMENT:
@@ -47,19 +87,19 @@ export class TaskComponent {
         return this.router.navigate([
           'residents',
           'detail',
-          task.medicament.resident.id,
+          task.medicament?.resident?.id,
         ]);
       case NotificationType.APPOINTMENT:
         return this.router.navigate([
           'residents',
           'detail',
-          task.appointment.resident.id,
+          task.appointment?.resident?.id,
         ]);
       case NotificationType.MESSAGE:
         return this.router.navigate([
           'residents',
           'detail',
-          task.userMessage.resident.id,
+          task.userMessage?.resident?.id,
         ]);
       default:
         return;
@@ -72,24 +112,23 @@ export class TaskComponent {
       case NotificationType.MEDICAMENT_LOW:
         return this.router.navigate([
           'residents',
-          task.medicament.resident.id,
+          task.medicament?.resident?.id,
           'medicaments',
-          task.medicament.id,
+          task.medicament?.id,
         ]);
       case NotificationType.APPOINTMENT:
         return this.router.navigate([
           'residents',
-          task.appointment.resident.id,
+          task.appointment?.resident?.id,
           'appointments',
-          task.appointment.id,
+          task.appointment?.id,
         ]);
 
       case NotificationType.MESSAGE:
         return this.router.navigate([
           'residents',
-          task.userMessage.resident.id,
+          task.userMessage?.resident?.id,
           'messages',
-          task.userMessage.id,
         ]);
       default:
         return;
