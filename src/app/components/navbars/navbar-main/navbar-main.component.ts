@@ -5,6 +5,7 @@ import { map, Observable, interval } from 'rxjs';
 import {
   AsyncPipe,
   DatePipe,
+  NgClass,
   NgComponentOutlet,
   NgFor,
   NgIf,
@@ -21,6 +22,7 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { TasksService } from '../../../services/tasks/tasks.service';
 import { TaskComponent } from '../../task/task.component';
 import { NotificationService } from '../../../services/notification/notification.service';
+import { TaskFilterComponent } from '../../task-filter/task-filter.component';
 
 interface Notification {
   id: number;
@@ -36,13 +38,14 @@ interface Notification {
   imports: [
     RouterLink,
     AsyncPipe,
-    NgIf,
     NgComponentOutlet,
     NgOptimizedImage,
     SidebarComponent,
     TaskComponent,
     DatePipe,
+    NgIf,
     NgFor,
+    TaskFilterComponent,
   ],
   templateUrl: './navbar-main.component.html',
 })
@@ -76,6 +79,10 @@ export class NavbarMainComponent implements OnInit {
 
   get loggedIn(): Observable<boolean> {
     return this.authService.getUser().pipe(map((user: User | null) => !!user));
+  }
+
+  get user(): Observable<User | null> {
+    return this.authService.getUser();
   }
 
   get navbarLinks() {
