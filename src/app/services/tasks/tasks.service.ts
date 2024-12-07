@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatestWith, map } from 'rxjs';
+import { User } from '../../interfaces/user';
+import { Message } from '../../interfaces/message';
+import { Medication } from '../../interfaces/medication';
+import { Appointment } from '../../interfaces/appointment';
 
 export enum NotificationType {
   APPOINTMENT = 'Consulta',
@@ -28,21 +32,35 @@ export interface NotificationMessage {
   date: string | null; // Could be a date or null
   createdAt: string; // ISO string format
   updatedAt: string; // ISO string format
-  appointment: any | null; // Assuming this could be an object or null
-  medicament: any | null; // Assuming this could be an object or null
-  userMessage: any | null; // Assuming this could be an object or null
-  user: any | null; // Assuming this could be an object or null
+  appointment: Appointment | null; // Assuming this could be an object or null
+  medicament: Medication | null; // Assuming this could be an object or null
+  userMessage: Message | null; // Assuming this could be an object or null
+  user: User | null; // Assuming this could be an object or null
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
+  private taskTypeFilter = new BehaviorSubject<NotificationType | null>(null);
+  public taskTypeFilter$ = this.taskTypeFilter.asObservable();
+
+  public setTaskTypeFilter = this.taskTypeFilter.next.bind(this.taskTypeFilter);
   private tasksSubject = new BehaviorSubject<NotificationMessage[]>([]);
-  public tasks$ = this.tasksSubject.asObservable();
+  public tasks$ = this.tasksSubject.asObservable().pipe(
+    combineLatestWith(this.taskTypeFilter),
+    map(([tasks, filter]) => {
+      if (!filter) return tasks;
+      return tasks.filter((task) =>
+        filter === NotificationType.MEDICAMENT_STOCK
+          ? task.type === NotificationType.MEDICAMENT ||
+            NotificationType.MEDICAMENT_LOW
+          : task.type === filter,
+      );
+    }),
+  );
 
   client?: Socket;
-  constructor() {}
 
   connect(token: string) {
     console.log('Connecting to socket');
@@ -58,31 +76,40 @@ export class TasksService {
     this.client.connect();
 
     this.client.on('connect', this.handleConnection);
-    this.client.on('disconnect', this.handleDisconnection);
-    this.client.on('loadNotifications', this.handleLoadTasks);
 
     this.client.on('error', (error) => {
-      console.error('Socket error', error);
+      if (!environment.production) console.error('Socket error', error);
     });
 
     this.client.on('connect_error', (error) => {
-      console.error('Socket connection error', error);
+      if (!environment.production)
+        console.error('Socket connection error', error);
     });
   }
+
+  disconnect() {
+    if (!environment.production) console.log('Disconnecting from socket');
+    this.client?.disconnect();
+  }
+
   private handleConnection = () => {
-    console.log('Socket connected');
+    if (!environment.production) console.log('Socket connected');
+    this.client?.on('disconnect', this.handleDisconnection);
+    this.client?.on('loadNotifications', this.handleLoadTasks);
   };
   private handleDisconnection = () => {
-    console.log('Socket disconnected');
+    if (!environment.production) console.log('Socket disconnected');
+    this.tasksSubject.next([]);
   };
 
   private handleLoadTasks = (tasks: any) => {
-    console.log('Tasks loaded', tasks);
+    if (!environment.production) console.log('Tasks loaded', tasks);
     this.tasksSubject.next(tasks);
   };
 
   private changeTaskStatus(id: number, status: NotificationStatus) {
-    console.log('Changing task status', id, status);
+    if (!environment.production)
+      console.log('Changing task status', id, status);
     this.client?.emit('updateStatus', { id, status });
   }
 
@@ -96,5 +123,19 @@ export class TasksService {
 
   setTaskAsOngoing(id: number) {
     this.changeTaskStatus(id, NotificationStatus.ONGOING);
+  }
+
+  setTaskAsPending(id: number) {
+    this.changeTaskStatus(id, NotificationStatus.PENDING);
+  }
+
+  // Filter methods
+
+  setFilter(filter: NotificationType) {
+    this.taskTypeFilter.next(filter);
+  }
+
+  clearFilter() {
+    this.taskTypeFilter.next(null);
   }
 }

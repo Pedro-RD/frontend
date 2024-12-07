@@ -1,24 +1,65 @@
 <div class="card bg-neutral text-neutral-content w-full mt-1 z-50">
     <div class="card-body items-center text-center">
-        <h2 class="card-title"></h2>
-        <p>{{task().message}}
+        <h2 class="card-title">{{title}}</h2>
+        <p>
             @if(task().date) {
-            às {{task().date | date: 'dd/MM/yyyy H H:mm'}}
-            }
-            @if (task().user){
-            atribuido a {{task().user.name}}
+            Data: {{task().date | date: 'HH:mm dd/MM/yyyy'}}
             }
         </p>
+
+        @switch (task().type) {
+
+        @case (NotificationType.MEDICAMENT) {
+        <p>
+            <small>Medicamento: {{task().medicament?.name}}</small>
+        </p>
+        }
+
+        @case (NotificationType.MEDICAMENT_LOW) {
+        <p>
+            <small>Medicamento: {{task().medicament?.name}}</small>
+        </p>
+        }
+
+        @case (NotificationType.MEDICAMENT_STOCK) {
+        <p>
+            <small>Medicamento: {{task().medicament?.name}}</small>
+        </p>
+        }
+
+        @case (NotificationType.APPOINTMENT) {
+        <p>
+            <small>Consulta/Exame: {{task().appointment?.title}}</small>
+
+        </p>
+        }
+        }
+
+        <p>
+            <small>Residente: {{resident?.id}} - {{resident?.name}} (Cama: {{resident?.bedNumber}})</small>
+        </p>
+
+        @if (task().user){
+        <p>
+            <small>Funcionário: {{task().user?.id}} - {{task().user?.name}}</small>
+        </p>
+        }
+
+
+
         <small></small>
         <div class="card-actions justify-end">
             <button class="btn btn-primary" (click)="setTaskAsCanceled()">Cancelar</button>
-            @if(task().status === NotificationStatus.PENDING && (
-            task().type === NotificationType.APPOINTMENT ||
-            task().type === NotificationType.MEDICAMENT)) {
-            <button class="btn btn-success" (click)="setTaskAsOngoing()">Atribuir a min</button>
+            @if(task().status === NotificationStatus.PENDING) {
+            <button class="btn btn-success" (click)="setTaskAsOngoing()">Atribuir a mim</button>
             }
             @else {
+            @if ((authService.getUser() | async)?.id === task().user?.id ) {
             <button class="btn btn-success" (click)="setTaskAsDone()">Concluir</button>
+            }
+            @else {
+            <button class="btn btn-warning" (click)="setTaskAsPending()">Remover Atribuição</button>
+            }
             }
 
             <button (click)="seeResident(task())" class="btn btn-primary" for="my-drawer"

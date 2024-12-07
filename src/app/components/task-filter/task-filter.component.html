@@ -1,0 +1,26 @@
+<div class="join flex-wrap">
+    <button class="btn join-item" (click)="clearFilter()" [ngClass]="{'btn-secondary': (filter | async) === null, 
+        'btn-info': (filter | async) !== null}">
+        Todas
+    </button>
+
+    <button class="btn join-item" (click)="filterAdministrations()" [ngClass]="{'btn-secondary': (filter | async) === NotificationType.MEDICAMENT, 
+        'btn-info': (filter | async) !== NotificationType.MEDICAMENT}">
+        Administrações de Medicamentos
+    </button>
+
+    <button class="btn  join-item" (click)="filterStock()" [ngClass]="{'btn-secondary': (filter | async) === NotificationType.MEDICAMENT_STOCK, 
+        'btn-info': (filter | async) !== NotificationType.MEDICAMENT_STOCK}">
+        Stock de Medicamentos
+    </button>
+
+    <button class="btn join-item" (click)="filterAppointments()" [ngClass]="{'btn-secondary': (filter | async) === NotificationType.APPOINTMENT, 
+        'btn-info': (filter | async) !== NotificationType.APPOINTMENT}">
+        Consultas
+    </button>
+
+    <button class="btn join-item" (click)="filterMessages()" [ngClass]="{'btn-secondary': (filter | async) === NotificationType.MESSAGE,
+        'btn-info': (filter | async) !== NotificationType.MESSAGE}">
+        Mensagens
+    </button>
+</div>

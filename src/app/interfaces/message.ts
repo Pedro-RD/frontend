@@ -1,3 +1,5 @@
+import { Resident } from './resident';
+
 export interface Message {
   id: number;
   content: string;
@@ -8,10 +10,10 @@ export interface Message {
     email: string;
     name: string;
     role: string;
-    avatarUrl?: string;  // Adicione esta linha para opcionalmente usar avatares personalizados
+    avatarUrl?: string; // Adicione esta linha para opcionalmente usar avatares personalizados
   };
+  resident?: Resident;
 }
-
 
 export interface MessageDTO {
   content: string;
