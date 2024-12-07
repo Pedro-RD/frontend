@@ -158,6 +158,10 @@ export const routes: Routes = [
     path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationEditComponent,
   },
+  {
+    path: 'residents/:residentId/medicaments/:id/administration',
+    component: MedicationAdministrationComponent,
+  },
 
   { path: 'forbidden', component: NotAllowedComponent },
   { path: '**', pathMatch: 'full', component: NotFoundComponent },

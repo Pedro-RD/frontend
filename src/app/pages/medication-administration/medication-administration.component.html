@@ -1,47 +1,37 @@
-<!--<div class="container mx-auto p-4 md:p-6">-->
-<!--  <div class="card bg-base-100 shadow-xl relative">-->
-<!--    <div class="card-body pt-6">-->
-<!--      <h2 class="card-title text-2xl font-semibold mb-4 text-center md:text-left">Administrar Medicação</h2>-->
-<!--&lt;!&ndash;      <p><strong>Nome:</strong> {{ medication?.name }}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p><strong>Instruções:</strong> {{ medication?.instructions }}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p><strong>Quantidade:</strong> {{ medication?.quantity }}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p><strong>Data de Validade:</strong> {{ medication?.dueDate | date:'yyyy-MM-dd' }}</p>&ndash;&gt;-->
-<!--      &lt;!&ndash; Adicione campos para hora e dose &ndash;&gt;-->
-<!--      <div>-->
-<!--        <label for="hour">Hora:</label>-->
-<!--        <input id="hour" type="time" [(ngModel)]="hour">-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label for="dose">Dose:</label>-->
-<!--        <input id="dose" type="number" [(ngModel)]="dose">-->
-<!--      </div>-->
-<!--      <button (click)="onAdminister()" class="btn btn-primary mt-4">Administrar</button>-->
-<!--    </div>-->
+<!--<div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-base-200 rounded-lg w-full">-->
+<!--  <div class="space-y-2">-->
+<!--    <p><span class="font-bold">Hora:</span> {{ administrations.hour }}</p>-->
+<!--    <p><span class="font-bold">Dose:</span> {{ administrations.dose }}</p>-->
 <!--  </div>-->
 <!--</div>-->
 
+<!--<div *ngIf="administrations.length > 0">-->
+<!--  <h3>Administrações</h3>-->
+<!--  <ul>-->
+<!--    <li *ngFor="let administration of administrations">-->
+<!--      Hora: {{ administration.hour }}, Dose: {{ administration.dose }}-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->
+<!--<div *ngIf="administrations.length === 0">-->
+<!--  <p>Nenhuma administração encontrada.</p>-->
+<!--</div>-->
 
+    @if (medication) {
+      @for(a of medication.medicamentAdministrations; track a.id) {
+        {{ a.dose }}
+        {{ a.hour }}
+      }
+    }
 
-
-<div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-  <div class="bg-white rounded-lg p-6 w-96">
-    <h2 class="text-2xl font-bold mb-4">Administrar Medicação - {{ medication?.name }}</h2>
-
-    <!-- Campos de Administração -->
-    <div class="mb-4">
-      <label class="block text-sm font-semibold mb-2">Hora</label>
-      <input type="time" [(ngModel)]="hour" class="w-full p-2 border rounded">
-    </div>
-    <div class="mb-4">
-      <label class="block text-sm font-semibold mb-2">Dose</label>
-      <input type="number" [(ngModel)]="dose" class="w-full p-2 border rounded">
-    </div>
-
-    <!-- Botões -->
-    <div class="flex justify-between">
-      <button class="btn btn-secondary" (click)="onClose()">Cancelar</button>
-      <button class="btn btn-primary" (click)="onAdminister()">Administrar</button>
-    </div>
-  </div>
+<div *ngIf="administrations.length > 0">
+  <h3>Administrações</h3>
+  <ul>
+    <li *ngFor="let administration of administrations">
+      Hora: {{ administration.hour }}, Dose: {{ administration.dose }}
+    </li>
+  </ul>
 </div>
-
+<div *ngIf="administrations.length === 0">
+  <p>Nenhuma administração encontrada.</p>
+</div>

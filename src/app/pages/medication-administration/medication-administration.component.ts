@@ -1,32 +1,89 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Medication } from '../../interfaces/medication';
-import {DatePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+// import { Component, Input, OnInit } from '@angular/core';
+// import { MedicationAdministrationService } from '../../services/medicationAdministration/medication-administration.service';
+// import { CommonModule, NgIf } from '@angular/common';
+// import { FormsModule } from '@angular/forms';
+// import { Administration } from '../../interfaces/administration';
+// import {Medication} from '../../interfaces/medication';
+//
+// @Component({
+//   selector: 'app-medication-administration',
+//   standalone: true,
+//   templateUrl: './medication-administration.component.html',
+//   imports: [
+//     CommonModule,
+//     FormsModule,
+//     NgIf
+//   ],
+//   styleUrls: ['./medication-administration.component.css']
+// })
+// export class MedicationAdministrationComponent implements OnInit {
+//   administrations: Administration[] = [];
+//   medication?: Medication;
+//   @Input({ required: true }) medicationId!: number;
+//
+//   constructor(
+//     private medicationAdministrationService: MedicationAdministrationService
+//   ) {}
+//
+//   ngOnInit(): void {
+//     this.loadAdministrations();
+//   }
+//
+//   loadAdministrations(): void {
+//     this.medicationAdministrationService.getAdministrations(this.medicationId).subscribe({
+//       next: (administrations) => {
+//         this.administrations = administrations;
+//         console.log('Administrations loaded:', this.administrations);
+//       },
+//       error: (err) => {
+//         console.error('Failed to load administrations', err);
+//       }
+//     });
+//   }
+// }
+
+import { Component, Input, OnInit } from '@angular/core';
+import { MedicationAdministrationService } from '../../services/medicationAdministration/medication-administration.service';
+import { CommonModule, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Administration } from '../../interfaces/administration';
+import {Medication} from '../../interfaces/medication';
 
 @Component({
   selector: 'app-medication-administration',
   standalone: true,
   templateUrl: './medication-administration.component.html',
   imports: [
-    DatePipe,
-    FormsModule
+    CommonModule,
+    FormsModule,
+    NgIf
   ],
   styleUrls: ['./medication-administration.component.css']
 })
-export class MedicationAdministrationComponent {
-  @Input() medication?: Medication;
-  @Output() close = new EventEmitter<void>();
+export class MedicationAdministrationComponent implements OnInit {
+  administrations: Administration[] = [];
+  @Input({ required: true }) medicationId!: number;
+  medication?: Medication;
 
-  hour: string = '';
-  dose: number = 0;
+  constructor(
+    private medicationAdministrationService: MedicationAdministrationService
+  ) {}
 
-  onClose(): void {
-    this.close.emit();
+  ngOnInit(): void {
+    this.loadAdministrations();
   }
 
-  onAdminister(): void {
-    // Lógica para administrar a medicação
-    console.log(`Administrando medicação: ${this.medication?.name}, Hora: ${this.hour}, Dose: ${this.dose}`);
-    this.onClose();
+  loadAdministrations(): void {
+    console.log('Fetching administrations for medicationId:', this.medicationId);
+    this.medicationAdministrationService.getAdministrations(this.medicationId).subscribe({
+      next: (administrations) => {
+        console.log('Raw API response:', administrations);
+        this.administrations = administrations;
+        console.log('Administrations loaded:', this.administrations);
+      },
+      error: (err) => {
+        console.error('Failed to load administrations', err);
+      }
+    });
   }
 }
