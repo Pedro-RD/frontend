@@ -15,5 +15,6 @@ bootstrapApplication(AppComponent, {
     ...(appConfig.providers || []), // Include existing providers if any
     importProvidersFrom(BrowserAnimationsModule),
     { provide: LOCALE_ID, useValue: 'pt' },// Add BrowserAnimationsModule here
+
   ],
 }).catch((err) => console.error(err));
