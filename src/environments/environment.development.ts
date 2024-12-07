@@ -4,6 +4,7 @@ export const environment = {
   socketUrl: 'https://larback.onrender.com/',
   photoUser: 'https://larback.onrender.com/uploads/users/',
   photoResident: 'https://larback.onrender.com/uploads/residents/',
+  googleMapsApiKey: 'AIzaSyBESYMAqgQWxgDWwrKdi_xPGaavvMjN9M8',
   // apiUrl: 'http://localhost:3000/api/',
   // socketUrl: 'http://localhost:3000/',
   // photoUser: 'http://localhost:3000/uploads/users/',

@@ -5,7 +5,9 @@ import { ToastComponent } from './components/toast/toast.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CookieNotificationComponent } from './pages/cookie-notification/cookie-notification.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { AuthService } from './services/auth/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,9 @@ import { AuthService } from './services/auth/auth.service';
     FullCalendarModule,
     CookieNotificationComponent,
     NgxChartsModule,
+    GoogleMapsModule
   ],
+
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
