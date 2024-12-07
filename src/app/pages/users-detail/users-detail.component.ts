@@ -8,6 +8,9 @@ import { ModalConfirmComponent } from '../../components/forms/modal-confirm/moda
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Role, RolePt } from '../../interfaces/roles.enum';
 import { AuthService } from '../../services/auth/auth.service';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-users-detail',
@@ -23,6 +26,9 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
   employeeId: number | null = null;
+  profilePicture?: string | null;
+  private photoResidentUrl = environment.photoResident;
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private usersService: UsersService,
@@ -30,6 +36,8 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private datePipe: DatePipe,
+    private http: HttpClient,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
@@ -46,7 +54,15 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
             }))
           )
           .subscribe({
-            next: (user) => (this.user = user),
+            next: (user) => {
+              this.user = user;
+
+              const photo = this.user?.profilePicture;
+
+              if (photo) {
+                this.profilePicture = `${this.photoResidentUrl}${this.user?.profilePicture}`
+              }
+              },
             error: (err) => {
               console.error(err);
               this.error = 'User not found';
@@ -108,4 +124,38 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
   }
 
   protected readonly RolePt = RolePt;
+
+  onProfilePictureSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      const file: File = input.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      this.http.post(`${this.apiUrl}residents/${this.user?.id!}/upload`, formData).subscribe({
+        next: () => {
+          // Atualiza a imagem diretamente sem reload
+          this.profilePicture = URL.createObjectURL(file);
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error('Falha ao enviar imagem');
+        },
+      });
+    }
+  }
+
+  removeProfilePicture() {
+    this.http.delete(`${this.apiUrl}users/${this.user!.id}/upload`).subscribe({
+      next: () => {
+        // Reseta a imagem para o estado padrão
+        this.profilePicture = null;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Falha ao remover imagem');
+      },
+    });
+  }
 }

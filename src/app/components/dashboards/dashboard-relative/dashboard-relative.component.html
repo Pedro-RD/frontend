@@ -1,1 +1,85 @@
-<p>dashboard-relative works!</p>
+<div *ngIf="isLoading" class="flex items-center justify-center h-screen">
+  <p class="text-lg font-medium text-gray-500">Loading data...</p>
+</div>
+
+<div *ngIf="!isLoading && residents?.length" class="p-4 md:p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div *ngFor="let resident of residents; let i = index" class="[perspective:1000px]">
+      <div
+        class="relative h-72 w-full text-center transition-transform duration-500 ease-in-out [transform-style:preserve-3d]"
+        [ngClass]="{'[transform:rotateY(180deg)]': flippedIndex === i}"
+      >
+        <!-- Front Side -->
+        <div
+          class="absolute inset-0 bg-white shadow-lg rounded-lg [backface-visibility:hidden] flex flex-col items-center justify-between p-4"
+        >
+          <div>
+            <img
+              *ngIf="resident.profilePicture; else defaultPicture"
+              [src]="photoResidentUrl + resident.profilePicture"
+              alt="Profile Picture"
+              class="h-20 w-20 rounded-full object-cover border border-gray-300 mb-4"
+            />
+            <ng-template #defaultPicture>
+              <img
+                src="user.svg"
+                alt="Default Profile Picture"
+                class="h-20 w-20 rounded-full border border-gray-300 mb-4"
+              />
+            </ng-template>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800">{{ resident.name }}</h2>
+          <p class="text-gray-500 text-sm"><strong>Data de Nascimento:</strong> {{ resident.birthDate | date: 'longDate' }}</p>
+          <p class="text-gray-500 text-sm"><strong>Identificação Fiscal:</strong> {{ resident.fiscalId }}</p>
+          <p class="text-gray-500 text-sm"><strong>Quarto nº:</strong> {{ resident.bedNumber }}</p>
+          <p>
+            <strong>Mensalidade:</strong>
+            <span [ngClass]="{'text-green-500': resident.paid, 'text-red-500': !resident.paid}">
+              {{ resident.paid ? 'Pago' : 'Em Falta' }}
+            </span>
+          </p>
+          <div class="mt-4">
+            <button
+              class="px-4 py-2 bg-primary rounded flex items-center gap-2 focus:outline-none"
+              (click)="toggleFlip(i)"
+            >
+              <img src="medical-symbol.svg" alt="icon" class="w-4 h-4" />
+              <span>Info</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Back Side -->
+        <div class="absolute inset-0 bg-gray-100 shadow-lg rounded-lg [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col items-center justify-between pb-2  text-gray-700 text-center"
+        >
+          <div class="mt-4">
+            <img
+              src="better-health.svg"
+              alt="Better Health Logo"
+              class="h-20 w-auto mx-auto"
+            />
+          </div>
+
+          <!-- Centered Content -->
+          <div class="flex-grow flex flex-col">
+            <p><strong>Mobilidade:</strong> {{ resident.mobility }}</p>
+            <p><strong>Alergias:</strong> {{ resident.allergies }}</p>
+            <p><strong>Medicamentos:</strong> {{ resident.medicaments }}</p>
+            <p><strong>Consultas:</strong> {{ resident.appointments }}</p>
+            <p><strong>Cuidados Específicos:</strong> {{ resident.specificCare || 'None' }}</p>
+          </div>
+
+          <!-- Lowered Button -->
+          <div class="mt-6">
+            <button
+              class="px-4 py-2 bg-primary text-black rounded"
+              (click)="toggleFlip(i)"
+            >
+              Voltar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,8 +22,8 @@ export class DashboardManagerComponent implements OnInit {
   isLoading = true;
   legendPosition: LegendPosition = LegendPosition.Below;
 
-  chartWidth: number = 400; // Default width for large screens
-  chartHeight: number = 200; // Default height for large screens
+  cardWidth: number = 400; // Default width for large screens
+  cardHeight: number = 200; // Default height for large screens
 
   pieChartData: any[] = [];
   groupedBarChartData: any[] = [];
@@ -104,18 +104,22 @@ export class DashboardManagerComponent implements OnInit {
     this.updateChartSize();
   }
 
+
   private updateChartSize() {
     const screenWidth = window.innerWidth;
 
     if (screenWidth < 640) {
-      this.chartWidth = screenWidth * 0.78; // 90% of screen width
-      this.chartHeight = 250; // Smaller height for mobile
+      // Mobile screens
+      this.cardWidth = Math.min(300, screenWidth * 0.9); // Slightly larger width for mobile
+      this.cardHeight = 240; // Slightly increased height for better visibility
     } else if (screenWidth < 1024) {
-      this.chartWidth = screenWidth * 0.7; // 70% of screen width
-      this.chartHeight = 350; // Medium height for tablets
+      // Tablets or small desktops
+      this.cardWidth = 320; // Balanced size for mid-range screens
+      this.cardHeight = 260;
     } else {
-      this.chartWidth = 550; // Fixed width for large screens
-      this.chartHeight = 350; // Fixed height for large screens
+      // Larger screens
+      this.cardWidth = 380; // Standard width for large screens
+      this.cardHeight = 280; // Standard height for large screens
     }
   }
 }

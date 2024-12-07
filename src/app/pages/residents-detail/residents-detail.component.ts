@@ -8,6 +8,7 @@ import { ModalConfirmComponent } from '../../components/forms/modal-confirm/moda
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-residents-detail',
@@ -30,6 +31,7 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
@@ -89,8 +91,8 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error(err);
-          this.error = 'Falha ao enviar imagem';
-        },
+          this.toastService.error('Falha ao enviar imagem');
+          },
       });
     }
   }
@@ -108,7 +110,7 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error(err);
-        this.error = 'Falha ao remover imagem';
+        this.toastService.error('Falha ao remover imagem');
       },
     });
   }
