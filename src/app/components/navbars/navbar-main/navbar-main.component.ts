@@ -1,21 +1,25 @@
+import { User } from '../../../interfaces/user';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { map, Observable, interval } from 'rxjs';
 import {
   AsyncPipe,
-  NgComponentOutlet,
-  NgIf,
-  NgFor,
   DatePipe,
+  NgComponentOutlet,
+  NgFor,
+  NgIf,
+  NgOptimizedImage,
 } from '@angular/common';
 
 import { AuthService } from '../../../services/auth/auth.service';
-import { User } from '../../../interfaces/user';
 import { NavbarPublicComponent } from '../navbar-public/navbar-public.component';
 import { Role } from '../../../interfaces/roles.enum';
 import { NavbarManagerComponent } from '../navbar-manager/navbar-manager.component';
 import { NavbarCaretakerComponent } from '../navbar-caretaker/navbar-caretaker.component';
 import { NavbarRelativeComponent } from '../navbar-relative/navbar-relative.component';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { TasksService } from '../../../services/tasks/tasks.service';
+import { TaskComponent } from '../../task/task.component';
 import { NotificationService } from '../../../services/notification/notification.service';
 
 interface Notification {
@@ -29,19 +33,32 @@ interface Notification {
 @Component({
   selector: 'app-navbar-main',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, NgIf, NgFor, NgComponentOutlet, DatePipe],
+  imports: [
+    RouterLink,
+    AsyncPipe,
+    NgIf,
+    NgComponentOutlet,
+    NgOptimizedImage,
+    SidebarComponent,
+    TaskComponent,
+    DatePipe,
+    NgFor,
+  ],
   templateUrl: './navbar-main.component.html',
-  styleUrls: ['./navbar-main.component.css'],
 })
 export class NavbarMainComponent implements OnInit {
-  messagesVisible = false; // Variável para controlar a visibilidade do submenu de mensagens
-
   constructor(
     private router: Router,
-    private notificationService: NotificationService,
     private authService: AuthService,
+    private taskService: TasksService,
+    private notificationService: NotificationService,
   ) {}
 
+  messagesVisible = false; // Variável para controlar a visibilidade do submenu de mensagens
+
+  get tasks() {
+    return this.taskService.tasks$;
+  }
   get notifications() {
     return this.notificationService.notifications();
   }

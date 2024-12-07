@@ -7,7 +7,7 @@
           <path d="M4 6h16M4 12h8m-8 6h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
         </svg>
       </div>
-      <ng-container *ngComponentOutlet="(navbarLinks | async); inputs: { side: true }" />
+      <ng-container *ngComponentOutlet="( navbarLinks | async ); inputs: { side: true }" />
     </div>
 
     <a [routerLink]="(loggedIn | async) ? '/dashboard' : '/'">
@@ -19,7 +19,18 @@
 
   <!-- Menu de notificações e avatar -->
   <div class="navbar-end">
-    <!-- Menu de notificações -->
+    <app-sidebar *ngIf="loggedIn | async">
+      <span class="indicator relative" icon>
+        <img src="./task.svg" alt="Task Icon" class="w-6 h-6" />
+        <span
+          class="badge badge-sm badge-primary absolute top-0 left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-full border-3 border-black">
+          {{(tasks | async)?.length}}
+        </span>
+      </span>
+      @for (task of (tasks | async); track task.id) {
+      <app-task [task]="task"></app-task>
+      }
+    </app-sidebar>
     <div class="dropdown dropdown-end" *ngIf="loggedIn | async">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle indicator mr-4">
         <div class="indicator relative">
