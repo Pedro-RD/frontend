@@ -1,27 +1,21 @@
 <div class="flex-nowrap text-nowrap">
   <div class="form-control w-full">
     <label [class.input-error]="showError()"
-           class="input input-bordered flex items-center gap-2 text-nowrap flex-nowrap">
-    <span class="text-nowrap">
-          {{ label() }} @if (required()) {
+      class="input input-bordered flex items-center gap-2 text-nowrap flex-nowrap">
+      <span class="text-nowrap">
+        {{displayLabel}}
+      </span>
 
-    }
-    </span>
-
-      <input
-        [formControl]="control()"
-        [placeholder]="placeholder()"
-        [type]="type()"
+      <input [formControl]="control()" [placeholder]="placeholder()" [type]="type()"
         class="grow border-0 focus:ring-0 active:ring-0" />
       <ng-content />
-
 
     </label>
     <div class="label">
       @if (showError()) {
-        <span class="label-text-alt text-error">{{ errorMessage() }}</span>
+      <span class="label-text-alt text-error">{{ errorMessage() }}</span>
       } @else {
-        <ng-content select="[error]" />
+      <ng-content select="[error]" />
       }
     </div>
   </div>

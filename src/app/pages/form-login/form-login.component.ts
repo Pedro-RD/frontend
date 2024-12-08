@@ -1,19 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../services/auth/auth.service';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {NgClass} from '@angular/common';
-import {Router} from '@angular/router';
-import {HttpErrorResponse} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InputComponent } from '../../components/forms/input/input.component';
 
 @Component({
   selector: 'app-form-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, InputComponent],
   templateUrl: './form-login.component.html',
-  styleUrl: './form-login.component.css',
 })
 export class FormLoginComponent implements OnInit {
-  errorMessage = "";
+  errorMessage = '';
 
   email = new FormControl('', {
     validators: Validators.compose([Validators.required, Validators.email]),
@@ -31,18 +36,17 @@ export class FormLoginComponent implements OnInit {
     password: this.password,
   });
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm.reset();
     this.loginForm.markAsUntouched();
-    this.errorMessage = "";
+    this.errorMessage = '';
 
     this.authService.getUser().subscribe({
       next: (user) => {
         if (user) {
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/dashboard').then(r => console.log(r));
         }
       },
     });
@@ -54,7 +58,7 @@ export class FormLoginComponent implements OnInit {
     this.authService.login(this.email.value!, this.password.value!).subscribe({
       error: (error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.errorMessage = "Email ou password errados";
+          this.errorMessage = 'Email ou password errados';
         }
       },
     });

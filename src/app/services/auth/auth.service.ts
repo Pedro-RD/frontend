@@ -5,6 +5,8 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User, UserRxpDTO } from '../../interfaces/user';
 import { sub } from 'date-fns';
+import { TasksService } from '../tasks/tasks.service';
+import { Role } from '../../interfaces/roles.enum';
 
 interface AuthInfo {
   access_token: string;
@@ -20,7 +22,11 @@ export class AuthService {
   private readonly url: string = environment.apiUrl + 'auth';
   private readonly token_key = 'auth-token';
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private tasksService: TasksService,
+  ) {
     this.subject = new BehaviorSubject<AuthInfo | null>(this.getLoginInfo());
   }
 
@@ -31,6 +37,9 @@ export class AuthService {
         map((rxp) => {
           this.saveLoginInfo(rxp);
           this.subject.next(rxp);
+          if (rxp.user.role !== Role.Relative) {
+            this.tasksService.connect(rxp.access_token);
+          }
           return rxp.user;
         }),
       );
@@ -49,6 +58,7 @@ export class AuthService {
   public logout(): void {
     this.deleteLoginInfo();
     this.subject.next(null);
+    this.tasksService.disconnect();
     this.router.navigate(['login']);
   }
 
@@ -63,6 +73,27 @@ export class AuthService {
   private getLoginInfo(): AuthInfo | null {
     const info = localStorage.getItem(this.token_key);
     if (!info) return null;
+    this.tasksService.connect(JSON.parse(info).access_token);
     return JSON.parse(info);
+  }
+
+  validateSavedToken() {
+    const info = this.getLoginInfo();
+    if (info) {
+      this.httpClient
+        .get(this.url + '/profile', {
+          headers: {
+            Authorization: `Bearer ${info.access_token}`,
+          },
+        })
+        .subscribe({
+          error: () => {
+            this.deleteLoginInfo();
+            this.subject.next(null);
+            this.tasksService.disconnect();
+            this.router.navigate(['/']);
+          },
+        });
+    }
   }
 }

@@ -1,0 +1,21 @@
+<div class="drawer drawer-end">
+  <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content pr-4">
+    <!-- Page content here -->
+    <label for="my-drawer-4" class="drawer-button cursor-pointer block m-0 p-0">
+      <ng-content select="[icon]"></ng-content>
+    </label>
+  </div>
+  <div class="drawer-side z-50">
+    <!-- Overlay with updated styling -->
+    <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay bg-black/50"></label>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-70 p-4">
+      <li>
+        <!-- Close Button Slot -->
+        <ng-content select="[close-button]"></ng-content>
+      </li>
+      <!-- Sidebar content here -->
+      <ng-content></ng-content>
+    </ul>
+  </div>
+</div>

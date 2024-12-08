@@ -54,7 +54,7 @@ export class MessageService extends ListService<Message> {
   create(item: MessageDTO, residentId: number): Observable<Message> {
     return this.httpClient.post<Message>(`${this.url}${residentId}/messages`, item).pipe(
       map((message) => {
-        this.toastService.success('Mensagem criada com sucesso');
+        this.toastService.success('Mensagem envidada com sucesso');
         return message;
       }),
       catchError((error) => {
@@ -87,7 +87,7 @@ export class MessageService extends ListService<Message> {
   delete(id: number, residentId: number): Observable<void> {
     if (this.isDeleting) return of(); // Evita múltiplas requisições simultâneas
     this.isDeleting = true;
-  
+
     return this.httpClient.delete<void>(`${this.url}${residentId}/messages/${id}`).pipe(
       map(() => {
         this.isDeleting = false;
@@ -101,5 +101,5 @@ export class MessageService extends ListService<Message> {
       })
     );
   }
-  
+
 }

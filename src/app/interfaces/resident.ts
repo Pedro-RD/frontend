@@ -15,6 +15,7 @@ export interface ResidentDTO {
   allergies: string,
   bedNumber: number,
   relatives: number[];
+  profilePicture?: string;
 }
 
 export interface Resident extends ResidentDTO {

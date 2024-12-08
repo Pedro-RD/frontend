@@ -2,7 +2,9 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ['Nunito', 'ui-sans-serif', 'system-ui', 'Arial', 'sans-serif'],
+    },
   },
   plugins: [
     require("daisyui"),
@@ -19,6 +21,7 @@ module.exports = {
           warning: "#fbbf24",
           error: "#ef4444",
           info: "#9bb6ff",
+
 
 
         },

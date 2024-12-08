@@ -3,14 +3,17 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { Resident } from '../../interfaces/resident';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
   selector: 'app-residents-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent],
+  imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent, NgOptimizedImage],
   templateUrl: './residents-detail.component.html',
   styleUrls: ['./residents-detail.component.css']
 })
@@ -19,19 +22,33 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
   error: string | null = null;
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
+  profilePicture?: string | null;
+  private photoResidentUrl = environment.photoResident;
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private residentsService: ResidentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit() {
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.subs.push(
         this.residentsService.fetchItem(id).subscribe({
-          next: (resident) => (this.resident = resident),
+          next: (resident) => {
+            this.resident = resident;
+
+            const photo = this.resident?.profilePicture;
+
+            if (photo) {
+              this.profilePicture = `${this.photoResidentUrl}${this.resident.profilePicture}`;
+            }
+          },
           error: (err) => {
             console.error(err);
             this.error = 'Residente não encontrado';
@@ -59,7 +76,42 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  onProfilePictureSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      const file: File = input.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      this.http.post(`${this.apiUrl}residents/${this.resident?.id!}/upload`, formData).subscribe({
+        next: () => {
+          // Atualiza a imagem diretamente sem reload
+          this.profilePicture = URL.createObjectURL(file);
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error('Falha ao enviar imagem');
+          },
+      });
+    }
+  }
+
+
   showDeleteModal() {
     this.deleteModal.show();
+  }
+
+  removeProfilePicture() {
+    this.http.delete(`${this.apiUrl}residents/${this.resident!.id}/upload`).subscribe({
+      next: () => {
+        // Reseta a imagem para o estado padrão
+        this.profilePicture = null;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastService.error('Falha ao remover imagem');
+      },
+    });
   }
 }
