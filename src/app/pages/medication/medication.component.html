@@ -12,7 +12,6 @@
       </a>
     </div>
   </section>
-  <!--      (rowClicked)="handleRowClicked($event)"-->
 
   <section>
     <app-table (headerClicked)="handleHeaderClick($event)" (rowClicked)="handleRowClicked($event)"
@@ -24,6 +23,5 @@
       [pageNumber]="(page | async) || 1" [totalPages]="(totalPages | async) || 1" />
   </section>
 
-  <!-- <app-medication-detail-modal /> -->
 
 </div>
