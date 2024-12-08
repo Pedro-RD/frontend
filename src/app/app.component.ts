@@ -7,6 +7,8 @@ import { CookieNotificationComponent } from './pages/cookie-notification/cookie-
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AuthService } from './services/auth/auth.service';
+import { FooterComponent } from './components/footer/footer.component';
+
 
 
 @Component({
@@ -19,7 +21,8 @@ import { AuthService } from './services/auth/auth.service';
     FullCalendarModule,
     CookieNotificationComponent,
     NgxChartsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    FooterComponent,
   ],
 
   templateUrl: './app.component.html',

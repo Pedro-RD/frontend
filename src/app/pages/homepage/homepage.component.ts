@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { GoogleMapsLoaderService } from '../../services/googleMaps/google-maps-loader.service';
-import { Router } from '@angular/router';
+
 import { ViewportScroller } from '@angular/common';
 
 @Component({
@@ -14,13 +14,28 @@ import { ViewportScroller } from '@angular/common';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent implements AfterViewInit, OnInit, OnDestroy{
-  constructor(private googleMapsLoader: GoogleMapsLoaderService, private viewportScroller: ViewportScroller) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService, private viewportScroller: ViewportScroller, private renderer: Renderer2) {}
 
   ngOnInit() {
-    // Remove the 'pt-10' class from <main> when this component loads
     const mainElement = document.querySelector('main');
     if (mainElement) {
-      mainElement.classList.remove('container', 'px-2' ,'sm:px-0', 'mx-auto', 'pt-10');
+      this.renderer.removeClass(mainElement, 'container');
+      this.renderer.removeClass(mainElement, 'px-2');
+      this.renderer.removeClass(mainElement, 'sm:px-0');
+      this.renderer.removeClass(mainElement, 'mx-auto');
+      this.renderer.removeClass(mainElement, 'pt-10');
+
+    }
+  }
+
+  ngOnDestroy() {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      this.renderer.addClass(mainElement, 'container');
+      this.renderer.addClass(mainElement, 'px-2');
+      this.renderer.addClass(mainElement, 'sm:px-0');
+      this.renderer.addClass(mainElement, 'mx-auto');
+      this.renderer.addClass(mainElement, 'pt-10');
     }
   }
 
@@ -82,13 +97,7 @@ export class HomepageComponent implements AfterViewInit, OnInit, OnDestroy{
     requestAnimationFrame(animation);
   }
 
-  ngOnDestroy() {
-    // Restore the 'pt-10' class when navigating away from the homepage
-    const mainElement = document.querySelector('main');
-    if (mainElement) {
-      mainElement.classList.add('container', 'px-2' ,'sm:px-0', 'mx-auto', 'pt-10');
-    }
-  }
+
 
 }
 

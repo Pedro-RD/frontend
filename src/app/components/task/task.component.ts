@@ -5,7 +5,7 @@ import {
   NotificationType,
   TasksService,
 } from '../../services/tasks/tasks.service';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf, NgSwitchCase } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { Resident } from '../../interfaces/resident';
@@ -13,8 +13,9 @@ import { Resident } from '../../interfaces/resident';
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [DatePipe, RouterModule, AsyncPipe],
+  imports: [DatePipe, RouterModule, AsyncPipe, NgIf, NgSwitchCase],
   templateUrl: './task.component.html',
+  styleUrls: ['./task.component.css'],
 })
 export class TaskComponent {
   taskService = inject(TasksService);

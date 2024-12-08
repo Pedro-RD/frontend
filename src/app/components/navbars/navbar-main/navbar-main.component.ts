@@ -105,4 +105,8 @@ export class NavbarMainComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
+
+
+
+
 }

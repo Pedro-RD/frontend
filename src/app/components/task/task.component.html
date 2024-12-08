@@ -1,72 +1,112 @@
-<div class="card bg-neutral text-neutral-content w-full mt-1 z-50">
-    <div class="card-body items-center text-center">
-        <h2 class="card-title">{{title}}</h2>
+<div class="card bg-white/70 backdrop-blur-md text-neutral-content w-full mt-1 z-50 shadow-xl rounded-lg">
+  <div class="card-body items-center text-center">
+    <h2 class="card-title text-lg font-semibold text-gray-800">{{title}}</h2>
+
+    <p>
+      @if(task().date) {
+        Data: {{task().date | date: 'HH:mm dd/MM/yyyy'}}
+      }
+    </p>
+
+    @switch (task().type) {
+      @case (NotificationType.MEDICAMENT) {
         <p>
-            @if(task().date) {
-            Data: {{task().date | date: 'HH:mm dd/MM/yyyy'}}
-            }
+          <small>Medicamento: {{task().medicament?.name}}</small>
         </p>
-
-        @switch (task().type) {
-
-        @case (NotificationType.MEDICAMENT) {
+      }
+      @case (NotificationType.MEDICAMENT_LOW) {
         <p>
-            <small>Medicamento: {{task().medicament?.name}}</small>
+          <small>Medicamento: {{task().medicament?.name}}</small>
         </p>
-        }
-
-        @case (NotificationType.MEDICAMENT_LOW) {
+      }
+      @case (NotificationType.MEDICAMENT_STOCK) {
         <p>
-            <small>Medicamento: {{task().medicament?.name}}</small>
+          <small>Medicamento: {{task().medicament?.name}}</small>
         </p>
-        }
-
-        @case (NotificationType.MEDICAMENT_STOCK) {
+      }
+      @case (NotificationType.APPOINTMENT) {
         <p>
-            <small>Medicamento: {{task().medicament?.name}}</small>
+          <small>Consulta/Exame: {{task().appointment?.title}}</small>
         </p>
-        }
+      }
+    }
 
-        @case (NotificationType.APPOINTMENT) {
-        <p>
-            <small>Consulta/Exame: {{task().appointment?.title}}</small>
+    <p>
+      <small>Residente: {{resident?.id}} - {{resident?.name}} (Cama: {{resident?.bedNumber}})</small>
+    </p>
 
-        </p>
-        }
-        }
+    @if (task().user) {
+      <p>
+        <small>Funcionário: {{task().user?.id}} - {{task().user?.name}}</small>
+      </p>
+    }
 
-        <p>
-            <small>Residente: {{resident?.id}} - {{resident?.name}} (Cama: {{resident?.bedNumber}})</small>
-        </p>
-
-        @if (task().user){
-        <p>
-            <small>Funcionário: {{task().user?.id}} - {{task().user?.name}}</small>
-        </p>
-        }
-
-
-
-        <small></small>
-        <div class="card-actions justify-end">
-            <button class="btn btn-primary" (click)="setTaskAsCanceled()">Cancelar</button>
-            @if(task().status === NotificationStatus.PENDING) {
-            <button class="btn btn-success" (click)="setTaskAsOngoing()">Atribuir a mim</button>
-            }
-            @else {
-            @if ((authService.getUser() | async)?.id === task().user?.id ) {
-            <button class="btn btn-success" (click)="setTaskAsDone()">Concluir</button>
-            }
-            @else {
-            <button class="btn btn-warning" (click)="setTaskAsPending()">Remover Atribuição</button>
-            }
-            }
-
-            <button (click)="seeResident(task())" class="btn btn-primary" for="my-drawer"
-                aria-label="close sidebar">Residente
-            </button>
-            <button (click)="seeTask(task())" class="btn btn-primary" for="my-drawer"
-                aria-label="close sidebar">Detalhes</button>
+    <div class="card-actions justify-end mt-4 flex flex-wrap gap-4">
+      <!-- Residente Icon -->
+      <div class="relative group">
+        <img src="friends.svg" alt="Residente"
+             class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+             (click)="seeResident(task())">
+        <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+          Residente
         </div>
+      </div>
+
+      <!-- Detalhes Icon -->
+      <div class="relative group">
+        <img src="search.svg" alt="Detalhes"
+             class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+             (click)="seeTask(task())">
+        <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+          Detalhes
+        </div>
+      </div>
+
+      @if(task().status === NotificationStatus.PENDING) {
+        <!-- Atribuir a mim Icon -->
+        <div class="relative group">
+          <img src="myself.svg" alt="Atribuir a mim"
+               class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+               (click)="setTaskAsOngoing()">
+          <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+            Assumir
+          </div>
+        </div>
+      }
+      @else {
+        @if ((authService.getUser() | async)?.id === task().user?.id) {
+          <!-- Concluir Icon -->
+          <div class="relative group">
+            <img src="check.svg" alt="Concluir"
+                 class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+                 (click)="setTaskAsDone()">
+            <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+              Concluir
+            </div>
+          </div>
+        }
+        @else {
+          <!-- Remover Atribuição Icon -->
+          <div class="relative group">
+            <img src="assign.svg" alt="Remover Atribuição"
+                 class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+                 (click)="setTaskAsPending()">
+            <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+              Abdicar
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Cancelar Icon -->
+      <div class="relative group">
+        <img src="no.svg" alt="Cancelar"
+             class="w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
+             (click)="setTaskAsCanceled()">
+        <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+          Cancelar
+        </div>
+      </div>
     </div>
+  </div>
 </div>
