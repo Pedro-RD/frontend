@@ -1,24 +1,20 @@
-import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
-import {ResidentsTableComponent} from '../../components/old/residents-table/residents-table.component';
-import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
-import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {ResidentsService} from '../../services/residents/residents.service';
-import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
-import {TableComponent} from '../../components/table/table/table.component';
-import {ColumnType, TableConfig} from '../../interfaces/table.interface';
-import {Resident} from '../../interfaces/resident';
-import {AsyncPipe} from '@angular/common';
-import {Order} from '../../interfaces/paged-response.interface';
-import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
-import {Router, RouterLink} from '@angular/router';
-
-
+import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { SearchBoxComponent } from '../../components/forms/search-box/search-box.component';
+import { PaginatorComponent } from '../../components/table/paginator/paginator.component';
+import { ResidentsService } from '../../services/residents/residents.service';
+import { Observable, map, switchMap, tap, Subscription } from 'rxjs';
+import { TableComponent } from '../../components/table/table/table.component';
+import { ColumnType, TableConfig } from '../../interfaces/table.interface';
+import { Resident } from '../../interfaces/resident';
+import { AsyncPipe } from '@angular/common';
+import { Order } from '../../interfaces/paged-response.interface';
+import { SelectLimitComponent } from '../../components/table/select-limit/select-limit.component';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-residents',
   standalone: true,
   imports: [
-    ResidentsTableComponent,
     SearchBoxComponent,
     PaginatorComponent,
     TableComponent,
@@ -27,43 +23,46 @@ import {Router, RouterLink} from '@angular/router';
     RouterLink,
   ],
   templateUrl: './residents.component.html',
-  styleUrl: './residents.component.css'
+  styleUrl: './residents.component.css',
 })
-export class ResidentsComponent implements OnInit, OnDestroy{
+export class ResidentsComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig<Resident> = {
-    columns:[
+    columns: [
       {
-        colKey: "name",
-        label: "Nome",
+        colKey: 'name',
+        label: 'Nome',
         type: ColumnType.PROFILE,
-        classList: ["w-40"]
+        classList: ['w-40'],
+        imageKey: 'profilePicture',
       },
       {
-        colKey: "birthDate",
-        label: "Data de Nascimento",
+        colKey: 'birthDate',
+        label: 'Data de Nascimento',
         type: ColumnType.DATE,
         dateFormat: 'dd/MM/yyyy',
-        classList: ["w-32"]
+        classList: ['w-32'],
       },
       {
-        colKey: "fiscalId",
-        label: "Nº Identificação Fiscal",
-        classList: ["w-32"]
+        colKey: 'fiscalId',
+        label: 'Nº Identificação Fiscal',
+        classList: ['w-32'],
       },
       {
-        colKey: "bedNumber",
-        label: "Cama",
-        classList: ["w-20"]
+        colKey: 'bedNumber',
+        label: 'Cama',
+        classList: ['w-20'],
       },
-    ]
-  }
+    ],
+  };
   private residentListSignal = signal<Resident[]>([]);
   residentList = computed(() => this.residentListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private residentsService: ResidentsService, private router: Router,) {
-  }
+  constructor(
+    private residentsService: ResidentsService,
+    private router: Router,
+  ) {}
 
   ngOnDestroy(): void {
     this.residentsService.clearAll();
@@ -94,9 +93,9 @@ export class ResidentsComponent implements OnInit, OnDestroy{
     let i = 0;
     this.residentsService.query$
       .pipe(
-        tap((q) => console.log("Query: ", q)),
+        tap((q) => console.log('Query: ', q)),
         switchMap(() => this.residentsService.fetchList()),
-        map((residents) => this.residentListSignal.set(residents))
+        map((residents) => this.residentListSignal.set(residents)),
       )
       .subscribe();
   }
@@ -118,7 +117,7 @@ export class ResidentsComponent implements OnInit, OnDestroy{
   }
 
   handleRowCliked(key: number) {
-    this.router.navigate(["/residents/detail", key])
+    this.router.navigate(['/residents/detail', key]);
   }
 
   handleLimitChange(limit: number) {
@@ -127,6 +126,3 @@ export class ResidentsComponent implements OnInit, OnDestroy{
 
   protected readonly Order = Order;
 }
-
-
-

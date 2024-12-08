@@ -1,48 +1,47 @@
-import {BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, tap} from 'rxjs';
-import {Order} from '../../interfaces/paged-response.interface';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  tap,
+} from 'rxjs';
+import { Order } from '../../interfaces/paged-response.interface';
 
 export abstract class ListService<T> {
   protected pageSubject = new BehaviorSubject(1);
-  public page$ = this.pageSubject.asObservable().pipe(
-    debounceTime(100),
-    distinctUntilChanged()
-  );
+  public page$ = this.pageSubject
+    .asObservable()
+    .pipe(debounceTime(50), distinctUntilChanged());
 
-  protected orderBySubject = new BehaviorSubject("id");
-  public  orderBy$ = this.orderBySubject.asObservable().pipe(
-    debounceTime(100),
-    distinctUntilChanged()
-  );
+  protected orderBySubject = new BehaviorSubject('id');
+  public orderBy$ = this.orderBySubject
+    .asObservable()
+    .pipe(debounceTime(50), distinctUntilChanged());
 
   protected orderSubject = new BehaviorSubject(Order.ASC);
-  public order$ = this.orderSubject.asObservable().pipe(
-    debounceTime(100),
-    distinctUntilChanged()
-  );
+  public order$ = this.orderSubject
+    .asObservable()
+    .pipe(debounceTime(50), distinctUntilChanged());
 
   protected limitSubject = new BehaviorSubject(10);
-  public limit$ = this.limitSubject.asObservable().pipe(
-    debounceTime(100),
-    distinctUntilChanged(),
-    tap(console.log)
-  );
+  public limit$ = this.limitSubject
+    .asObservable()
+    .pipe(debounceTime(50), distinctUntilChanged(), tap(console.log));
 
-  protected searchSubject = new BehaviorSubject("");
-  protected search$ = this.searchSubject.asObservable().pipe(
-    debounceTime(200),
-    distinctUntilChanged()
-  );
+  protected searchSubject = new BehaviorSubject('');
+  protected search$ = this.searchSubject
+    .asObservable()
+    .pipe(debounceTime(100), distinctUntilChanged());
 
-  public query$ = combineLatest(
-    [
-      this.page$,
-      this.orderBy$,
-      this.order$,
-      this.limit$,
-      this.search$,
-    ]
-  ).pipe(
-    debounceTime(100),
+  public query$ = combineLatest([
+    this.page$,
+    this.orderBy$,
+    this.order$,
+    this.limit$,
+    this.search$,
+  ]).pipe(
+    debounceTime(50),
     map(([page, orderBy, order, limit, search]) => ({
       page,
       order,
@@ -53,9 +52,9 @@ export abstract class ListService<T> {
   );
 
   private totalPagesSubject = new BehaviorSubject<number>(0);
-  public totalPages$ = this.totalPagesSubject.asObservable().pipe(
-    distinctUntilChanged(),
-  )
+  public totalPages$ = this.totalPagesSubject
+    .asObservable()
+    .pipe(distinctUntilChanged());
 
   protected get queryString() {
     return `?page=${this.pageSubject.value}&orderBy=${this.orderBySubject.value}&order=${this.orderSubject.value}&limit=${this.limitSubject.value}&search=${this.searchSubject.value}`;
@@ -78,11 +77,9 @@ export abstract class ListService<T> {
 
   nextPage() {
     const oldValue = this.pageSubject.getValue();
-    if (this.totalPagesSubject.value === 0)
-      return;
+    if (this.totalPagesSubject.value === 0) return;
 
-    if (this.totalPagesSubject.value === this.pageSubject.value)
-      return;
+    if (this.totalPagesSubject.value === this.pageSubject.value) return;
 
     this.pageSubject.next(oldValue + 1);
   }
@@ -99,8 +96,7 @@ export abstract class ListService<T> {
   }
 
   setPageSize(size: number) {
-    if (size > 0)
-    {
+    if (size > 0) {
       this.limitSubject.next(size);
       this.pageSubject.next(1);
     }
@@ -109,9 +105,9 @@ export abstract class ListService<T> {
   clearAll() {
     this.pageSubject.next(1);
     this.orderSubject.next(Order.ASC);
-    this.orderBySubject.next("id");
+    this.orderBySubject.next('id');
     this.limitSubject.next(10);
-    this.searchSubject.next("");
+    this.searchSubject.next('');
   }
 
   protected setPage(page: number) {
