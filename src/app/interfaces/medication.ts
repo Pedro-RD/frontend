@@ -1,3 +1,4 @@
+import { Administration } from './administration';
 import { Resident } from './resident';
 
 export interface MedicationDTO {
@@ -7,6 +8,7 @@ export interface MedicationDTO {
   quantity: number;
   prescriptionQuantity: number;
   dueDate: Date;
+  medicamentAdministrations?: Administration[];
 }
 
 export interface Medication extends MedicationDTO {
