@@ -1,17 +1,17 @@
-import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
-import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
-import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {MedicationService} from '../../services/medication/medication.service';
-import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
-import {TableComponent} from '../../components/table/table/table.component';
-import {ColumnType, TableConfig} from '../../interfaces/table.interface';
-import {Medication} from '../../interfaces/medication';
-import {AsyncPipe} from '@angular/common';
-import {Order} from '../../interfaces/paged-response.interface';
-import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
-import {NgClass} from '@angular/common';
+import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { SearchBoxComponent } from '../../components/forms/search-box/search-box.component';
+import { PaginatorComponent } from '../../components/table/paginator/paginator.component';
+import { MedicationService } from '../../services/medication/medication.service';
+import { Observable, map, switchMap, tap, Subscription } from 'rxjs';
+import { TableComponent } from '../../components/table/table/table.component';
+import { ColumnType, TableConfig } from '../../interfaces/table.interface';
+import { Medication } from '../../interfaces/medication';
+import { AsyncPipe } from '@angular/common';
+import { Order } from '../../interfaces/paged-response.interface';
+import { SelectLimitComponent } from '../../components/table/select-limit/select-limit.component';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+// import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-medication',
@@ -23,20 +23,18 @@ import {NgClass} from '@angular/common';
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
-    MedicationDetailModalComponent,
-    NgClass
   ],
   templateUrl: './medication.component.html',
-  styleUrl: './medication.component.css'
+  styleUrl: './medication.component.css',
 })
-export class MedicationComponent implements OnInit, OnDestroy{
+export class MedicationComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig<Medication> = {
-    columns:[
+    columns: [
       {
-        colKey: "name",
-        label: "Nome",
+        colKey: 'name',
+        label: 'Nome',
         type: ColumnType.PROFILE,
-        classList: ["w-40"]
+        classList: ['w-40'],
       },
       // {
       //   colKey: "instructions",
@@ -49,32 +47,34 @@ export class MedicationComponent implements OnInit, OnDestroy{
       //   classList: ["w-32"]
       // },
       {
-        colKey: "quantity",
-        label: "Quantidade",
-        classList: ["w-32"]
+        colKey: 'quantity',
+        label: 'Quantidade',
+        classList: ['w-32'],
       },
       {
-        colKey: "prescriptionQuantity",
-        label: "Prescrições",
-        classList: ["w-20"]
+        colKey: 'prescriptionQuantity',
+        label: 'Prescrições',
+        classList: ['w-20'],
       },
       {
-        colKey: "dueDate",
-        label: "Validade",
+        colKey: 'dueDate',
+        label: 'Validade',
         type: ColumnType.DATE,
         dateFormat: 'yyyy/MM/dd',
-        classList: ["w-32"]
+        classList: ['w-32'],
       },
-    ]
-  }
+    ],
+  };
   private medicationListSignal = signal<Medication[]>([]);
   medicationList = computed(() => this.medicationListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private medicationService: MedicationService, private router: Router, private route: ActivatedRoute) {
-  }
-
+  constructor(
+    private medicationService: MedicationService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnDestroy(): void {
     this.medicationService.clearAll();
@@ -110,13 +110,17 @@ export class MedicationComponent implements OnInit, OnDestroy{
     let i = 0;
     this.medicationService.query$
       .pipe(
-        tap((q) => console.log("Query: ", q)),
-        switchMap(() => this.medicationService.fetchList  (parseInt(this.route.snapshot.paramMap.get("residentId")||"")||0)),
+        tap((q) => console.log('Query: ', q)),
+        switchMap(() =>
+          this.medicationService.fetchList(
+            parseInt(this.route.snapshot.paramMap.get('residentId') || '') || 0,
+          ),
+        ),
         tap(console.log),
-        map((medication) => this.medicationListSignal.set(medication))
+        map((medication) => this.medicationListSignal.set(medication)),
       )
       .subscribe();
-    this.route.snapshot.paramMap.get("residentId");
+    this.route.snapshot.paramMap.get('residentId');
   }
 
   handleSearch(searchTerm: string): void {
@@ -140,7 +144,9 @@ export class MedicationComponent implements OnInit, OnDestroy{
   // }
 
   handleRowClicked(medicationId: number) {
-    this.router.navigate([`/residents/${this.residentId}/medicaments/${medicationId}`]);
+    this.router.navigate([
+      `/residents/${this.residentId}/medicaments/${medicationId}`,
+    ]);
   }
 
   handleLimitChange(limit: number) {
@@ -154,5 +160,3 @@ export class MedicationComponent implements OnInit, OnDestroy{
     return false;
   }
 }
-
-

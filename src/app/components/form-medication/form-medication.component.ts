@@ -1,13 +1,18 @@
 // import {Component, Input, input, output} from '@angular/core';
 import { Component } from '@angular/core';
-import {Input, input, output} from '@angular/core';
-import {ButtonComponent} from "../forms/button/button.component";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {InputComponent} from "../forms/input/input.component";
-import {Medication} from '../../interfaces/medication';
-import {environment} from '../../../environments/environment';
-import {RouterLink, UrlTree} from '@angular/router';
-import {MedicationDetailModalComponent} from '../medication-detail-modal/medication-detail-modal.component';
+import { Input, input, output } from '@angular/core';
+import { ButtonComponent } from '../forms/button/button.component';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { InputComponent } from '../forms/input/input.component';
+import { Medication } from '../../interfaces/medication';
+import { environment } from '../../../environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-form-medication',
@@ -18,12 +23,10 @@ import {MedicationDetailModalComponent} from '../medication-detail-modal/medicat
     InputComponent,
     ReactiveFormsModule,
     RouterLink,
-    MedicationDetailModalComponent
   ],
   templateUrl: './form-medication.component.html',
   styleUrl: './form-medication.component.css',
 })
-
 export class FormMedicationComponent {
   selectedMedication?: Medication;
   isModalVisible = false;
@@ -34,10 +37,15 @@ export class FormMedicationComponent {
   createRequested = output<Medication>();
   name = new FormControl<string>('', [Validators.required]);
   instructions = new FormControl<string>('');
-  quantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  prescriptionQuantity = new FormControl<number | null>(null, [Validators.required, Validators.pattern(/^\d+$/)]);
-  dueDate = new FormControl<Date>( new Date(),[Validators.required]);
-
+  quantity = new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.pattern(/^\d+$/),
+  ]);
+  prescriptionQuantity = new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.pattern(/^\d+$/),
+  ]);
+  dueDate = new FormControl<Date>(new Date(), [Validators.required]);
 
   form: FormGroup = new FormGroup({
     name: this.name,
@@ -59,7 +67,12 @@ export class FormMedicationComponent {
   }
 
   onSubmit() {
-    console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
+    console.log(
+      'Form submitted:',
+      this.form.value,
+      this.form.valid,
+      this.form.errors,
+    );
     if (this.form.valid) {
       this.createRequested.emit({
         id: 0,
@@ -73,7 +86,3 @@ export class FormMedicationComponent {
   }
   protected readonly environment = environment;
 }
-
-
-
-
