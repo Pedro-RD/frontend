@@ -119,8 +119,14 @@ export class MedicationDetailsComponent implements OnInit {
         })
         .subscribe({
           next: (administration) => {
-            this.medication?.medicamentAdministrations?.push(administration);
-            this.newAdministration = { hour: '', dose: 0 };
+            console.log('Administração adicionada:', administration);
+            this.medication!.medicamentAdministrations?.push({
+              id: administration.id,
+              hour: parseInt(`${administration.hour}`.split(':')[0]),
+              minute: parseInt(`${administration.hour}`.split(':')[1]),
+              dose: administration.dose,
+            });
+            this.administrationForm.reset();
             this.showAddForm = false;
           },
           error: (err) => {
