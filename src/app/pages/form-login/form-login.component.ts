@@ -46,7 +46,7 @@ export class FormLoginComponent implements OnInit {
     this.authService.getUser().subscribe({
       next: (user) => {
         if (user) {
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/dashboard').then(r => console.log(r));
         }
       },
     });
