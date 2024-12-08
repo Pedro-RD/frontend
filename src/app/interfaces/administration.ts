@@ -1,17 +1,6 @@
 export interface Administration {
   id?: number;
-  hour: string;
+  hour: string | number;
+  minute?: string | number;
   dose: number;
-  // createdAt: string;
-  // updatedAt: string;
-  // medicament: {
-  //   id: number;
-  //   name: string;
-  //   instructions: string;
-  //   quantity: number;
-  //   prescriptionQuantity: number;
-  //   dueDate: string;
-  //   createdAt: string;
-  //   updatedAt: string;
-  // };
 }
