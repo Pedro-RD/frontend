@@ -18,31 +18,24 @@
           <div class="space-y-2">
             <div class="flex justify-between items-center mb-2">
               <h3 class="text-xl font-semibold">Administrações</h3>
-              <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                (click)="toggleAddForm()">
+              <button type="button" class="btn btn-info" (click)="toggleAddForm()">
                 Adicionar
               </button>
             </div>
 
             <div *ngIf="showAddForm" class="mb-4 p-4 border rounded-lg bg-gray-50">
-              <form (ngSubmit)="onAddAdministration()">
-                <div class="mb-2">
-                  <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
-                  <input type="text" id="dose" [(ngModel)]="newAdministration.dose" name="dose" required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-                </div>
-                <div class="mb-2">
-                  <label for="hour" class="block text-sm font-medium text-gray-700">Hora</label>
-                  <input type="time" id="hour" [(ngModel)]="newAdministration.hour" name="hour" required
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-                </div>
+              <form>
+
+                <app-input [control]="doseControl" label="Dose" type="number" placeholder="Dose"
+                  class="appearance-none bg-none border-none rounded-none p-0 text-none shadow-none" />
+                <app-input [control]="hourControl" label="Hora" type="time" placeholder="Hora"
+                  class="appearance-none bg-none border-none rounded-none p-0 text-none shadow-none" />
+
                 <div class="flex justify-end">
-                  <button type="submit"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                  <button type="button" class="btn btn-success mr-2" (click)="onAddAdministration()">
                     Salvar
                   </button>
-                  <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                    (click)="toggleAddForm()">
+                  <button type="button" class="btn btn-primary" (click)="toggleAddForm()">
                     Cancelar
                   </button>
                 </div>
@@ -56,7 +49,7 @@
             <div class="flex justify-between items-center">
               <div>
                 <p><span class="font-bold">Dose:</span> {{ a.dose }}</p>
-                <p><span class="font-bold">Hora:</span> {{ a.hour }}:{{ a.minute }}</p>
+                <p><span class="font-bold">Hora:</span> {{ pad(+a.hour, 2) }}:{{ pad(+a.minute!, 2) }}
               </div>
               @if (a.id) {
               <button type="button" class="btn-primary btn" (click)="onDeleteAdministration(a.id!)">

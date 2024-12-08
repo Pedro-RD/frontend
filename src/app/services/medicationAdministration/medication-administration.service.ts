@@ -17,6 +17,10 @@ export class MedicationAdministrationService {
     medicationId: number,
     administration: Administration,
   ): Observable<Administration> {
+    console.log(
+      'MedicationAdministrationService.addAdministration',
+      administration,
+    );
     return this.httpClient
       .post<Administration>(
         `${this.url}${medicationId}/administration`,

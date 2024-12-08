@@ -6,8 +6,14 @@ import { LoadingComponent } from '../../components/forms/loading/loading.compone
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { Medication } from '../../interfaces/medication';
 import { Administration } from '../../interfaces/administration';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MedicationAdministrationService } from '../../services/medicationAdministration/medication-administration.service';
+import { InputComponent } from '../../components/forms/input/input.component';
 
 @Component({
   selector: 'app-medication-details',
@@ -20,7 +26,8 @@ import { MedicationAdministrationService } from '../../services/medicationAdmini
     NgIf,
     LoadingComponent,
     ModalConfirmComponent,
-    FormsModule,
+    ReactiveFormsModule,
+    InputComponent,
   ],
 })
 export class MedicationDetailsComponent implements OnInit {
@@ -37,6 +44,18 @@ export class MedicationDetailsComponent implements OnInit {
     private medicationService: MedicationService,
     private medicationAdministrationService: MedicationAdministrationService,
   ) {}
+
+  doseControl = new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.min(0),
+  ]);
+
+  hourControl = new FormControl<string | null>(null, [Validators.required]);
+
+  administrationForm = new FormGroup({
+    dose: this.doseControl,
+    hour: this.hourControl,
+  });
 
   ngOnInit(): void {
     this.residentId = this.route.snapshot.paramMap.get('residentId');
@@ -57,6 +76,13 @@ export class MedicationDetailsComponent implements OnInit {
     } else {
       this.error = 'Invalid route parameters';
     }
+    this.hourControl.valueChanges.subscribe(() => {
+      const result = this.validateNotSameHour();
+      if (result) {
+        this.hourControl.setErrors({ sameHour: true });
+        console.log(this.hourControl.errors);
+      }
+    });
   }
 
   onDelete(): void {
@@ -80,9 +106,17 @@ export class MedicationDetailsComponent implements OnInit {
   }
 
   onAddAdministration(): void {
-    if (this.medication?.medicamentAdministrations && this.residentId) {
+    console.log(
+      this.newAdministration,
+      this.administrationForm.valid,
+      this.hourControl.value,
+    );
+    if (this.administrationForm.valid && this.medication?.id) {
       this.medicationAdministrationService
-        .addAdministration(this.medication.id, this.newAdministration)
+        .addAdministration(this.medication.id, {
+          hour: this.hourControl.value!,
+          dose: parseInt(`${this.doseControl.value!}`),
+        })
         .subscribe({
           next: (administration) => {
             this.medication?.medicamentAdministrations?.push(administration);
@@ -93,6 +127,11 @@ export class MedicationDetailsComponent implements OnInit {
             console.error('Erro ao adicionar administração:', err);
           },
         });
+    } else {
+      this.administrationForm.markAllAsTouched();
+      this.administrationForm.markAsDirty();
+      this.administrationForm.markAsTouched();
+      this.administrationForm.updateValueAndValidity();
     }
   }
 
@@ -116,5 +155,25 @@ export class MedicationDetailsComponent implements OnInit {
 
   toggleAddForm(): void {
     this.showAddForm = !this.showAddForm;
+  }
+
+  validateNotSameHour(): boolean {
+    const hour = this.hourControl.value?.split(':')[0];
+    const minute = this.hourControl.value?.split(':')[1];
+    if (!hour || !minute) return true;
+    const sameHour = this.medication?.medicamentAdministrations?.find(
+      (admin) => {
+        return (
+          admin.hour === parseInt(hour) && admin.minute === parseInt(minute)
+        );
+      },
+    );
+    return !!sameHour;
+  }
+
+  pad(num: number, size: number): string {
+    let s = num + '';
+    while (s.length < size) s = '0' + s;
+    return s;
   }
 }
