@@ -8,6 +8,9 @@ import { ButtonComponent } from '../../components/forms/button/button.component'
 import { MedicationAdministrationComponent } from '../medication-administration/medication-administration.component';
 import {Medication} from '../../interfaces/medication';
 import { Administration } from '../../interfaces/administration';
+import {FormsModule} from '@angular/forms';
+import { MedicationAdministrationService } from '../../services/medicationAdministration/medication-administration.service';
+
 
 @Component({
   selector: 'app-medication-details',
@@ -22,6 +25,7 @@ import { Administration } from '../../interfaces/administration';
     ModalConfirmComponent,
     ButtonComponent,
     MedicationAdministrationComponent,
+    FormsModule,
   ],
   styleUrls: ['./medication-details.component.css']
 })
@@ -30,11 +34,14 @@ export class MedicationDetailsComponent implements OnInit {
   error?: string;
   residentId?: string | null;
   isAdministrationModalVisible = false;
+  showAddForm: any;
+  newAdministration: Administration = { hour: '', dose: 0 };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private medicationService: MedicationService
+    private medicationService: MedicationService,
+    private medicationAdministrationService: MedicationAdministrationService
   ) {}
 
   ngOnInit(): void {
@@ -76,9 +83,6 @@ export class MedicationDetailsComponent implements OnInit {
     this.isAdministrationModalVisible = true;
   }
 
-  closeAdministrationModal(): void {
-    this.isAdministrationModalVisible = false;
-  }
 
   showDeleteModal() {
     // Implement the logic for showing the delete modal
@@ -88,25 +92,112 @@ export class MedicationDetailsComponent implements OnInit {
     return item.id;
   }
 
-  onAddAdministration() {
-    if (this.medication) {
-      const newAdministration: Administration = {
-        id: Date.now(), // ou outro método para gerar um ID único
-        hour: '00:00', // valor padrão ou lógica para definir a hora
-        dose: 0 // valor padrão ou lógica para definir a dose
-      };
-      this.medication.medicamentAdministrations = [
-        ...this.medication.medicamentAdministrations || [],
-        newAdministration
-      ];
+  // onAddAdministration(): void {
+  //   if (this.medication) {
+  //     this.medicationAdministrationService.addAdministration(this.medication.id, this.newAdministration).subscribe({
+  //       next: (administration) => {
+  //         if (this.medication) {
+  //           this.medication.medicamentAdministrations = [
+  //             ...(this.medication.medicamentAdministrations || []),
+  //             administration
+  //           ];
+  //         }
+  //         this.newAdministration = { hour: '', dose: 0 }; // Reset the form
+  //         this.showAddForm = false; // Hide the form
+  //       },
+  //       error: (err) => {
+  //         console.error('Failed to add administration', err);
+  //       }
+  //     });
+  //   }
+  // }
+
+  // onDeleteAdministration(administrationId: number | undefined): void {
+  //   if (this.medication && administrationId !== undefined) {
+  //     this.medicationAdministrationService.deleteAdministration(this.medication.id, administrationId).subscribe({
+  //       next: () => {
+  //         if (this.medication) {
+  //           this.medication.medicamentAdministrations = this.medication.medicamentAdministrations?.filter(
+  //             admin => admin.id !== administrationId
+  //           );
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('Failed to delete administration', err);
+  //       }
+  //     });
+  //   }
+  // }
+  // onAddAdministration(): void {
+  //   if (this.medication && this.residentId) {
+  //     this.medicationAdministrationService.addAdministration(+this.residentId, this.medication.id, this.newAdministration).subscribe({
+  //       next: (administration) => {
+  //         if (this.medication) {
+  //           this.medication.medicamentAdministrations = [
+  //             ...(this.medication.medicamentAdministrations || []),
+  //             administration
+  //           ];
+  //         }
+  //         this.newAdministration = { hour: '', dose: 0 }; // Reset the form
+  //         this.showAddForm = false; // Hide the form
+  //       },
+  //       error: (err) => {
+  //         console.error('Failed to add administration', err);
+  //       }
+  //     });
+  //   }
+  // }
+  onAddAdministration(): void {
+    if (this.medication?.medicamentAdministrations && this.residentId) {
+      this.medicationAdministrationService
+        .addAdministration(+this.residentId, this.medication.id, this.newAdministration)
+        .subscribe({
+          next: (administration) => {
+            this.medication?.medicamentAdministrations?.push(administration); // Verifica se existe antes de adicionar
+            this.newAdministration = { hour: '', dose: 0 }; // Reseta o formulário
+            this.showAddForm = false;
+          },
+          error: (err) => {
+            console.error('Erro ao adicionar administração:', err);
+          },
+        });
+    }
+  }
+  // onDeleteAdministration(administrationId: number | undefined): void {
+  //   if (this.medication && administrationId !== undefined && this.residentId) {
+  //     this.medicationAdministrationService.deleteAdministration(+this.residentId, this.medication.id, administrationId).subscribe({
+  //       next: () => {
+  //         if (this.medication) {
+  //           this.medication.medicamentAdministrations = this.medication.medicamentAdministrations?.filter(
+  //             (admin) => admin.id !== administrationId
+  //           );
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('Failed to delete administration', err);
+  //       }
+  //     });
+  //   }
+  // }
+  onDeleteAdministration(administrationId: number): void {
+    if (this.medication?.medicamentAdministrations && this.residentId) {
+      this.medicationAdministrationService
+        .deleteAdministration(+this.residentId, this.medication.id, administrationId)
+        .subscribe({
+          next: () => {
+            this.medication!.medicamentAdministrations = this.medication!.medicamentAdministrations?.filter(
+              (admin) => admin.id !== administrationId
+            );
+          },
+          error: (err) => {
+            console.error('Erro ao eliminar administração:', err);
+          },
+        });
     }
   }
 
-  onDeleteAdministration(id: number | undefined) {
-    if (this.medication && id !== undefined) {
-      this.medication.medicamentAdministrations = this.medication.medicamentAdministrations?.filter(
-        admin => admin.id !== id
-      );
-    }
+
+  toggleAddForm(): void {
+    this.showAddForm = !this.showAddForm;
   }
 }

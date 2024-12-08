@@ -151,12 +151,15 @@ export const routes: Routes = [
     component: MedicationCreateComponent,
   },
   {
-    path: 'residents/:residentId/medicaments/:id', component: MedicationDetailsComponent, children: [
-      { path: 'administration', component: MedicationAdministrationComponent }
-    ]},
-  {
     path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationEditComponent,
+  },
+  {
+    path: 'residents/:residentId/medicaments/:id',
+    component: MedicationDetailsComponent,
+    children: [
+      { path: 'administration', component: MedicationAdministrationComponent }
+    ]
   },
   {
     path: 'residents/:residentId/medicaments/:id/administration',

@@ -18,33 +18,143 @@
           <div class="space-y-2">
             <div class="flex justify-between items-center mb-2">
               <h3 class="text-xl font-semibold">Administrações</h3>
+<!--              &lt;!&ndash; Botão para Adicionar Administração &ndash;&gt;-->
+<!--              <button-->
+<!--                type="button"-->
+<!--                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"-->
+<!--                (click)="toggleAddForm()"-->
+<!--              >-->
+<!--                Adicionar-->
+<!--              </button>-->
               <button
                 type="button"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                (click)="onAddAdministration()"
+                (click)="toggleAddForm()"
               >
                 Adicionar
               </button>
             </div>
-            <div *ngFor="let a of medication.medicamentAdministrations; trackBy: trackById" class="flex justify-between items-center">
+
+<!--            &lt;!&ndash; Formulário para Adicionar Administração &ndash;&gt;-->
+<!--            <div *ngIf="showAddForm" class="mb-4 p-4 border rounded-lg bg-gray-50">-->
+<!--              <form (ngSubmit)="onAddAdministration()">-->
+<!--                <div class="mb-2">-->
+<!--                  <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>-->
+<!--                  <input-->
+<!--                    type="text"-->
+<!--                    id="dose"-->
+<!--                    [(ngModel)]="newAdministration.dose"-->
+<!--                    name="dose"-->
+<!--                    required-->
+<!--                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"-->
+<!--                  />-->
+<!--                </div>-->
+<!--                <div class="mb-2">-->
+<!--                  <label for="hour" class="block text-sm font-medium text-gray-700">Hora</label>-->
+<!--                  <input-->
+<!--                    type="time"-->
+<!--                    id="hour"-->
+<!--                    [(ngModel)]="newAdministration.hour"-->
+<!--                    name="hour"-->
+<!--                    required-->
+<!--                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"-->
+<!--                  />-->
+<!--                </div>-->
+<!--                <div class="flex justify-end">-->
+<!--                  <button-->
+<!--                    type="submit"-->
+<!--                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"-->
+<!--                  >-->
+<!--                    Salvar-->
+<!--                  </button>-->
+<!--                  <button-->
+<!--                    type="button"-->
+<!--                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"-->
+<!--                    (click)="toggleAddForm()"-->
+<!--                  >-->
+<!--                    Cancelar-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </form>-->
+<!--            </div>-->
+            <!-- Formulário para Adicionar Administração -->
+            <div *ngIf="showAddForm" class="mb-4 p-4 border rounded-lg bg-gray-50">
+              <form (ngSubmit)="onAddAdministration()">
+                <div class="mb-2">
+                  <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                  <input
+                    type="text"
+                    id="dose"
+                    [(ngModel)]="newAdministration.dose"
+                    name="dose"
+                    required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div class="mb-2">
+                  <label for="hour" class="block text-sm font-medium text-gray-700">Hora</label>
+                  <input
+                    type="time"
+                    id="hour"
+                    [(ngModel)]="newAdministration.hour"
+                    name="hour"
+                    required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="submit"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  >
+                    Salvar
+                  </button>
+                  <button
+                    type="button"
+                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    (click)="toggleAddForm()"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+
+<!--            &lt;!&ndash; Lista de Administrações &ndash;&gt;-->
+<!--            <div *ngFor="let a of medication.medicamentAdministrations; trackBy: trackById" class="flex justify-between items-center">-->
+<!--              <div>-->
+<!--                <p><span class="font-bold">Dose:</span> {{ a.dose }}</p>-->
+<!--                <p><span class="font-bold">Hora:</span> {{ a.hour }}</p>-->
+<!--              </div>-->
+<!--              <button-->
+<!--                type="button"-->
+<!--                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4"-->
+<!--                (click)="onDeleteAdministration(a.id)"-->
+<!--              >-->
+<!--                Eliminar-->
+<!--              </button>-->
+<!--            </div>-->
+            <!-- Lista de Administrações -->
+            <div *ngFor="let a of medication?.medicamentAdministrations; trackBy: trackById" class="flex justify-between items-center">
               <div>
                 <p><span class="font-bold">Dose:</span> {{ a.dose }}</p>
                 <p><span class="font-bold">Hora:</span> {{ a.hour }}</p>
               </div>
               <button
+                *ngIf="a.id !== undefined"
                 type="button"
                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4"
-                (click)="onDeleteAdministration(a.id)"
+                (click)="onDeleteAdministration(a.id!)"
               >
                 Eliminar
               </button>
             </div>
-<!--            <app-medication-administration [medicationId]="medication.id"></app-medication-administration>-->
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
 
 

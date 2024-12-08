@@ -9,15 +9,33 @@ import { Administration } from '../../interfaces/administration';
   providedIn: 'root',
 })
 export class MedicationAdministrationService {
-  private readonly url: string = environment.apiUrl + 'medications/';
+  private readonly url: string = environment.apiUrl + 'residents/';
 
   constructor(private httpClient: HttpClient) {}
 
-  getAdministrations(medicationId: number): Observable<Administration[]> {
-    return this.httpClient.get<Administration[]>(`${this.url}${medicationId}/administration`).pipe(
+  getAdministrations(residentId: number, medicationId: number): Observable<Administration[]> {
+    return this.httpClient.get<Administration[]>(`${this.url}${residentId}/medicaments/${medicationId}/administration`).pipe(
       catchError((err) => {
         console.error('Failed to load administrations', err);
-        return of([] as Administration[]);
+        return of([]);
+      })
+    );
+  }
+
+  addAdministration(residentId: number, medicationId: number, administration: Administration): Observable<Administration> {
+    return this.httpClient.post<Administration>(`${this.url}${residentId}/medicaments/${medicationId}/administration`, administration).pipe(
+      catchError((err) => {
+        console.error('Failed to add administration', err);
+        return of();
+      })
+    );
+  }
+
+  deleteAdministration(residentId: number, medicationId: number, administrationId: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}${residentId}/medicaments/${medicationId}/administration/${administrationId}`).pipe(
+      catchError((err) => {
+        console.error('Failed to delete administration', err);
+        return of();
       })
     );
   }
