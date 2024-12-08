@@ -1,16 +1,24 @@
-import {Component, input, output} from '@angular/core';
-import {UsersTableRowComponent} from '../../old/users-table-row/users-table-row.component';
-import {ColumnType, Entity, TableConfig,} from '../../../interfaces/table.interface';
-import {DatePipe, NgClass} from '@angular/common';
-import {TableCellProfileComponent} from '../table-cell-profile/table-cell-profile.component';
-import {TableCellTextComponent} from '../table-cell-text/table-cell-text.component';
-import {Order} from '../../../interfaces/paged-response.interface';
-import {Location} from '@angular/common';
+import { Component, input, output } from '@angular/core';
+import {
+  ColumnType,
+  Entity,
+  TableConfig,
+} from '../../../interfaces/table.interface';
+import { DatePipe, NgClass } from '@angular/common';
+import { TableCellProfileComponent } from '../table-cell-profile/table-cell-profile.component';
+import { TableCellTextComponent } from '../table-cell-text/table-cell-text.component';
+import { Order } from '../../../interfaces/paged-response.interface';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [UsersTableRowComponent, NgClass, TableCellProfileComponent, TableCellTextComponent, DatePipe],
+  imports: [
+    NgClass,
+    TableCellProfileComponent,
+    TableCellTextComponent,
+    DatePipe,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })

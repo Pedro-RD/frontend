@@ -1,13 +1,18 @@
 <div class="container px-2 sm:px-0 mx-auto">
   <section class="flex flex-col gap-3 my-2.5 sm:flex-row">
-    <app-search-box class="grow" (onSearch)="handleSearch($event)"/>
+    <app-search-box class="grow" (onSearch)="handleSearch($event)" />
     <div class="flex gap-2">
-      <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow"/>
+      <select [formControl]="roleControl" class="select select-bordered">
+        <option [value]="''">Todos</option>
+        <option [value]="Role.Manager">Gestor</option>
+        <option [value]="Role.Caretaker">Cuidador</option>
+        <option [value]="Role.Relative">Familiar</option>
+      </select>
+      <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow" />
       <a class="btn" routerLink="/users/create">
-        <svg class="size-6" fill="none" stroke="currentColor"
-             stroke-width="1.5" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         Adicionar Utilizador
       </a>
@@ -15,19 +20,12 @@
   </section>
 
   <section>
-    <app-table
-      (headerClicked)="handleHeaderClick($event)"
-      (rowClicked)="handleRowCliked($event)"
-      [data]="userList()"
-      [tableConfig]="tableConfig"
-      [orderDirection]="(orderDirection | async) || Order.ASC"
-      [orderKey]="(orderBy | async) || 'id'"/>
+    <app-table (headerClicked)="handleHeaderClick($event)" (rowClicked)="handleRowCliked($event)" [data]="userList()"
+      [tableConfig]="tableConfig" [orderDirection]="(orderDirection | async) || Order.ASC"
+      [orderKey]="(orderBy | async) || 'id'" />
   </section>
   <section class="flex justify-center	mt-2.5">
-    <app-paginator
-      (nextPage)="handleNextPage()"
-      (previousPage)="handlePreviousPage()"
-      [pageNumber]="(page | async) || 1"
-      [totalPages]="(totalPages |async) || 1"/>
+    <app-paginator (nextPage)="handleNextPage()" (previousPage)="handlePreviousPage()"
+      [pageNumber]="(page | async) || 1" [totalPages]="(totalPages |async) || 1" />
   </section>
 </div>
