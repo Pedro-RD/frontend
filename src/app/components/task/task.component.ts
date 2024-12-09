@@ -5,7 +5,7 @@ import {
   NotificationType,
   TasksService,
 } from '../../services/tasks/tasks.service';
-import { AsyncPipe, DatePipe, NgIf, NgSwitchCase } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { Resident } from '../../interfaces/resident';
@@ -13,7 +13,7 @@ import { Resident } from '../../interfaces/resident';
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [DatePipe, RouterModule, AsyncPipe, NgIf, NgSwitchCase],
+  imports: [DatePipe, RouterModule, AsyncPipe],
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
 })
@@ -27,6 +27,7 @@ export class TaskComponent {
   get resident(): Resident | undefined {
     switch (this.task().type) {
       case NotificationType.MEDICAMENT:
+        return this.task().medicamentAdministration?.medicament?.resident;
       case NotificationType.MEDICAMENT_STOCK:
       case NotificationType.MEDICAMENT_LOW:
         return this.task().medicament?.resident;
@@ -83,6 +84,11 @@ export class TaskComponent {
   seeResident(task: NotificationMessage) {
     switch (task.type) {
       case NotificationType.MEDICAMENT:
+        return this.router.navigate([
+          'residents',
+          'detail',
+          task.medicamentAdministration?.medicament?.resident?.id,
+        ]);
       case NotificationType.MEDICAMENT_STOCK:
       case NotificationType.MEDICAMENT_LOW:
         return this.router.navigate([

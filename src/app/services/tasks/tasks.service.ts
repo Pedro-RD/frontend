@@ -6,6 +6,7 @@ import { User } from '../../interfaces/user';
 import { Message } from '../../interfaces/message';
 import { Medication } from '../../interfaces/medication';
 import { Appointment } from '../../interfaces/appointment';
+import { Administration } from '../../interfaces/administration';
 
 export enum NotificationType {
   APPOINTMENT = 'Consulta',
@@ -36,6 +37,7 @@ export interface NotificationMessage {
   medicament: Medication | null; // Assuming this could be an object or null
   userMessage: Message | null; // Assuming this could be an object or null
   user: User | null; // Assuming this could be an object or null
+  medicamentAdministration: Administration | null; // Assuming this could be an object or null
 }
 
 @Injectable({

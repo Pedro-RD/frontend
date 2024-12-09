@@ -58,6 +58,14 @@ export class NavbarMainComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
   ) {}
 
+  get profilePicture(): Observable<string> {
+    return this.authService.getUser().pipe(
+      map((user: User | null) => {
+        return environment.photoUser + user?.profilePicture || 'user.svg';
+      }),
+    );
+  }
+
   private subscriptions: Subscription[] = [];
 
   messagesVisible = false; // Variável para controlar a visibilidade do submenu de mensagens
