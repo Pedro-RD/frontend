@@ -1,11 +1,18 @@
 import { User } from '../../../interfaces/user';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { map, Observable, interval } from 'rxjs';
+import {
+  map,
+  Observable,
+  interval,
+  Subscription,
+  mergeMap,
+  tap,
+  startWith,
+} from 'rxjs';
 import {
   AsyncPipe,
   DatePipe,
-  NgClass,
   NgComponentOutlet,
   NgFor,
   NgIf,
@@ -19,18 +26,14 @@ import { NavbarManagerComponent } from '../navbar-manager/navbar-manager.compone
 import { NavbarCaretakerComponent } from '../navbar-caretaker/navbar-caretaker.component';
 import { NavbarRelativeComponent } from '../navbar-relative/navbar-relative.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
-import { NotificationType, TasksService } from '../../../services/tasks/tasks.service';
+import {
+  NotificationType,
+  TasksService,
+} from '../../../services/tasks/tasks.service';
 import { TaskComponent } from '../../task/task.component';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { TaskFilterComponent } from '../../task-filter/task-filter.component';
-
-interface Notification {
-  id: number;
-  message: string;
-  type: string;
-  status: string;
-  createdAt: string;
-}
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-navbar-main',
@@ -39,7 +42,6 @@ interface Notification {
     RouterLink,
     AsyncPipe,
     NgComponentOutlet,
-    NgOptimizedImage,
     SidebarComponent,
     TaskComponent,
     DatePipe,
@@ -49,13 +51,14 @@ interface Notification {
   ],
   templateUrl: './navbar-main.component.html',
 })
-export class NavbarMainComponent implements OnInit {
+export class NavbarMainComponent implements OnInit, OnDestroy {
   constructor(
-    private router: Router,
     private authService: AuthService,
     private taskService: TasksService,
     private notificationService: NotificationService,
   ) {}
+
+  private subscriptions: Subscription[] = [];
 
   messagesVisible = false; // Variável para controlar a visibilidade do submenu de mensagens
 
@@ -63,18 +66,47 @@ export class NavbarMainComponent implements OnInit {
     return this.taskService.tasks$;
   }
   get notifications() {
-    return this.notificationService.notifications();
+    return this.notificationService.notifications$;
   }
 
   ngOnInit() {
+    console.log('NavbarMainComponent initialized');
     // Atualiza notificações a cada 60 segundos
-    interval(60000).subscribe(() =>
-      this.notificationService.loadNotifications(),
+    this.subscriptions.push(
+      interval(50000)
+        .pipe(
+          startWith(0),
+          tap(() => {
+            !environment.production &&
+              console.log('Atualizando notificações...');
+          }),
+          mergeMap(() => this.notificationService.loadNotifications()),
+        )
+        .subscribe({
+          error: (err) => {
+            !environment.production &&
+              console.error('Erro ao atualizar notificações:', err);
+          },
+        }),
     );
   }
 
-  deleteNotification(notificationId: number): void {
-    this.notificationService.deleteNotification(notificationId); // Passa o ID da notificação
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  deleteNotification(): void {
+    this.subscriptions.push(
+      this.notificationService.deleteNotifications().subscribe({
+        next: () => {
+          !environment.production && console.log('Notificações apagadas');
+        },
+        error: (err) => {
+          !environment.production &&
+            console.error('Erro ao apagar notificações:', err);
+        },
+      }),
+    );
   }
 
   get loggedIn(): Observable<boolean> {
@@ -114,8 +146,6 @@ export class NavbarMainComponent implements OnInit {
         return 'info-green.svg';
       default:
         return 'bg-gray-100 text-gray-800';
+    }
   }
-
-}
-
 }

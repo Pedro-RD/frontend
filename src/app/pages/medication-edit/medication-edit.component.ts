@@ -57,7 +57,16 @@ export class MedicationEditComponent implements OnInit {
     this.isSubmitting = true;
     if (this.residentId && this.medicationId) {
       this.medicationService
-        .update(this.residentId, this.medicationId, medication)
+        .update(this.residentId, this.medicationId, {
+          id: parseInt(this.medicationId),
+          name: medication.name,
+          instructions: medication.instructions,
+          quantity: parseFloat(`${medication.quantity}`),
+          prescriptionQuantity: parseFloat(
+            `${medication.prescriptionQuantity}`,
+          ),
+          dueDate: medication.dueDate,
+        })
         .subscribe({
           next: () => {
             this.isSubmitting = false;
