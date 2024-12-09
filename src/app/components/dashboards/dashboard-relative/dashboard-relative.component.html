@@ -13,16 +13,26 @@
         <div
           class="absolute inset-0 bg-white shadow-lg rounded-lg [backface-visibility:hidden] flex flex-col items-center justify-between p-4 relative"
         >
-          <!-- Top-Right Icon -->
-          <button
-            class="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 focus:outline-none rounded-full p-2 shadow-md"
-            (click)="viewMessages(resident.id)"
-            title="Mensagens"
-          >
-            <img src="comments.svg" alt="Mensagens" class="w-6 h-6" />
-          </button>
-
-          <div>
+          <!-- Container for Top-Right Buttons -->
+          <div class="absolute top-2 right-2 flex space-x-2">
+            <!-- Perfil do Residente Button -->
+            <button
+              class="bg-gray-200 hover:bg-gray-300 focus:outline-none rounded-full p-2 shadow-md"
+              (click)="viewResidentProfile(resident.id)"
+              title="Perfil do Residente"
+            >
+              <img src="profile.svg" alt="Perfil do Residente" class="w-6 h-6" />
+            </button>
+            <!-- Mensagens Button -->
+            <button
+              class="bg-gray-200 hover:bg-gray-300 focus:outline-none rounded-full p-2 shadow-md"
+              (click)="viewMessages(resident.id)"
+              title="Mensagens"
+            >
+              <img src="comments.svg" alt="Mensagens" class="w-6 h-6" />
+            </button>
+          </div>
+        <div>
             <img
               *ngIf="resident.profilePicture; else defaultPicture"
               [src]="photoResidentUrl + resident.profilePicture"

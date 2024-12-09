@@ -39,10 +39,12 @@ import {
   EmployeeShiftsManagementComponent
 } from './pages/employee-shifts-management/employee-shifts-management.component';
 import { DashboardManagerComponent } from './components/dashboards/dashboard-manager/dashboard-manager.component';
-
+import { FormResetPasswordComponent } from './pages/form-reset-password/form-reset-password.component';
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: FormLoginComponent },
+
+  {path: 'users/:id/reset-password', component: FormResetPasswordComponent},
 
   {
     path:'employees/:id/shifts', component: EmployeeShiftsManagementComponent

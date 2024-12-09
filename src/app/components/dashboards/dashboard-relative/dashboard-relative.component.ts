@@ -55,4 +55,10 @@ export class DashboardRelativeComponent implements OnInit {
 
   }
 
+  viewResidentProfile = (resident: number) => {
+    this.router.navigate(['/residents/detail', resident]); // Navigate to the messages page with the resident ID
+
+
+  }
+
 }

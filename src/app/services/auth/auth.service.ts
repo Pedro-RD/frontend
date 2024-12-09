@@ -96,4 +96,16 @@ export class AuthService {
         });
     }
   }
+
+  public resetPassword(userId: number, password: string): Observable<void> {
+    const url = `${environment.apiUrl}users/${userId}/password`; // Dynamic userId in the URL
+    const payload = { password }; // Send only the "password" field
+
+    return this.httpClient.patch<void>(url, payload).pipe(
+      map(() => {
+        console.log('Password reset successfully');
+      })
+    );
+  }
+
 }
