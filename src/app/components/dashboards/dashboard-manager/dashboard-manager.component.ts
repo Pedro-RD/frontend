@@ -1,8 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { ManagerDashboardService } from '../../../services/managerDashboard/manager-dashboard.service';
 import { CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 import { catchError, of, tap } from 'rxjs';
+import { ExportModalComponent } from '../../export-modal/export-modal.component';
+import { ExportService } from '../../../services/export.service';
+import { ToastService } from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'app-dashboard-manager',
@@ -13,11 +16,13 @@ import { catchError, of, tap } from 'rxjs';
     NgIf,
     NgForOf,
     NgxChartsModule,
+    ExportModalComponent,
   ],
   templateUrl: './dashboard-manager.component.html',
   styleUrls: ['./dashboard-manager.component.css'],
 })
 export class DashboardManagerComponent implements OnInit {
+  error: string | null = null;
   dashboardData: any;
   isLoading = true;
   legendPosition: LegendPosition = LegendPosition.Below;
@@ -38,8 +43,13 @@ export class DashboardManagerComponent implements OnInit {
     { name: 'Salários', value: '#9bb6ff' },
     { name: 'Pagamentos', value: '#fc8e8e' },
   ];
+  @ViewChild(ExportModalComponent) exportModal!: ExportModalComponent;
 
-  constructor(private managerDashboardService: ManagerDashboardService) {}
+  constructor(
+    private managerDashboardService: ManagerDashboardService,
+    private exportService: ExportService,
+    private toastService: ToastService,
+  ) {}
 
   ngOnInit() {
     this.loadDashboardData();
@@ -122,4 +132,28 @@ export class DashboardManagerComponent implements OnInit {
       this.cardHeight = 280; // Standard height for large screens
     }
   }
+
+  openExportModal() {
+    this.exportModal.show();
+  }
+
+  onExportConfirm(data: { mes: string; ano: number }) {
+    // console.log('Dados para exportar:', data);
+    this.exportService.exportToExcel(data.mes, data.ano).subscribe(
+      (response) => {
+        const blob = new Blob([response], { type: 'application/vnd.ms-excel' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `relatorio_${data.mes}_${data.ano}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.toastService.success('Relatório financeiro exportado com successo!');
+      },
+      (error) => {
+        // console.error('Erro ao exportar:', error);
+        this.toastService.error('Falha ao exportar');
+      }
+    );  }
+
 }
