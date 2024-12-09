@@ -11,6 +11,7 @@ import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 
 @Component({
   selector: 'app-healthreport',
@@ -22,6 +23,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
+    BackButtonComponent,
   ],
   templateUrl: './health-report.component.html',
 })
@@ -35,7 +37,7 @@ export class HealthReportComponent implements OnInit, OnDestroy {
       },
       {
         colKey: "respiratoryRate",
-        label: "Frequência Respiratória (rpm)",
+        label: "Frequência Respiratória",
         classList: ["w-40"]
       },
       {
@@ -45,8 +47,8 @@ export class HealthReportComponent implements OnInit, OnDestroy {
       },
       {
         colKey: "bloodGlucoseLevel",
-        label: "Nível de Glicose no Sangue (mg/dL)",
-        classList: ["w-40"]
+        label: "Nível de Glicose",
+        classList: ["w-32"]
       }
     ]
   };

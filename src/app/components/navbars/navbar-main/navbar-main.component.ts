@@ -26,7 +26,10 @@ import { NavbarManagerComponent } from '../navbar-manager/navbar-manager.compone
 import { NavbarCaretakerComponent } from '../navbar-caretaker/navbar-caretaker.component';
 import { NavbarRelativeComponent } from '../navbar-relative/navbar-relative.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
-import { TasksService } from '../../../services/tasks/tasks.service';
+import {
+  NotificationType,
+  TasksService,
+} from '../../../services/tasks/tasks.service';
 import { TaskComponent } from '../../task/task.component';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { TaskFilterComponent } from '../../task-filter/task-filter.component';
@@ -133,5 +136,16 @@ export class NavbarMainComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  getNotificationType(type: string): string {
+    switch (type) {
+      case NotificationType.MESSAGE_RELATIVE:
+        return 'info.svg';
+      case NotificationType.SHIFT:
+        return 'info-green.svg';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   }
 }
