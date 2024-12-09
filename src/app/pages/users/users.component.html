@@ -1,31 +1,44 @@
 <div class="container px-2 sm:px-0 mx-auto">
-  <section class="flex flex-col gap-3 my-2.5 sm:flex-row">
-    <app-search-box class="grow" (onSearch)="handleSearch($event)" />
-    <div class="flex gap-2">
-      <select [formControl]="roleControl" class="select select-bordered">
+  <section class="flex flex-col sm:flex-row gap-3 my-2.5">
+    <!-- First Row: Search Box and Todos Dropdown -->
+    <div class="flex gap-2 grow">
+      <!-- Shrinked Search Box -->
+      <app-search-box class="grow w-24 sm:w-auto" (onSearch)="handleSearch($event)" />
+
+      <!-- Enlarged Todos Dropdown -->
+      <select [formControl]="roleControl" class="select select-bordered w-32 sm:w-auto">
         <option [value]="''">Todos</option>
         <option [value]="Role.Manager">Gestor</option>
         <option [value]="Role.Caretaker">Cuidador</option>
         <option [value]="Role.Relative">Familiar</option>
       </select>
-      <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow" />
-      <a class="btn" routerLink="/users/create">
+    </div>
+
+    <!-- Second Row: Buttons -->
+    <div class="flex gap-2 w-full sm:w-auto">
+      <!-- Limited Size for app-select-limit -->
+      <app-select-limit (valueSelected)="handleLimitChange($event)" class="w-20 sm:w-auto" />
+
+      <a class="btn flex-1 sm:flex-none" routerLink="/users/create">
         <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
+             xmlns="http://www.w3.org/2000/svg">
           <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Adicionar Utilizador
+        Adicionar
       </a>
+
+      <app-back-button-dashboard></app-back-button-dashboard>
     </div>
   </section>
 
   <section>
     <app-table (headerClicked)="handleHeaderClick($event)" (rowClicked)="handleRowCliked($event)" [data]="userList()"
-      [tableConfig]="tableConfig" [orderDirection]="(orderDirection | async) || Order.ASC"
-      [orderKey]="(orderBy | async) || 'id'" />
+               [tableConfig]="tableConfig" [orderDirection]="(orderDirection | async) || Order.ASC"
+               [orderKey]="(orderBy | async) || 'id'" />
   </section>
-  <section class="flex justify-center	mt-2.5">
+
+  <section class="flex justify-center mt-2.5">
     <app-paginator (nextPage)="handleNextPage()" (previousPage)="handlePreviousPage()"
-      [pageNumber]="(page | async) || 1" [totalPages]="(totalPages |async) || 1" />
+                   [pageNumber]="(page | async) || 1" [totalPages]="(totalPages | async) || 1" />
   </section>
 </div>

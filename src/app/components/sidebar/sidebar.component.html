@@ -9,13 +9,15 @@
   <div class="drawer-side z-50">
     <!-- Overlay with updated styling -->
     <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay bg-black/50"></label>
-    <ul class="menu bg-base-200 text-base-content min-h-full w-70 p-4">
-      <li>
+    <div class="menu bg-base-200 text-base-content min-h-full w-70 p-4 mt-8">
+      <div class="bg-transparent focus:bg-transparent active:bg-transparent">
         <!-- Close Button Slot -->
         <ng-content select="[close-button]"></ng-content>
-      </li>
-      <!-- Sidebar content here -->
-      <ng-content></ng-content>
-    </ul>
+      </div>
+      <div class="bg-transparent focus:bg-transparent active:bg-transparent">
+        <!-- Sidebar content -->
+        <ng-content></ng-content>
+      </div>
+    </div>
   </div>
 </div>

@@ -11,6 +11,7 @@ import { Payment } from '../../interfaces/payment';
 import { Order } from '../../interfaces/paged-response.interface';
 import { ResidentPaymentsService } from '../../services/residentsPayments/residents-payments.service';
 import { PaymentType } from '../../interfaces/payment-type.enum';
+import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 @Component({
   selector: 'app-residents-payments',
   standalone: true,
@@ -22,6 +23,7 @@ import { PaymentType } from '../../interfaces/payment-type.enum';
     SelectLimitComponent,
     TableComponent,
     SearchBoxComponent,
+    BackButtonComponent,
   ],
   templateUrl: './residents-payments.component.html',
   styleUrl: './residents-payments.component.css'

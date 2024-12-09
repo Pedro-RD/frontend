@@ -12,6 +12,7 @@ import {SelectLimitComponent} from '../../components/table/select-limit/select-l
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
 import {NgClass} from '@angular/common';
+import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 
 @Component({
   selector: 'app-medication',
@@ -24,7 +25,8 @@ import {NgClass} from '@angular/common';
     SelectLimitComponent,
     RouterLink,
     MedicationDetailModalComponent,
-    NgClass
+    NgClass,
+    BackButtonComponent,
   ],
   templateUrl: './medication.component.html',
   styleUrl: './medication.component.css'
