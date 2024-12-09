@@ -31,11 +31,12 @@ import { InputComponent } from '../../components/forms/input/input.component';
   ],
 })
 export class MedicationDetailsComponent implements OnInit {
+  activeTab: string = 'register'; // Default tab
   medication?: Medication;
   error?: string;
   residentId?: string | null;
   isAdministrationModalVisible = false;
-  showAddForm: any;
+  showAddForm: boolean = false;
   newAdministration: Administration = { hour: '', dose: 0 };
 
   constructor(
@@ -182,4 +183,6 @@ export class MedicationDetailsComponent implements OnInit {
     while (s.length < size) s = '0' + s;
     return s;
   }
+
+
 }

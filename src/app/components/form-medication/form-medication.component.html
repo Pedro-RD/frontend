@@ -14,18 +14,21 @@
         placeholder="Quantidade em stock" type="number" />
 
       <app-input [control]="prescriptionQuantity" [required]="true" class="border-0 w-full p-0"
-        label="Quantidade Prescrita" placeholder="Quantidade na receita" type="number" />
+        label="Quantidade Prescrita" placeholder="Quantidade" type="number" />
     </div>
 
     <app-input [control]="dueDate" [required]="true" class="border-0 w-full p-0 mb-4" label="Data de Validade"
       placeholder="dd/mm/yyyy" type="date" />
 
-    <div class="flex flex-col md:flex-row justify-center items-center pt-10 space-y-4 md:space-y-0 md:space-x-5">
-      <a class="btn md:mr-5" [routerLink]="['/residents', residentId, 'medicaments']">
+    <div class="flex flex-wrap justify-center gap-4 pt-10">
+      <!-- Botão de Retrocesso -->
+      <button class="btn btn-secondary flex items-center gap-2" type="button" (click)="goBack()">
+        <img src="left-arrow.svg" alt="Left Arrow Icon" class="w-5 h-5">
         Voltar
-      </a>
+      </button>
 
-      <app-button label="Guardar" type="submit" />
+      <!-- Botão de Submissão -->
+      <app-button label="Guardar" type="submit"></app-button>
     </div>
   </form>
 </div>

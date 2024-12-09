@@ -12,6 +12,7 @@ import {
 import { InputComponent } from '../forms/input/input.component';
 import { Medication } from '../../interfaces/medication';
 import { RouterLink } from '@angular/router';
+import { Location} from '@angular/common';
 
 @Component({
   selector: 'app-form-medication',
@@ -25,9 +26,11 @@ import { RouterLink } from '@angular/router';
   ],
   templateUrl: './form-medication.component.html',
 })
-export class FormMedicationComponent {
+export class FormMedicationComponent  {
   selectedMedication?: Medication;
   isModalVisible = false;
+
+  constructor(private location: Location) {}
 
   residentId = input.required<number>();
 
@@ -92,5 +95,9 @@ export class FormMedicationComponent {
         dueDate: this.dueDate.value as Date,
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
