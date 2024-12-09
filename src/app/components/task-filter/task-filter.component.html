@@ -1,6 +1,6 @@
-<div class="join flex-wrap gap-4 bg-white/70 backdrop-blur-md shadow-lg rounded-lg p-4 relative">
+<div class="join flex-wrap gap-4 bg-white/70 backdrop-blur-md shadow-lg rounded-lg p-4 relative ">
   <!-- Todas -->
-  <div class="relative group">
+  <div class="relative group z-50">
     <img src="all.svg" alt="Todas"
          class="join-item w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
          (click)="clearFilter()"
@@ -14,7 +14,7 @@
   </div>
 
   <!-- Administrações de Medicamentos -->
-  <div class="relative group">
+  <div class="relative group ">
     <img src="medicine.svg" alt="Administrações de Medicamentos"
          class="join-item w-8 h-8 cursor-pointer transform transition-transform duration-200 group-hover:-translate-y-2"
          (click)="filterAdministrations()"
@@ -22,7 +22,7 @@
            'btn-secondary': (filter | async) === NotificationType.MEDICAMENT,
            'btn-info': (filter | async) !== NotificationType.MEDICAMENT
          }">
-    <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2">
+    <div class="absolute bottom-14 left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded-md py-1 px-2 ">
       Administrações
     </div>
   </div>

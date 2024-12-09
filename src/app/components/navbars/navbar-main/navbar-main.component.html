@@ -1,9 +1,9 @@
-<div class="navbar bg-base-100 border-b border-gray-200 shadow-sm">
+<div class="navbar bg-base-100 border-b border-gray-200 shadow-sm ">
   <div class="navbar-start">
     <!-- Menu lateral para dispositivos móveis -->
     <div class="dropdown">
       <div class="btn btn-ghost lg:hidden" role="button" tabindex="0">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M4 6h16M4 12h8m-8 6h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
         </svg>
       </div>
@@ -11,7 +11,7 @@
     </div>
 
     <a [routerLink]="(loggedIn | async) ? '/dashboard' : '/'">
-      <img src="logo.png" alt="logo" class="h-10 w-auto" height="85" width="435" />
+      <img src="logo.png" alt="logo" class="h-8"  />
     </a>
   </div>
 
@@ -19,74 +19,77 @@
 
   <!-- Menu de notificações e avatar -->
   <div class="navbar-end">
-    <app-sidebar *ngIf="(loggedIn | async) && (user | async)?.role !== 'relative'">
-    <span class="indicator relative" icon>
-      <img src="./task.svg" alt="Task Icon" class="w-6 h-6" />
-      <span
-        class="badge badge-sm badge-primary absolute top-0 left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-full border-3 border-black">
-        {{ (tasks | async)?.length }}
-      </span>
-    </span>
-      <app-task-filter />
-      @for (task of (tasks | async); track task.id) {
-        <div class="task-item bg-transparent focus:bg-transparent active:bg-transparent hover:bg-transparent">
-          <app-task [task]="task"></app-task>
-        </div>
-      } @empty {
-        <div class="flex items-center justify-center p-6 bg-white/70 rounded-lg shadow-md mt-1">
-      <span class="text-gray-500 text-center font-medium">
-        Nenhuma tarefa disponível no momento
-      </span>
-        </div>
-      }
-    </app-sidebar>
-  <!-- Notification Dropdown -->
+      <app-sidebar *ngIf="(loggedIn | async) && (user | async)?.role !== 'relative'">
+      <span class="indicator relative" icon>
+        <img src="checklist.svg" alt="Task Icon" class="w-8 h-8 mt-1 hover:brightness-90"  />
+        <span
+          class="badge badge-sm badge-primary absolute top-1.5 left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-full border-3 border-black">
+          {{ (tasks | async)?.length }}
+        </span>
+        </span>
+        <app-task-filter />
+        @for (task of (tasks | async); track task.id) {
+          <div class="task-item bg-transparent focus:bg-transparent active:bg-transparent hover:bg-transparent">
+            <app-task [task]="task"></app-task>
+          </div>
+        } @empty {
+          <div class="flex items-center justify-center p-6 bg-white/70 rounded-lg shadow-md mt-1">
+        <span class="text-gray-500 text-center font-medium">
+          Nenhuma tarefa disponível no momento
+        </span>
+          </div>
+        }
+      </app-sidebar>
+    <!-- Notification Dropdown -->
     <div class="dropdown dropdown-end" *ngIf="loggedIn | async">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle indicator mr-4">
         <div class="indicator relative">
           <img src="bell.svg" alt="Notification Icon" class="w-8 h-8" />
           <span
             class="badge badge-sm badge-primary absolute top-0.5 left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-full border-3 border-black">
-            {{ notifications.length }}
-          </span>
+        {{ notifications.length }}
+      </span>
         </div>
       </div>
 
       <!-- Dropdown Content -->
       <ul
         tabindex="0"
-        class="menu dropdown-content bg-base-100 rounded-box z-[1050] mt-4 w-96 max-h-[30rem] p-4 shadow overflow-y-auto divide-y divide-gray-300 fixed right-0 top-auto">
-        <!-- Header -->
-        <li class="text-center font-medium text-lg py-2 bg-gray-50 text-gray-700">
-          Notificações
-        </li>
-
+        class="dropdown-content menu bg-white/70 backdrop-blur-md rounded-md z-50 overflow-x-hidden mt-4 w-64 sm:w-96 p-4 shadow-lg max-h-96 overflow-y-auto">
         <!-- Notification Items -->
-        <li *ngFor="let notification of notifications" class="p-2">
-          <a class="flex items-center gap-3">
-            <div class="flex-shrink-0 flex items-center justify-center">
-              <img [src]="getNotificationType(notification.type)" alt="Notification Type" class="w-4 h-4 rounded-full" />
-            </div>
-            <div class="flex-1">
-        <span class="font-semibold block text-base">
-          {{ notification.message }}
-        </span>
-              <span class="text-sm text-gray-500">
-          {{ notification.createdAt | date: 'dd/MM/yyyy HH:mm' }}
-        </span>
-              <span class="badge badge-sm mt-1 inline-block text-xs font-medium rounded-full bg-gray-100 text-gray-700 border-none outline-none">
-          {{ notification.type }}
-        </span>
-            </div>
-            <div class="flex items-center justify-center">
-              <img src="no.svg" alt="Delete Icon" class="h-4 w-4 cursor-pointer" (click)="deleteNotification(notification.id)" />
-            </div>
-          </a>
-        </li>
+        <div *ngIf="notifications.length; else noNotifications">
+          <li *ngFor="let notification of notifications" class="p-2">
+            <a class="flex items-start ">
+              <!-- Icon Positioned Slightly Higher -->
+              <div class="flex-shrink-0 flex items-center justify-center relative top-1">
+                <img [src]="getNotificationType(notification.type)" alt="Notification Type" class="w-4 h-4 rounded-full" />
+              </div>
+              <!-- Notification Content -->
+              <div class="flex-1">
+                <span class="font-semibold block text-base text-gray-800 flex justify-between items-center">
+                   {{ notification.message }}
+                  <img src="no.svg" alt="Delete Icon" class="h-4 w-4 cursor-pointer ml-2" (click)="deleteNotification(notification.id)" />
+                </span>
+                <span class="text-sm text-gray-500">
+                  {{ notification.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                </span>
+                <span class="badge badge-sm mt-1 inline-block text-xs font-medium rounded-full bg-gray-100 text-gray-700 border-none">
+                  {{ notification.type }}
+                </span>
+              </div>
+            </a>
+          </li>
+        </div>
+
+        <!-- No Notifications Placeholder -->
+        <ng-template #noNotifications>
+          <li class="text-center py-4 text-gray-500 italic">
+            Sem notificações
+          </li>
+        </ng-template>
       </ul>
-
-
     </div>
+
 
     <!-- Avatar Dropdown -->
     <div *ngIf="loggedIn | async" class="dropdown dropdown-end mr-4">
@@ -98,13 +101,13 @@
       <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" tabindex="0">
         <li>
           <a class="flex items-center">
-            <img src="gear.svg" alt="Settings Icon" class="w-6 h-6 mr-2" />
+            <img src="gear.svg" alt="Settings Icon" class="w-5 h-5 mr-2" />
             Recuperar Password
           </a>
         </li>
         <li>
           <a (click)="logout()" class="flex items-center">
-            <img src="logout.svg" alt="Logout Icon" class="w-6 h-6 mr-2" />
+            <img src="logout.svg" alt="Logout Icon" class="w-5 h-5 mr-2" />
             Logout
           </a>
         </li>
@@ -114,7 +117,7 @@
     <!-- Botão de Login -->
     <a *ngIf="!(loggedIn | async)" [routerLink]="['/login']" class="btn btn-info flex items-center">
       <!-- Key Icon -->
-      <img src="login.svg" alt="Key Icon" class="w-6 h-6" />
+      <img src="login.svg" alt="Key Icon" class="w-8 h-8" />
       <!-- Login Text -->
       <span>Login</span>
     </a>
