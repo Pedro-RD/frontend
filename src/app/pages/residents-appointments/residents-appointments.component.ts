@@ -10,6 +10,7 @@ import { Appointment } from '../../interfaces/appointment';
 import { map, Observable, Subscription, switchMap, tap } from 'rxjs';
 import {Order} from '../../interfaces/paged-response.interface';
 import { ResidentAppointmentsService } from '../../services/residentsAppointments/resident-appointments.service';
+import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 
 
 @Component({
@@ -23,6 +24,7 @@ import { ResidentAppointmentsService } from '../../services/residentsAppointment
     SelectLimitComponent,
     TableComponent,
     SearchBoxComponent,
+    BackButtonComponent,
   ],
   templateUrl: './residents-appointments.component.html',
   styleUrl: './residents-appointments.component.css'

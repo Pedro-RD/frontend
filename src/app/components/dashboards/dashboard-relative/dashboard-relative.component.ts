@@ -3,6 +3,7 @@ import { ManagerDashboardService } from '../../../services/managerDashboard/mana
 import { catchError, of, tap } from 'rxjs';
 import { DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class DashboardRelativeComponent implements OnInit {
   flippedIndex: number | null = null; // Tracks the currently flipped card
   photoResidentUrl = environment.photoResident;
 
-  constructor(private managerDashboardService: ManagerDashboardService) {}
+  constructor(private managerDashboardService: ManagerDashboardService, private router: Router) {}
 
   private loadDashboardData() {
     this.managerDashboardService.getRelativeDashboard().pipe(
@@ -47,4 +48,11 @@ export class DashboardRelativeComponent implements OnInit {
   toggleFlip(index: number): void {
     this.flippedIndex = this.flippedIndex === index ? null : index; // Toggle card flip state
   }
+
+  viewMessages = (resident: number) => {
+    this.router.navigate(['/residents', resident,'messages']); // Navigate to the messages page with the resident ID
+
+
+  }
+
 }

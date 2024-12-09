@@ -1,17 +1,20 @@
-import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
-import { SearchBoxComponent } from '../../components/forms/search-box/search-box.component';
-import { PaginatorComponent } from '../../components/table/paginator/paginator.component';
-import { MedicationService } from '../../services/medication/medication.service';
-import { Observable, map, switchMap, tap, Subscription } from 'rxjs';
-import { TableComponent } from '../../components/table/table/table.component';
-import { ColumnType, TableConfig } from '../../interfaces/table.interface';
-import { Medication } from '../../interfaces/medication';
-import { AsyncPipe } from '@angular/common';
-import { Order } from '../../interfaces/paged-response.interface';
-import { SelectLimitComponent } from '../../components/table/select-limit/select-limit.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-// import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
-import { NgClass } from '@angular/common';
+import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
+import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
+import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
+import {MedicationService} from '../../services/medication/medication.service';
+import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
+import {TableComponent} from '../../components/table/table/table.component';
+import {ColumnType, TableConfig} from '../../interfaces/table.interface';
+import {Medication} from '../../interfaces/medication';
+import {AsyncPipe} from '@angular/common';
+import {Order} from '../../interfaces/paged-response.interface';
+import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
+import {NgClass} from '@angular/common';
+import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
+
+
 
 @Component({
   selector: 'app-medication',
@@ -23,6 +26,10 @@ import { NgClass } from '@angular/common';
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
+    MedicationDetailModalComponent,
+    NgClass,
+    BackButtonComponent,
+
   ],
   templateUrl: './medication.component.html',
   styleUrl: './medication.component.css',
