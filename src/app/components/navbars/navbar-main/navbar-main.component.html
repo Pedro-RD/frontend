@@ -55,8 +55,11 @@
       </div>
 
       <!-- Dropdown Content -->
-      <ul tabindex="0"
-        class="dropdown-content menu bg-white/70 backdrop-blur-md rounded-md z-50 overflow-x-hidden mt-4 w-64 sm:w-96 p-4 shadow-lg max-h-96 overflow-y-auto">
+
+      <ul
+        tabindex="0"
+        class="dropdown-content menu bg-white/70 backdrop-blur-md rounded-md z-50 overflow-x-hidden mt-8 w-64 sm:w-96 p-4 shadow-lg max-h-96 overflow-y-auto">
+
         <!-- Notification Items -->
 
         @if ((notifications | async)?.length || 0 > 0) {
