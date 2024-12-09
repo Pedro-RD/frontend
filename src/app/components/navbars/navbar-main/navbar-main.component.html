@@ -110,8 +110,11 @@
         </div>
       </div>
       <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" tabindex="0">
-        <li>
-          <a class="flex items-center">
+        <li *ngIf="user | async as currentUser">
+          <a
+            class="flex items-center"
+            [routerLink]="['/users', currentUser.id, 'reset-password']"
+          >
             <img src="gear.svg" alt="Settings Icon" class="w-5 h-5 mr-2" />
             Recuperar Password
           </a>

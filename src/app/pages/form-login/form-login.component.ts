@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import {
   FormControl,
@@ -17,8 +17,9 @@ import { InputComponent } from '../../components/forms/input/input.component';
   imports: [ReactiveFormsModule, NgClass, InputComponent],
   templateUrl: './form-login.component.html',
 })
-export class FormLoginComponent implements OnInit {
+export class FormLoginComponent implements OnInit, OnDestroy {
   errorMessage = '';
+
 
   email = new FormControl('', {
     validators: Validators.compose([Validators.required, Validators.email]),
@@ -36,9 +37,19 @@ export class FormLoginComponent implements OnInit {
     password: this.password,
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private renderer: Renderer2) {}
 
   ngOnInit(): void {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      this.renderer.removeClass(mainElement, 'container');
+      this.renderer.removeClass(mainElement, 'px-2');
+      this.renderer.removeClass(mainElement, 'sm:px-0');
+      this.renderer.removeClass(mainElement, 'mx-auto');
+      this.renderer.removeClass(mainElement, 'pt-10');
+
+    }
+
     this.loginForm.reset();
     this.loginForm.markAsUntouched();
     this.errorMessage = '';
@@ -62,5 +73,16 @@ export class FormLoginComponent implements OnInit {
         }
       },
     });
+  }
+
+  ngOnDestroy() {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      this.renderer.addClass(mainElement, 'container');
+      this.renderer.addClass(mainElement, 'px-2');
+      this.renderer.addClass(mainElement, 'sm:px-0');
+      this.renderer.addClass(mainElement, 'mx-auto');
+      this.renderer.addClass(mainElement, 'pt-10');
+    }
   }
 }
