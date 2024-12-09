@@ -10,7 +10,6 @@ import {AsyncPipe} from '@angular/common';
 import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {MedicationDetailModalComponent} from '../../components/medication-detail-modal/medication-detail-modal.component';
 import {NgClass} from '@angular/common';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 
@@ -26,7 +25,6 @@ import { BackButtonComponent } from '../../components/table/back-button/back-but
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
-    MedicationDetailModalComponent,
     NgClass,
     BackButtonComponent,
 
