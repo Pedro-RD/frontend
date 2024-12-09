@@ -1,0 +1,45 @@
+<dialog #modal class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <!-- Botão para fechar -->
+    <button
+      class="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+      (click)="close()"
+    >
+      ✕
+    </button>
+    <h3 class="font-bold text-lg mb-4">Exportar para Excel</h3>
+    <form class="space-y-4">
+      <!-- Mês -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Mês</label>
+        <select
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="selectedMes"
+          name="mes"
+        >
+          @for (mes of meses; track mes.value) {
+            <option [value]="mes.value">{{ mes.label }}</option>
+          } @empty {
+            <option value="" disabled>Sem opções disponíveis</option>
+          }
+        </select>
+      </div>
+      <!-- Ano -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Ano</label>
+        <input
+          type="number"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="selectedAno"
+          name="ano"
+          placeholder="Digite o ano"
+        />
+      </div>
+    </form>
+    <!-- Ações -->
+    <div class="modal-action">
+      <button class="btn btn-success" (click)="onConfirm()">Confirmar</button>
+      <button class="btn btn-primary" (click)="close()">Cancelar</button>
+    </div>
+  </div>
+</dialog>

@@ -84,4 +84,19 @@
       </div>
     </div>
   </div>
+  <!-- Export Button -->
+  <div class="flex justify-center mt-8">
+    <button
+      class="flex items-center gap-2 bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition duration-300"
+      (click)="openExportModal()">
+      <img src="export.svg" alt="Ícone de Exportação" class="h-5 w-5" />
+      Exportar Relatório
+    </button>
+    <app-export-modal (confirm)="onExportConfirm($event)"></app-export-modal>
+  </div>
 </div>
+
+<!-- Template de Erro -->
+<ng-template #errorTpl>
+  <p class="text-error p-4">{{ error }}</p>
+</ng-template>
