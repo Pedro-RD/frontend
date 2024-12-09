@@ -1,0 +1,22 @@
+@if ((errors$ | async)?.length) {
+<div class="fixed w-full h-full z-50 top-0 left-0 flex items-center justify-center flex-col">
+    <dialog id="error_modal" class="modal modal-open modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold text-primary">Erro!</h3>
+            <p class="py-4">Pedido não concluido.
+            </p>
+            <ul>
+                @for (error of errors$ | async; track $index) {
+                <li>{{ error }}</li>
+                }
+            </ul>
+
+            <div class="modal-action">
+                <form method="dialog">
+                    <button (click)="clearErrors()" class="btn btn-primary">Fechar</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+</div>
+}
