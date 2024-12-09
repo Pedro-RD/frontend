@@ -17,7 +17,6 @@ export class MedicationService extends ListService<Medication> {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
     private toastService: ToastService,
   ) {
     super();
@@ -26,82 +25,106 @@ export class MedicationService extends ListService<Medication> {
   // Read Medication:
   fetchList(residentId: number): Observable<Medication[]> {
     console.log(this.queryString);
-    return this.httpClient.get<PagedResponse<Medication>>(this.url + residentId + "/medicaments" + this.queryString).pipe(
-      tap((rxp) => {
-        console.log(rxp);
-        this.setTotalPages(rxp.totalPages);
-      }),
-      map(rxp => rxp.data),
-      catchError((err) => {
-        console.log(err);
-        return of([] as Medication[]);
-      })
-    );
+    return this.httpClient
+      .get<PagedResponse<Medication>>(
+        this.url + residentId + '/medicaments' + this.queryString,
+      )
+      .pipe(
+        tap((rxp) => {
+          console.log(rxp);
+          this.setTotalPages(rxp.totalPages);
+        }),
+        map((rxp) => rxp.data),
+        catchError((err) => {
+          console.log(err);
+          return of([] as Medication[]);
+        }),
+      );
   }
 
   // Create Medication:
   create(residentId: number, item: Medication): Observable<Medication> {
-    console.log("MedicationService.create", item);
-    return this.httpClient.post<Medication>(this.url + residentId + "/medicaments", item).pipe(
-      tap((medicament) => {
-        this.toastService.success("Medicação criada com sucesso");
-      }),
-      catchError((err) => {
-        console.error(err);
-        this.toastService.error("Erro ao criar medicação");
-        return of({} as Medication);
-      })
-    );
+    console.log('MedicationService.create', item);
+    return this.httpClient
+      .post<Medication>(this.url + residentId + '/medicaments', item)
+      .pipe(
+        tap((medicament) => {
+          this.toastService.success('Medicação criada com sucesso');
+        }),
+        catchError((err) => {
+          console.error(err);
+          this.toastService.error('Erro ao criar medicação');
+          return of({} as Medication);
+        }),
+      );
   }
 
   // Fetch a single Medication item:
   fetchItem(residentId: number, medicationId: number): Observable<Medication> {
-    return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
-      tap(console.log),
-      catchError((err) => {
-        console.error(err);
-        this.toastService.error('Erro ao buscar medicação');
-        return of({} as Medication);
-      })
-    );
+    return this.httpClient
+      .get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`)
+      .pipe(
+        tap(console.log),
+        catchError((err) => {
+          console.error(err);
+          this.toastService.error('Erro ao buscar medicação');
+          return of({} as Medication);
+        }),
+      );
   }
 
   // Update Medication:
-  update(residentId: string, medicationId: string, item: Medication): Observable<Medication> {
-    return this.httpClient.patch<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`, item).pipe(
-      tap((medicament) => {
-        this.toastService.success("Medicação atualizada com sucesso");
-      }),
-      catchError((err) => {
-        console.error(err);
-        this.toastService.error("Erro ao atualizar medicação");
-        return of({} as Medication);
-      })
-    );
+  update(
+    residentId: string,
+    medicationId: string,
+    item: Medication,
+  ): Observable<Medication> {
+    return this.httpClient
+      .patch<Medication>(
+        `${this.url}${residentId}/medicaments/${medicationId}`,
+        item,
+      )
+      .pipe(
+        tap(() => {
+          this.toastService.success('Medicação atualizada com sucesso');
+        }),
+        catchError((err) => {
+          console.error(err);
+          this.toastService.error('Erro ao atualizar medicação');
+          return of({} as Medication);
+        }),
+      );
   }
 
   // Delete Medication:
   delete(residentId: string, medicationId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
-      tap(() => {
-        this.toastService.info("Medicação eliminada com sucesso");
-      }),
-      catchError((err) => {
-        console.error(err);
-        this.toastService.error('Erro ao eliminar medicação');
-        return of();
-      })
-    );
+    return this.httpClient
+      .delete<void>(`${this.url}${residentId}/medicaments/${medicationId}`)
+      .pipe(
+        tap(() => {
+          this.toastService.info('Medicação eliminada com sucesso');
+        }),
+        catchError((err) => {
+          console.error(err);
+          this.toastService.error('Erro ao eliminar medicação');
+          return of();
+        }),
+      );
   }
 
   // Get Medication by ID:
-  getMedicationById(residentId: string, medicationId: string): Observable<Medication> {
-    return this.httpClient.get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`).pipe(
-      tap(console.log),
-      catchError((err) => {
-        this.toastService.error('Erro ao buscar medicação');
-        return of({} as Medication);
-      })
-    );
+  getMedicationById(
+    residentId: string,
+    medicationId: string,
+  ): Observable<Medication> {
+    return this.httpClient
+      .get<Medication>(`${this.url}${residentId}/medicaments/${medicationId}`)
+      .pipe(
+        tap(console.log),
+        catchError((err) => {
+          this.toastService.error('Erro ao buscar medicação');
+          return of({} as Medication);
+        }),
+      );
   }
 }

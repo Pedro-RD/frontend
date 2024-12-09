@@ -14,6 +14,8 @@ import {MedicationDetailModalComponent} from '../../components/medication-detail
 import {NgClass} from '@angular/common';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 
+
+
 @Component({
   selector: 'app-medication',
   standalone: true,
@@ -27,18 +29,19 @@ import { BackButtonComponent } from '../../components/table/back-button/back-but
     MedicationDetailModalComponent,
     NgClass,
     BackButtonComponent,
+
   ],
   templateUrl: './medication.component.html',
-  styleUrl: './medication.component.css'
+  styleUrl: './medication.component.css',
 })
-export class MedicationComponent implements OnInit, OnDestroy{
+export class MedicationComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig<Medication> = {
-    columns:[
+    columns: [
       {
-        colKey: "name",
-        label: "Nome",
+        colKey: 'name',
+        label: 'Nome',
         type: ColumnType.PROFILE,
-        classList: ["w-40"]
+        classList: ['w-40'],
       },
       // {
       //   colKey: "instructions",
@@ -51,32 +54,34 @@ export class MedicationComponent implements OnInit, OnDestroy{
       //   classList: ["w-32"]
       // },
       {
-        colKey: "quantity",
-        label: "Quantidade",
-        classList: ["w-32"]
+        colKey: 'quantity',
+        label: 'Quantidade',
+        classList: ['w-32'],
       },
       {
-        colKey: "prescriptionQuantity",
-        label: "Prescrições",
-        classList: ["w-20"]
+        colKey: 'prescriptionQuantity',
+        label: 'Prescrições',
+        classList: ['w-20'],
       },
       {
-        colKey: "dueDate",
-        label: "Validade",
+        colKey: 'dueDate',
+        label: 'Validade',
         type: ColumnType.DATE,
         dateFormat: 'yyyy/MM/dd',
-        classList: ["w-32"]
+        classList: ['w-32'],
       },
-    ]
-  }
+    ],
+  };
   private medicationListSignal = signal<Medication[]>([]);
   medicationList = computed(() => this.medicationListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private medicationService: MedicationService, private router: Router, private route: ActivatedRoute) {
-  }
-
+  constructor(
+    private medicationService: MedicationService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnDestroy(): void {
     this.medicationService.clearAll();
@@ -112,13 +117,17 @@ export class MedicationComponent implements OnInit, OnDestroy{
     let i = 0;
     this.medicationService.query$
       .pipe(
-        tap((q) => console.log("Query: ", q)),
-        switchMap(() => this.medicationService.fetchList  (parseInt(this.route.snapshot.paramMap.get("residentId")||"")||0)),
+        tap((q) => console.log('Query: ', q)),
+        switchMap(() =>
+          this.medicationService.fetchList(
+            parseInt(this.route.snapshot.paramMap.get('residentId') || '') || 0,
+          ),
+        ),
         tap(console.log),
-        map((medication) => this.medicationListSignal.set(medication))
+        map((medication) => this.medicationListSignal.set(medication)),
       )
       .subscribe();
-    this.route.snapshot.paramMap.get("residentId");
+    this.route.snapshot.paramMap.get('residentId');
   }
 
   handleSearch(searchTerm: string): void {
@@ -142,7 +151,9 @@ export class MedicationComponent implements OnInit, OnDestroy{
   // }
 
   handleRowClicked(medicationId: number) {
-    this.router.navigate([`/residents/${this.residentId}/medicaments/${medicationId}`]);
+    this.router.navigate([
+      `/residents/${this.residentId}/medicaments/${medicationId}`,
+    ]);
   }
 
   handleLimitChange(limit: number) {
@@ -156,5 +167,3 @@ export class MedicationComponent implements OnInit, OnDestroy{
     return false;
   }
 }
-
-
