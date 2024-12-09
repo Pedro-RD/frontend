@@ -57,19 +57,19 @@ export class InputComponent<T> implements OnInit, OnDestroy {
     this.showErrorSignal.set(control.invalid);
 
     if (control.errors?.['required']) {
-      this.errorMessageSignal.set('This field is required');
+      this.errorMessageSignal.set('Este campo é obrigatório');
     } else if (control.errors?.['email']) {
-      this.errorMessageSignal.set('Please enter a valid email');
+      this.errorMessageSignal.set('Por favor, introduza um email válido');
     } else if (control.errors?.['minlength']) {
       this.errorMessageSignal.set(
-        `Minimum length is ${control.errors?.['minlength'].requiredLength}`,
+        `O comprimento mínimo é ${control.errors?.['minlength'].requiredLength}`,
       );
     } else if (control.errors?.['maxlength']) {
       this.errorMessageSignal.set(
-        `Maximum length is ${control.errors?.['maxlength'].requiredLength}`,
+        `O comprimento máximo é ${control.errors?.['maxlength'].requiredLength}`,
       );
     } else if (control.errors?.['pattern']) {
-      this.errorMessageSignal.set('Invalid format');
+      this.errorMessageSignal.set('Formato inválido');
     } else {
       this.errorMessageSignal.set('');
     }
