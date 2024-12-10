@@ -36,15 +36,25 @@ import { MedicationEditComponent } from './pages/medication-edit/medication-edit
 import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
 import { EmployeeShiftsManagementComponent } from './pages/employee-shifts-management/employee-shifts-management.component';
 import { FormResetPasswordComponent } from './pages/form-reset-password/form-reset-password.component';
+
 export const routes: Routes = [
-  { path: '', component: HomepageComponent },
-  { path: 'login', component: FormLoginComponent },
+  {
+    path: '',
+    component: HomepageComponent,
+    title: 'Aconchego - Pagina inicial',
+  },
+  {
+    path: 'login',
+    component: FormLoginComponent,
+    title: 'Aconchego - Iniciar sessão',
+  },
 
   {
     path: 'users/:id/reset-password',
     component: FormResetPasswordComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Relative, Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Redefinir palavra-passe',
   },
 
   {
@@ -52,6 +62,7 @@ export const routes: Routes = [
     component: EmployeeShiftsManagementComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Gestão de turnos',
   },
 
   {
@@ -59,6 +70,7 @@ export const routes: Routes = [
     component: EmployeesShiftsComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Turnos',
   },
 
   {
@@ -66,6 +78,7 @@ export const routes: Routes = [
     component: ResidentsPaymentsCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Adicionar pagamento',
   },
 
   {
@@ -73,6 +86,7 @@ export const routes: Routes = [
     component: ResidentsPaymentsEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Editar pagamento',
   },
 
   {
@@ -80,6 +94,7 @@ export const routes: Routes = [
     component: ResidentsPaymentsDetailsComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Detalhes do pagamento',
   },
 
   {
@@ -87,6 +102,7 @@ export const routes: Routes = [
     component: ResidentsPaymentsComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Pagamentos',
   },
 
   {
@@ -94,78 +110,91 @@ export const routes: Routes = [
     component: ResidentsAppointmentsCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Adicionar consulta',
   },
   {
     path: 'residents/:residentId/appointments/:appointmentId/edit',
     component: ResidentsAppointmentsEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Editar consulta',
   },
   {
     path: 'residents/:residentId/appointments/:id',
     component: ResidentsAppointmentsDetailComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Detalhes da consulta',
   },
   {
     path: 'residents/:residentId/appointments',
     component: ResidentsAppointmentsComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Consultas',
   },
   {
     path: 'residents/:residentId/health-reports/create',
     component: HealthReportCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Adicionar relatório de saúde',
   },
   {
     path: 'residents/:residentId/health-reports/:reportId/edit',
     component: HealthReportEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Editar relatório de saúde',
   },
   {
     path: 'residents/:residentId/health-reports/:id',
     component: HealthReportDetailComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Detalhes do relatório de saúde',
   },
   {
     path: 'residents/:residentId/health-reports',
     component: HealthReportComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Relatórios de saúde',
   },
   {
     path: 'residents/:residentId/messages',
     component: MessageComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Relative, Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Mensagens',
   },
   {
     path: 'residents',
     component: ResidentsComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Utentes',
   },
   {
     path: 'residents/detail/:id',
     component: ResidentsDetailComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Detalhes do utente',
   },
   {
     path: 'residents/create',
     component: ResidentsCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Adicionar utente',
   },
   {
     path: 'residents/:id/edit',
     component: ResidentsEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Editar utente',
   },
 
   {
@@ -173,6 +202,7 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Dashboard',
   },
 
   {
@@ -180,42 +210,49 @@ export const routes: Routes = [
     component: UsersComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Utilizadores',
   },
   {
     path: 'users/detail/:id',
     component: UsersDetailComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Detalhes do utilizador',
   },
   {
     path: 'users/create',
     component: UsersCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager] },
+    title: 'Aconchego - Adicionar utilizador',
   },
   {
     path: 'users/:id/edit',
     component: UsersEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Editar utilizador',
   },
   {
     path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Medicamentos',
   },
   {
     path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Adicionar medicamento',
   },
   {
     path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationEditComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker] },
+    title: 'Aconchego - Editar medicamento',
   },
   {
     path: 'residents/:residentId/medicaments/:id',
@@ -223,7 +260,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
     children: [
-      { path: 'administration', component: MedicationAdministrationComponent },
+      {
+        path: 'administration',
+        component: MedicationAdministrationComponent,
+        title: 'Aconchego - Administração de medicamentos',
+      },
     ],
   },
   {
@@ -231,8 +272,18 @@ export const routes: Routes = [
     component: MedicationAdministrationComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
+    title: 'Aconchego - Administração de medicamentos',
   },
 
-  { path: 'forbidden', component: NotAllowedComponent },
-  { path: '**', pathMatch: 'full', component: NotFoundComponent },
+  {
+    path: 'forbidden',
+    component: NotAllowedComponent,
+    title: 'Aconchego - Sem permissões',
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent,
+    title: 'Aconchego - Página não encontrada',
+  },
 ];
