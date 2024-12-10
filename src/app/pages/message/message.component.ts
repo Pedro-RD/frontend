@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +30,8 @@ export class MessageComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private messageService: MessageService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     this.form = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(255)]],
@@ -38,6 +39,16 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      this.renderer.removeClass(mainElement, 'container');
+      this.renderer.removeClass(mainElement, 'px-2');
+      this.renderer.removeClass(mainElement, 'sm:px-0');
+      this.renderer.removeClass(mainElement, 'mx-auto');
+      this.renderer.removeClass(mainElement, 'pt-10');
+
+    }
+
     const idFromRoute = this.route.snapshot.params['residentId'];
     if (idFromRoute) {
       this.residentId = +idFromRoute;
@@ -58,6 +69,15 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      this.renderer.addClass(mainElement, 'container');
+      this.renderer.addClass(mainElement, 'px-2');
+      this.renderer.addClass(mainElement, 'sm:px-0');
+      this.renderer.addClass(mainElement, 'mx-auto');
+      this.renderer.addClass(mainElement, 'pt-10');
+    }
+
     if (this.pollingSubscription) {
       this.pollingSubscription.unsubscribe();
     }
@@ -102,9 +122,9 @@ export class MessageComponent implements OnInit, OnDestroy {
     if (!this.residentId || this.currentPage >= 10) {
       return; // Impede a busca se não houver mais páginas
     }
-  
+
     this.currentPage++; // Avança para a próxima página
-  
+
     this.messageService.fetchList(this.residentId, this.currentPage, 10).subscribe({
       next: (newMessages) => {
         const uniqueMessages = [
@@ -113,7 +133,7 @@ export class MessageComponent implements OnInit, OnDestroy {
         ].filter((message, index, self) =>
           index === self.findIndex((m) => m.id === message.id)
         );
-  
+
         this.messages = uniqueMessages;
       },
       error: (err) => {
