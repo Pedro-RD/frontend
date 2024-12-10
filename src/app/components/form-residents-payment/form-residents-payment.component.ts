@@ -1,10 +1,14 @@
 import { Component, input, OnInit, output } from '@angular/core';
 import { InputComponent } from '../forms/input/input.component';
-import { AutoCompleteComponent } from '../forms/auto-complete/auto-complete.component';
 import { SelectBoxComponent } from '../forms/select-box/select-box.component';
 import { ButtonComponent } from '../forms/button/button.component';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Location, NgClass, NgForOf, NgIf } from '@angular/common';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Location, NgClass, NgIf } from '@angular/common';
 import { PaymentDTO } from '../../interfaces/payment';
 import { PaymentType } from '../../interfaces/payment-type.enum';
 import { environment } from '../../../environments/environment';
@@ -16,18 +20,16 @@ import { HttpClient } from '@angular/common/http'; // Import HttpClient
   standalone: true,
   imports: [
     InputComponent,
-    AutoCompleteComponent,
     SelectBoxComponent,
     ButtonComponent,
     ReactiveFormsModule,
     NgIf,
-    NgForOf,
     NgClass,
   ],
   templateUrl: './form-residents-payment.component.html',
-  styleUrl: './form-residents-payment.component.css'
+  styleUrl: './form-residents-payment.component.css',
 })
-export class FormResidentsPaymentComponent implements OnInit{
+export class FormResidentsPaymentComponent implements OnInit {
   isEditMode: boolean = false; // Indica se está no modo de edição
   constructor(private location: Location, private http: HttpClient) {} // Inject HttpClient
 
@@ -39,11 +41,13 @@ export class FormResidentsPaymentComponent implements OnInit{
   createRequested = output<PaymentDTO>();
 
   amount = new FormControl<number | null>(null, [Validators.required]);
-  date = new FormControl<string>(new Date().toISOString().substring(0, 10), [Validators.required]);
-  observation = new FormControl<string | undefined>(undefined, [Validators.required]);
+  date = new FormControl<string>(new Date().toISOString().substring(0, 10), [
+    Validators.required,
+  ]);
+  observation = new FormControl<string | undefined>(undefined, []);
   month = new FormControl<number | string | null>(null);
   year = new FormControl<number | string | null>(null);
-  type = new FormControl<PaymentType |''>('', [Validators.required]);
+  type = new FormControl<PaymentType | ''>('', [Validators.required]);
 
   form: FormGroup = new FormGroup({
     amount: this.amount,
@@ -54,7 +58,7 @@ export class FormResidentsPaymentComponent implements OnInit{
     type: this.type,
   });
 
-  types = Object.values(PaymentType).map(types => ({
+  types = Object.values(PaymentType).map((types) => ({
     value: types,
     label: String(types).charAt(0).toUpperCase() + String(types).slice(1),
   }));
@@ -100,11 +104,12 @@ export class FormResidentsPaymentComponent implements OnInit{
     }
   }
 
-
   private async fetchMonthlyFee(residentId: number) {
     try {
       const response = await firstValueFrom(
-        this.http.get<{ monthlyFee: number }>(`${environment.apiUrl}residents/${residentId}`)
+        this.http.get<{ monthlyFee: number }>(
+          `${environment.apiUrl}residents/${residentId}`,
+        ),
       );
 
       if (response && typeof response.monthlyFee === 'number') {
@@ -134,16 +139,25 @@ export class FormResidentsPaymentComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log('Form submitted:', this.form.value, this.form.valid, this.form.errors);
+    console.log(
+      'Form submitted:',
+      this.form.value,
+      this.form.valid,
+      this.form.errors,
+    );
     if (this.form.valid) {
       this.createRequested.emit({
         amount: parseFloat(this.amount.value!.toString()), // Converte para número
-        date: new Date(this.date.value!).toISOString(),   // Formata para ISO
-        observation: this.observation.value || undefined,      // Converte vazio para null
+        date: new Date(this.date.value!).toISOString(), // Formata para ISO
+        observation: this.observation.value || undefined, // Converte vazio para null
         type: this.type.value! as PaymentType,
-        month: this.type.value === 'Mensalidade' ? Number(this.month.value) : null, // Converte para número ou null
-        year: this.type.value === 'Mensalidade' ? Number(this.year.value) : null,   // Converte para número ou null
+        month:
+          this.type.value === 'Mensalidade' ? Number(this.month.value) : null, // Converte para número ou null
+        year:
+          this.type.value === 'Mensalidade' ? Number(this.year.value) : null, // Converte para número ou null
       });
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

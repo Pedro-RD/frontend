@@ -3,6 +3,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { InputComponent } from '../../forms/input/input.component';
@@ -48,9 +49,9 @@ export class FormResidentsComponent implements OnInit {
   ]);
   birthDate = new FormControl<string>(
     new Date().toISOString().substring(0, 10),
-    [Validators.required],
+    [Validators.required, this.pastDateValidator as ValidatorFn],
   );
-  specificCare = new FormControl<string | ''>('', [Validators.required]);
+  specificCare = new FormControl<string | ''>('');
   civilStatus = new FormControl<CivilStatus | ''>('', [Validators.required]);
   nationality = new FormControl('', [Validators.required]);
   diet = new FormControl<Diet | ''>('', [Validators.required]);
@@ -256,13 +257,23 @@ export class FormResidentsComponent implements OnInit {
     }
   }
 
+  private pastDateValidator(control: FormControl) {
+    const date = new Date(control.value);
+    const today = new Date();
+    if (date >= today) {
+      return { pastDate: true };
+    }
+    return null;
+  }
+
   onSubmit() {
-    console.log(
-      'Form submitted:',
-      this.form.value,
-      this.form.valid,
-      this.form.errors,
-    );
+    if (!environment.production)
+      console.log(
+        'Form submitted:',
+        this.form.value,
+        this.form.valid,
+        this.form.errors,
+      );
 
     if (this.form.valid) {
       const sanitizedRelatives =
@@ -292,6 +303,13 @@ export class FormResidentsComponent implements OnInit {
         nationality: this.nationality.value!,
         mobility: this.mobility.value! as Mobility,
       });
+    } else {
+      this.form.markAllAsTouched();
+      if (!environment.production)
+        console.log('Formulário inválido:', this.form.errors);
+      if (this.form.errors?.['pastDate']) {
+        this.birthDate.setErrors({ pastDate: true });
+      }
     }
   }
 

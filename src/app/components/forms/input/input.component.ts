@@ -109,6 +109,10 @@ export class InputComponent<T> implements OnInit, OnDestroy {
       return 'O salário não pode ser inferior a 820€ (salário mínimo)';
     } else if (this.control().errors?.['contractEndsBeforeStart']) {
       return 'A data de fim do contrato não pode ser anterior à data de início';
+    } else if (this.control().errors?.['futureDate']) {
+      return 'A data tem de ser no futuro';
+    } else if (this.control().errors?.['pastDate']) {
+      return 'A data tem de ser no passado';
     }
     return 'Por favor, introduza um valor válido';
   }
