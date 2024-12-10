@@ -92,6 +92,8 @@ export class CalendarComponent implements OnInit {
             ...this.calendarOptions,
             selectable: false, // Não permite selecionar intervalos
             select: undefined, // Remove a função de seleção
+            dateClick: undefined, // Remove a função de clique
+
           };
           console.log('Calendário está apenas para visualização.');
         }

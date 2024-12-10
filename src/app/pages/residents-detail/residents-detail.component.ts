@@ -61,6 +61,10 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  get isManager(): Observable<boolean> {
+    return this.auth.isManager();
+  }
+
   get isRelative(): Observable<boolean> {
     return this.auth.isRelative();
   }

@@ -138,11 +138,18 @@ handleRowCliked(key: number) {
   }
 }
 
+  goBackResidentProfile() {
+    this.router.navigate(["residents","detail", this.route.snapshot.paramMap.get("residentId")]);
+
+  }
 
 handleLimitChange(limit: number) {
   this.residentAppointmentsService.setPageSize(limit);
 }
 
 protected readonly Order = Order;
+
+
+
 
 }

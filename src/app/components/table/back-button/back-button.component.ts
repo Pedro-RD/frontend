@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -13,9 +13,6 @@ import { Location } from '@angular/common';
 })
 export class BackButtonComponent {
 
-  constructor(private location: Location) {}
+  constructor() {}
 
-  goBack(): void {
-    this.location.back();
-  }
 }
