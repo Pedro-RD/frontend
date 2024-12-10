@@ -10,7 +10,7 @@ export interface Message {
     email: string;
     name: string;
     role: string;
-    avatarUrl?: string; // Adicione esta linha para opcionalmente usar avatares personalizados
+    profilePicture?: string; // Adicione esta linha para opcionalmente usar avatares personalizados
   };
   resident?: Resident;
 }

@@ -1,20 +1,18 @@
-import {Component, computed, OnDestroy, OnInit, signal} from '@angular/core';
-import {SearchBoxComponent} from "../../components/forms/search-box/search-box.component";
-import {PaginatorComponent} from '../../components/table/paginator/paginator.component';
-import {MedicationService} from '../../services/medication/medication.service';
-import {Observable, map, switchMap, tap, Subscription} from 'rxjs';
-import {TableComponent} from '../../components/table/table/table.component';
-import {ColumnType, TableConfig} from '../../interfaces/table.interface';
-import {Medication} from '../../interfaces/medication';
-import {AsyncPipe} from '@angular/common';
-import {Order} from '../../interfaces/paged-response.interface';
-import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgClass} from '@angular/common';
+import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { SearchBoxComponent } from '../../components/forms/search-box/search-box.component';
+import { PaginatorComponent } from '../../components/table/paginator/paginator.component';
+import { MedicationService } from '../../services/medication/medication.service';
+import { Observable, map, switchMap, tap, Subscription } from 'rxjs';
+import { TableComponent } from '../../components/table/table/table.component';
+import { ColumnType, TableConfig } from '../../interfaces/table.interface';
+import { Medication } from '../../interfaces/medication';
+import { AsyncPipe } from '@angular/common';
+import { Order } from '../../interfaces/paged-response.interface';
+import { SelectLimitComponent } from '../../components/table/select-limit/select-limit.component';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
 import { AuthService } from '../../services/auth/auth.service';
-
-
 
 @Component({
   selector: 'app-medication',
@@ -28,7 +26,6 @@ import { AuthService } from '../../services/auth/auth.service';
     RouterLink,
     NgClass,
     BackButtonComponent,
-
   ],
   templateUrl: './medication.component.html',
   styleUrl: './medication.component.css',
@@ -39,19 +36,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
       {
         colKey: 'name',
         label: 'Nome',
-        type: ColumnType.PROFILE,
+        type: ColumnType.TEXT,
         classList: ['w-40'],
       },
-      // {
-      //   colKey: "instructions",
-      //   label: "Instruções",
-      //   classList: ["w-32"]
-      // },
-      // {
-      //   colKey: "resident",
-      //   label: "Residente",
-      //   classList: ["w-32"]
-      // },
       {
         colKey: 'quantity',
         label: 'Quantidade',
@@ -168,10 +155,12 @@ export class MedicationComponent implements OnInit, OnDestroy {
   selectedMedication: any;
 
   goBackResidentProfile() {
-    this.router.navigate(["residents","detail", this.route.snapshot.paramMap.get("residentId")]);
-
+    this.router.navigate([
+      'residents',
+      'detail',
+      this.route.snapshot.paramMap.get('residentId'),
+    ]);
   }
-
 
   showModal(selectedMedication: any) {
     return false;
