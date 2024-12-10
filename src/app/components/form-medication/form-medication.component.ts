@@ -11,22 +11,15 @@ import {
 } from '@angular/forms';
 import { InputComponent } from '../forms/input/input.component';
 import { Medication } from '../../interfaces/medication';
-import { RouterLink } from '@angular/router';
-import { Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-medication',
   standalone: true,
-  imports: [
-    ButtonComponent,
-    FormsModule,
-    InputComponent,
-    ReactiveFormsModule,
-    RouterLink,
-  ],
+  imports: [ButtonComponent, FormsModule, InputComponent, ReactiveFormsModule],
   templateUrl: './form-medication.component.html',
 })
-export class FormMedicationComponent  {
+export class FormMedicationComponent {
   selectedMedication?: Medication;
   isModalVisible = false;
 
@@ -48,9 +41,21 @@ export class FormMedicationComponent  {
     Validators.pattern(/^\d+$/),
   ]);
 
-  dueDate = new FormControl<Date | string>(new Date(), [Validators.required]);
+  dueDate = new FormControl<Date | string>(
+    new Date().toISOString().substring(0, 10),
+    [Validators.required],
+  );
 
-  form: FormGroup = new FormGroup({
+  // date should be in the future (fnValidateDate)
+  fnValidateDate(control: FormControl) {
+    const date = new Date(control.value);
+    if (date.getTime() < new Date().getTime()) {
+      return { dateInPast: true };
+    }
+    return null;
+  }
+
+  form = new FormGroup({
     name: this.name,
     instructions: this.instructions,
     quantity: this.quantity,
@@ -92,8 +97,10 @@ export class FormMedicationComponent  {
         instructions: this.instructions.value!,
         quantity: this.quantity.value!,
         prescriptionQuantity: this.prescriptionQuantity.value!,
-        dueDate: this.dueDate.value as Date,
+        dueDate: this.dueDate.value! as Date,
       });
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

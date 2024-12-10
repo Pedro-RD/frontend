@@ -8,8 +8,11 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './button.component.css',
 })
 export class ButtonComponent {
+  handleOnClick() {
+    this.onClick.emit();
+  }
   onClick = output();
-  
+
   type = input.required<'button' | 'submit'>();
   label = input.required<string>();
 }

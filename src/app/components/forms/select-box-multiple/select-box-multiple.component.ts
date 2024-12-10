@@ -70,7 +70,7 @@ export class SelectBoxMultipleComponent {
     if (checked) {
       control.setValue([...currentValue, value]); // Adicionar ao array
     } else {
-      control.setValue(currentValue.filter(v => v !== value)); // Remover do array
+      control.setValue(currentValue.filter((v) => v !== value)); // Remover do array
     }
 
     control.markAsDirty();
@@ -78,8 +78,8 @@ export class SelectBoxMultipleComponent {
 
   onSearch(event: Event): void {
     const query = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredData = this.data().filter(item =>
-      item.label.toLowerCase().includes(query)
+    this.filteredData = this.data().filter((item) =>
+      item.label.toLowerCase().includes(query),
     );
   }
 
@@ -95,5 +95,4 @@ export class SelectBoxMultipleComponent {
       this.filteredData = this.data();
     }
   }
-
 }

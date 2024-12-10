@@ -2,43 +2,19 @@
 
   <!-- Dados Pessoais -->
   <h2 class="mb-3 card-title">Dados Pessoais</h2>
-  <app-input
-    [control]="name"
-    [required]="true"
-    class="border-0 w-full p-0"
-    label="Nome"
-    placeholder="João Silva"
+  <app-input [control]="name" [required]="true" class="border-0 w-full p-0" label="Nome" placeholder="João Silva"
     type="text" />
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-    <app-input
-      [control]="fiscalId"
-      [required]="true"
-      class="border-0 w-full p-0"
-      label="ID Fiscal"
-      placeholder="200000000"
-      type="text" />
+    <app-input [control]="fiscalId" [required]="true" class="border-0 w-full p-0" label="ID Fiscal"
+      placeholder="200000000" type="text" />
 
-    <app-input
-      [control]="birthDate"
-      [required]="true"
-      class="border-0 w-full p-0"
-      label="Data de Nascimento"
-      placeholder="dd/mm/yyyy"
-      type="date" />
+    <app-input [control]="birthDate" [required]="true" class="border-0 w-full p-0" label="Data de Nascimento"
+      placeholder="dd/mm/yyyy" type="date" />
 
-    <app-select-box
-      [control]="civilStatus"
-      [required]="true"
-      [data]="civilStatuses"
-      label="Estado Civil" />
+    <app-select-box [control]="civilStatus" [required]="true" [data]="civilStatuses" label="Estado Civil" />
 
-    <app-select-box
-      [control]="nationality"
-      [required]="true"
-      [data]="nationalities"
-      label="Nacionalidade"
-    />
+    <app-select-box [control]="nationality" [required]="true" [data]="nationalities" label="Nacionalidade" />
   </div>
   <br>
   <hr>
@@ -48,11 +24,7 @@
   <h2 class="card-title mb-3 mt-4">Informações de Saúde</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <!-- Problemas de Mobilidade -->
-    <app-select-box
-      [control]="mobility"
-      [required]="true"
-      [data]="mobilityIssues"
-      class="border-0 w-full p-0"
+    <app-select-box [control]="mobility" [required]="true" [data]="mobilityIssues" class="border-0 w-full p-0"
       label="Problemas de Mobilidade" />
 
     <!-- Exibição da Mensalidade -->
@@ -65,41 +37,21 @@
     </div>
   </div>
 
-  <app-input
-    [control]="specificCare"
-    [required]="false"
-    class="border-0 w-full p-0"
-    label="Cuidados Especiais"
-    placeholder="Ex: Alzheimer"
-    type="text" />
+  <app-input [control]="specificCare" [required]="false" class="border-0 w-full p-0" label="Cuidados Especiais"
+    placeholder="Ex: Alzheimer" type="text" />
 
-  <app-input
-    [control]="allergies"
-    [required]="false"
-    class="border-0 w-full p-0"
-    label="Alergias"
-    placeholder="Ex: Amendoim, glúten"
-    type="text" />
+  <app-input [control]="allergies" [required]="false" class="border-0 w-full p-0" label="Alergias"
+    placeholder="Ex: Amendoim, glúten" type="text" />
   <br>
   <hr>
 
   <!-- Informações Alimentares -->
   <h2 class="card-title mb-3 mt-4">Informações Alimentares</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-    <app-select-box
-      [control]="diet"
-      [required]="true"
-      [data]="diets"
-      label="Dieta"
-    />
+    <app-select-box [control]="diet" [required]="true" [data]="diets" label="Dieta" />
 
-    <app-input
-      [control]="dietRestrictions"
-      [required]="false"
-      class="border-0 w-full p-0"
-      label="Restrições Alimentares"
-      placeholder="Ex: Intolerâncias"
-      type="text" />
+    <app-input [control]="dietRestrictions" [required]="false" class="border-0 w-full p-0"
+      label="Restrições Alimentares" placeholder="Ex: Intolerâncias" type="text" />
   </div>
   <br>
   <hr>
@@ -107,17 +59,10 @@
   <!-- Informações de Quarto -->
   <h2 class="card-title mb-3 mt-4">Informações de Quarto</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-    <app-select-box
-      [control]="bedNumber"
-      [data]="bedNumbers"
-      [required]="true"
-      class="border-0 w-full p-0"
+    <app-select-box [control]="bedNumber" [data]="bedNumbers" [required]="true" class="border-0 w-full p-0"
       label="Número de Cama" />
 
-    <app-select-box-multiple
-      [data]="relativeOptions"
-      [required]="true"
-      [control]="relatives" />
+    <app-select-box-multiple [data]="relativeOptions" [required]="true" [control]="relatives" [required]="true" />
   </div>
   <div class="flex flex-wrap justify-center mb-4 gap-4 pt-10">
     <!-- Botão de Retrocesso -->
