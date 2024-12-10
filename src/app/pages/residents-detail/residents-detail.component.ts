@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { Resident } from '../../interfaces/resident';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../services/toast/toast.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-residents-detail',
@@ -26,12 +27,14 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
   private photoResidentUrl = environment.photoResident;
   private apiUrl = environment.apiUrl;
 
+
   constructor(
     private residentsService: ResidentsService,
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private toastService: ToastService,
+    private auth: AuthService,
   ) {}
 
   ngOnInit() {
@@ -56,6 +59,10 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
   }
 
   ngOnDestroy() {

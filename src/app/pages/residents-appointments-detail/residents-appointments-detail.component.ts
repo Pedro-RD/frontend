@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Appointment } from '../../interfaces/appointment';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentAppointmentsService } from '../../services/residentsAppointments/resident-appointments.service';
-import { DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Resident } from '../../interfaces/resident';
 import { Location } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { Location } from '@angular/common';
     ModalConfirmComponent,
     LoadingComponent,
     NgIf,
+    AsyncPipe,
 
   ],
   templateUrl: './residents-appointments-detail.component.html',
@@ -31,11 +33,13 @@ appointment?: Appointment
 private subs: Subscription[] = [];
 @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
+
 constructor(
   private residentAppointmentsService: ResidentAppointmentsService,
   private route: ActivatedRoute,
   private router: Router,
-  private location: Location
+  private location: Location,
+  private auth: AuthService
 
 ) {}
 
@@ -60,6 +64,10 @@ constructor(
         })
       );
     }
+  }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
   }
 
 ngOnDestroy() {

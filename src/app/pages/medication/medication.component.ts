@@ -12,6 +12,7 @@ import {SelectLimitComponent} from '../../components/table/select-limit/select-l
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {NgClass} from '@angular/common';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 
@@ -79,11 +80,16 @@ export class MedicationComponent implements OnInit, OnDestroy {
     private medicationService: MedicationService,
     private router: Router,
     private route: ActivatedRoute,
+    private auth: AuthService,
   ) {}
 
   ngOnDestroy(): void {
     this.medicationService.clearAll();
     this.subscription?.unsubscribe();
+  }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
   }
 
   get page(): Observable<number> {
@@ -160,6 +166,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
   protected readonly Order = Order;
   selectedMedication: any;
+
 
   showModal(selectedMedication: any) {
     return false;

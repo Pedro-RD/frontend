@@ -67,6 +67,7 @@
               <img src="money.svg" alt="Wallet Icon" class="w-6 h-6" />
               Pagamentos
             </a>
+            @if(!(isRelative | async)) {
             <!-- Botão de Perfil com Dropdown -->
             <div class="dropdown">
               <label
@@ -100,8 +101,10 @@
                 </li>
               </ul>
             </div>
+            }
           </div>
         </div>
+
 
         <!-- Perfil e informações do residente -->
         <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 ">
@@ -123,6 +126,7 @@
                       class="object-cover w-full h-full max-w-full"
                     >
                   </ng-template>
+                  @if(!(isRelative | async)) {
                   <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition">
                     <div class="flex flex-col space-y-2">
                       <!-- Botão de editar sobreposto -->
@@ -143,6 +147,7 @@
                       </button>
                     </div>
                   </div>
+                  }
 
 
                   <!-- Input oculto para upload -->

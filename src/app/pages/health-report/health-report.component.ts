@@ -12,6 +12,8 @@ import {Order} from '../../interfaces/paged-response.interface';
 import {SelectLimitComponent} from '../../components/table/select-limit/select-limit.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { Role } from '../../interfaces/roles.enum';
 
 @Component({
   selector: 'app-healthreport',
@@ -61,8 +63,14 @@ export class HealthReportComponent implements OnInit, OnDestroy {
   constructor(
     private healthreportService: HealthReportService,
     private router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private auth: AuthService
   ) {}
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
+  }
+
 
   ngOnDestroy(): void {
     this.healthreportService.clearAll();

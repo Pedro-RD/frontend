@@ -14,6 +14,8 @@ import {
 } from '@angular/forms';
 import { MedicationAdministrationService } from '../../services/medicationAdministration/medication-administration.service';
 import { InputComponent } from '../../components/forms/input/input.component';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-medication-details',
@@ -44,6 +46,7 @@ export class MedicationDetailsComponent implements OnInit {
     private router: Router,
     private medicationService: MedicationService,
     private medicationAdministrationService: MedicationAdministrationService,
+    private auth: AuthService,
   ) {}
 
   doseControl = new FormControl<number | null>(null, [
@@ -57,6 +60,10 @@ export class MedicationDetailsComponent implements OnInit {
     dose: this.doseControl,
     hour: this.hourControl,
   });
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
+  }
 
   ngOnInit(): void {
     this.residentId = this.route.snapshot.paramMap.get('residentId');

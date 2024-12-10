@@ -13,6 +13,7 @@
               <img src="left-arrow.svg" alt="Left Arrow Icon" class="w-6 h-6" />
               Voltar
             </button>
+            @if(!(isRelative | async)) {
             <a
               [routerLink]="['/residents', resident?.id, 'payments', payment.id, 'edit']"
               class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark"
@@ -27,6 +28,7 @@
               <img src="delete.svg" alt="Eliminar" class="w-6 h-6" />
               Eliminar
             </button>
+            }
           </div>
         </div>
 

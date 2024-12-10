@@ -11,6 +11,7 @@ import { map, Observable, Subscription, switchMap, tap } from 'rxjs';
 import {Order} from '../../interfaces/paged-response.interface';
 import { ResidentAppointmentsService } from '../../services/residentsAppointments/resident-appointments.service';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 @Component({
@@ -62,7 +63,10 @@ residentAppointmentsList = computed(() => this.residentAppointmentsListSignal())
 
 private subscription?: Subscription;
 
-constructor(private residentAppointmentsService: ResidentAppointmentsService, private router: Router, public route: ActivatedRoute) {
+constructor(private residentAppointmentsService: ResidentAppointmentsService,
+            private router: Router,
+            public route: ActivatedRoute,
+            private auth: AuthService) {
 }
 
 ngOnDestroy(): void {
@@ -105,6 +109,10 @@ ngOnInit() {
   this.route.snapshot.paramMap.get("residentId");
 }
 
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
+  }
+
 handleSearch(searchTerm: string): void {
   this.residentAppointmentsService.setSearch(searchTerm);
 }
@@ -136,4 +144,5 @@ handleLimitChange(limit: number) {
 }
 
 protected readonly Order = Order;
+
 }
