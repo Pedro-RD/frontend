@@ -3,9 +3,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { Resident } from '../../interfaces/resident';
 import { Observable, Subscription } from 'rxjs';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../services/toast/toast.service';
@@ -14,19 +13,18 @@ import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-residents-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent, NgOptimizedImage],
+  imports: [CommonModule, RouterLink, ModalConfirmComponent],
   templateUrl: './residents-detail.component.html',
-  styleUrls: ['./residents-detail.component.css']
+  styleUrls: ['./residents-detail.component.css'],
 })
 export class ResidentsDetailComponent implements OnInit, OnDestroy {
-  resident?: Resident
+  resident?: Resident;
   error: string | null = null;
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
   profilePicture?: string | null;
   private photoResidentUrl = environment.photoResident;
   private apiUrl = environment.apiUrl;
-
 
   constructor(
     private residentsService: ResidentsService,
@@ -38,7 +36,6 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.subs.push(
@@ -56,7 +53,7 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
             console.error(err);
             this.error = 'Residente não encontrado';
           },
-        })
+        }),
       );
     }
   }
@@ -83,7 +80,7 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
           console.error(err);
           this.error = 'Falha ao eliminar residente';
         },
-      })
+      }),
     );
   }
 
@@ -93,36 +90,39 @@ export class ResidentsDetailComponent implements OnInit, OnDestroy {
     if (input.files && input.files[0]) {
       const file: File = input.files[0];
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
-      this.http.post(`${this.apiUrl}residents/${this.resident?.id!}/upload`, formData).subscribe({
-        next: () => {
-          // Atualiza a imagem diretamente sem reload
-          this.profilePicture = URL.createObjectURL(file);
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.error('Falha ao enviar imagem');
+      this.http
+        .post(`${this.apiUrl}residents/${this.resident?.id!}/upload`, formData)
+        .subscribe({
+          next: () => {
+            // Atualiza a imagem diretamente sem reload
+            this.profilePicture = URL.createObjectURL(file);
           },
-      });
+          error: (err) => {
+            console.error(err);
+            this.toastService.error('Falha ao enviar imagem');
+          },
+        });
     }
   }
-
 
   showDeleteModal() {
     this.deleteModal.show();
   }
 
   removeProfilePicture() {
-    this.http.delete(`${this.apiUrl}residents/${this.resident!.id}/upload`).subscribe({
-      next: () => {
-        // Reseta a imagem para o estado padrão
-        this.profilePicture = null;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.error('Falha ao remover imagem');
-      },
-    });
+    this.http
+      .delete(`${this.apiUrl}residents/${this.resident!.id}/upload`)
+      .subscribe({
+        next: () => {
+          // Reseta a imagem para o estado padrão
+          this.profilePicture = null;
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.error('Falha ao remover imagem');
+        },
+      });
   }
 }

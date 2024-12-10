@@ -4,24 +4,16 @@ import { Observable, Subscription } from 'rxjs';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HealthReportService } from '../../services/health-report/health-report.service';
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Resident } from '../../interfaces/resident';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-health-report-detail',
   standalone: true,
-  imports: [
-    DatePipe,
-    RouterLink,
-    ModalConfirmComponent,
-    LoadingComponent,
-    NgIf,
-    AsyncPipe,
-  ],
+  imports: [RouterLink, ModalConfirmComponent, NgIf, AsyncPipe],
   templateUrl: './health-report-detail.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class HealthReportDetailComponent implements OnInit, OnDestroy {
   healthReport?: HealthReport;
@@ -30,12 +22,11 @@ export class HealthReportDetailComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
-
   constructor(
     private healthReportService: HealthReportService,
     private route: ActivatedRoute,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
   ) {}
 
   ngOnInit() {
@@ -52,7 +43,7 @@ export class HealthReportDetailComponent implements OnInit, OnDestroy {
             console.error(err);
             this.error = 'Relatório não encontrado';
           },
-        })
+        }),
       );
     }
   }
@@ -84,7 +75,7 @@ export class HealthReportDetailComponent implements OnInit, OnDestroy {
           console.error(err);
           this.error = 'Falha ao eliminar relatório';
         },
-      })
+      }),
     );
   }
 

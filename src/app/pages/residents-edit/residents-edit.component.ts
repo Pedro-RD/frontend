@@ -1,21 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { FormResidentsComponent } from '../../components/residents/form-residents/form-residents.component';
 import { Subscription } from 'rxjs';
 import { ResidentsService } from '../../services/residents/residents.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Resident, ResidentDTO } from '../../interfaces/resident';
 
-
 @Component({
   selector: 'app-residents-edit',
   standalone: true,
-  imports: [
-    FormResidentsComponent,
-    LoadingComponent,
-  ],
+  imports: [FormResidentsComponent],
   templateUrl: './residents-edit.component.html',
-  styleUrl: './residents-edit.component.css'
+  styleUrl: './residents-edit.component.css',
 })
 export class ResidentsEditComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
@@ -26,9 +21,8 @@ export class ResidentsEditComponent implements OnInit, OnDestroy {
   constructor(
     private residentsService: ResidentsService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {
-  }
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,14 +33,14 @@ export class ResidentsEditComponent implements OnInit, OnDestroy {
           error: (err) => {
             console.error(err);
             this.error = 'Residente não encontrado';
-          }
-        })
+          },
+        }),
       );
     }
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs.forEach((sub) => sub.unsubscribe());
   }
 
   onFormSubmit(residentDTO: ResidentDTO) {
@@ -56,13 +50,15 @@ export class ResidentsEditComponent implements OnInit, OnDestroy {
     this.error = null;
 
     this.subs.push(
-      this.residentsService.update({id:this.resident.id ,...residentDTO }).subscribe({
-        next: () => this.router.navigate(['/residents']),
-        error: (err) => {
-          this.isSubmitting = false;
-          this.error = err.error?.message || 'Failed to update resident';
-        }
-      })
+      this.residentsService
+        .update({ id: this.resident.id, ...residentDTO })
+        .subscribe({
+          next: () => this.router.navigate(['/residents']),
+          error: (err) => {
+            this.isSubmitting = false;
+            this.error = err.error?.message || 'Failed to update resident';
+          },
+        }),
     );
   }
 }

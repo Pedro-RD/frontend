@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { FormHealthReportComponent } from '../../components/form-health-report/form-health-report.component';
 import { Subscription } from 'rxjs';
 import { Resident } from '../../interfaces/resident';
@@ -10,10 +9,7 @@ import { HealthReportService } from '../../services/health-report/health-report.
 @Component({
   selector: 'app-health-report-edit',
   standalone: true,
-  imports: [
-    LoadingComponent,
-    FormHealthReportComponent,
-  ],
+  imports: [FormHealthReportComponent],
   templateUrl: './health-report-edit.component.html',
 })
 export class HealthReportEditComponent implements OnInit, OnDestroy {
@@ -26,7 +22,7 @@ export class HealthReportEditComponent implements OnInit, OnDestroy {
   constructor(
     private healthReportService: HealthReportService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -44,33 +40,42 @@ export class HealthReportEditComponent implements OnInit, OnDestroy {
             console.error(err);
             this.error = 'Relatório de saúde não encontrado';
           },
-        })
+        }),
       );
     }
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs.forEach((sub) => sub.unsubscribe());
   }
 
   onFormSubmit(healthReportDTO: HealthReportDTO) {
-    if (!this.healthReport?.id || !this.resident?.id || this.isSubmitting) return;
-  
+    if (!this.healthReport?.id || !this.resident?.id || this.isSubmitting)
+      return;
+
     this.isSubmitting = true;
     this.error = null;
 
-    console.log(`\n\n\nDados: ${JSON.stringify(healthReportDTO)} Id: ${this.healthReport.id}\n\n\n`);
-  
-    this.subs.push(
-      this.healthReportService.update(
-        this.healthReport.id, healthReportDTO, this.resident.id
-      ).subscribe({
-        next: () => this.router.navigate([`/residents/${this.resident?.id}/health-reports`]),
-        error: (err) => {
-          this.isSubmitting = false;
-          this.error = err.error?.message || 'Falha ao atualizar o relatório de saúde';
-        }
-      })
+    console.log(
+      `\n\n\nDados: ${JSON.stringify(healthReportDTO)} Id: ${
+        this.healthReport.id
+      }\n\n\n`,
     );
-  }  
+
+    this.subs.push(
+      this.healthReportService
+        .update(this.healthReport.id, healthReportDTO, this.resident.id)
+        .subscribe({
+          next: () =>
+            this.router.navigate([
+              `/residents/${this.resident?.id}/health-reports`,
+            ]),
+          error: (err) => {
+            this.isSubmitting = false;
+            this.error =
+              err.error?.message || 'Falha ao atualizar o relatório de saúde';
+          },
+        }),
+    );
+  }
 }

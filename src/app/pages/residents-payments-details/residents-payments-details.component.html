@@ -14,17 +14,13 @@
               Voltar
             </button>
             @if(!(isRelative | async)) {
-            <a
-              [routerLink]="['/residents', resident?.id, 'payments', payment.id, 'edit']"
-              class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark"
-            >
+            <a [routerLink]="['/residents', resident?.id, 'payments', payment.id, 'edit']"
+              class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
               <img src="pencil.svg" alt="Edit Icon" class="w-6 h-6" />
               Editar
             </a>
-            <button
-              (click)="showDeleteModal()"
-              class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark"
-            >
+            <button (click)="showDeleteModal()"
+              class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">
               <img src="delete.svg" alt="Eliminar" class="w-6 h-6" />
               Eliminar
             </button>
@@ -74,16 +70,8 @@
     </div>
 
     <!-- Modal de Confirmação -->
-    <app-modal-confirm
-      title="Apagar Pagamento"
-      message="Tem certeza de que deseja eliminar este pagamento?"
-      confirmLabel="Eliminar"
-      (confirm)="onDelete()"
-    ></app-modal-confirm>
-  </div>
-
-  <div *ngIf="!payment">
-    <app-loading />
+    <app-modal-confirm title="Apagar Pagamento" message="Tem certeza de que deseja eliminar este pagamento?"
+      confirmLabel="Eliminar" (confirm)="onDelete()"></app-modal-confirm>
   </div>
 </ng-container>
 
