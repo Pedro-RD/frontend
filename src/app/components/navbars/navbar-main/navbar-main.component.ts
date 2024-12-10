@@ -59,10 +59,12 @@ export class NavbarMainComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
-  get profilePicture(): Observable<string> {
+  get profilePicture(): Observable<string | null> {
     return this.authService.getUser().pipe(
       map((user: User | null) => {
-        return environment.photoUser + user?.profilePicture || 'user.svg';
+        return user?.profilePicture
+          ? environment.photoUser + user?.profilePicture
+          : null;
       }),
     );
   }

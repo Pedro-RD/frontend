@@ -1,125 +1,89 @@
-
-
 <div class="h-screen flex items-center justify-center bg-cover bg-center relative">
   <!-- Hidden Image for Background -->
-  <img
-    src="about.jpg"
-    alt="Background"
-    class="absolute inset-0 w-full h-full object-cover -z-10"
-  />
-<div class="container mx-auto p-4 h-screen flex flex-col items-center">
-  <!-- Card for the Chat -->
-  <div class="card w-full max-w-4xl shadow-lg rounded-lg bg-white p-4 flex flex-col h-[80vh]">
-    <!-- Header -->
-    <div class="card-header text-lg font-semibold text-gray-800 border-b pb-2">
-      Chat
-    </div>
-
-    <!-- Chat Messages -->
-    <div
-      *ngIf="messages.length > 0"
-      class="space-y-4 flex-1 overflow-y-auto custom-scrollbar p-4 bg-gray-50 rounded-lg"
-    >
-      <!-- Load More Button -->
-      <div class="flex justify-center my-4">
-        <button
-          type="button"
-          class="btn btn-info"
-          (click)="fetchLastMessages()"
-          [disabled]="currentPage >= 10"
-        >
-          Carregar Últimas 10 Mensagens
-        </button>
+  <img src="about.jpg" alt="Background" class="absolute inset-0 w-full h-full object-cover -z-10" />
+  <div class="container mx-auto p-4 h-screen flex flex-col items-center">
+    <!-- Card for the Chat -->
+    <div class="card w-full max-w-4xl shadow-lg rounded-lg bg-white p-4 flex flex-col h-[80vh]">
+      <!-- Header -->
+      <div class="card-header text-lg font-semibold text-gray-800 border-b pb-2">
+        Chat
       </div>
 
-      <!-- Messages -->
-      <div
-        *ngFor="let message of messages"
-        class="chat"
-        [ngClass]="{
+      <!-- Chat Messages -->
+      <div *ngIf="messages.length > 0"
+        class="space-y-4 flex-1 overflow-y-auto custom-scrollbar p-4 bg-gray-50 rounded-lg">
+        <!-- Load More Button -->
+        <div class="flex justify-center my-4">
+          <button type="button" class="btn btn-info" (click)="fetchLastMessages()" [disabled]="currentPage >= 10">
+            Carregar Últimas 10 Mensagens
+          </button>
+        </div>
+
+        <!-- Messages -->
+        <div *ngFor="let message of messages" class="chat" [ngClass]="{
           'chat-end': message.user.id === loggedUserId,
           'chat-start': message.user.id !== loggedUserId
-        }"
-      >
-        <!-- Avatar -->
-        <div class="chat-image avatar">
-          <div class="w-10 rounded-full mr-2">
-            <img
-              [alt]="'Avatar de ' + message.user.name"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
+        }">
+          <!-- Avatar -->
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full mr-2">
+              @if (message.user.profilePicture) {
+              <img [alt]="'Avatar de ' + message.user.name" [src]="message.user.profilePicture" />
+              } @else {
+              <img src="user.svg" alt="Avatar" />
+              }
+            </div>
           </div>
-        </div>
 
-        <!-- Header -->
-        <div class="chat-header flex items-center justify-between">
-          <div>
-            <span class="font-semibold">{{ message.user.name }}</span>
-            <time class="text-xs opacity-50 ml-2">
-              {{ message.createdAt | date: 'short' }}
-            </time>
+          <!-- Header -->
+          <div class="chat-header flex items-center justify-between">
+            <div>
+              <span class="font-semibold">{{ message.user.name }}</span>
+              <time class="text-xs opacity-50 ml-2">
+                {{ message.createdAt | date: 'short' }}
+              </time>
+            </div>
+            <button *ngIf="message.user.id === loggedUserId" (click)="deleteMessage(message.id)" class="ml-2">
+              <img src="no.svg" alt="Delete" class="w-4 h-4" />
+            </button>
           </div>
-          <button
-            *ngIf="message.user.id === loggedUserId"
-            (click)="deleteMessage(message.id)"
-            class="ml-2"
-          >
-            <img src="no.svg" alt="Delete" class="w-4 h-4" />
-          </button>
-        </div>
 
-        <!-- Message Content -->
-        <div class="chat-bubble bg-blue-500 text-white">
-          {{ message.content }}
+          <!-- Message Content -->
+          <div class="chat-bubble bg-blue-500 text-white">
+            {{ message.content }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- No Messages -->
-    <div *ngIf="messages.length === 0" class="text-gray-500 text-center mt-6">
-      Nenhuma mensagem encontrada.
-    </div>
+      <!-- No Messages -->
+      <div *ngIf="messages.length === 0" class="text-gray-500 text-center mt-6">
+        Nenhuma mensagem encontrada.
+      </div>
 
-    <!-- Message Form -->
-    <div class="message-form mt-4 flex-shrink-0">
-      <form [formGroup]="form" (ngSubmit)="saveMessage()">
-        <div class="form-control">
-          <textarea
-            id="content"
-            class="textarea textarea-bordered w-full rounded-md"
-            formControlName="content"
-            placeholder="Digite sua mensagem..."
-            rows="3"
-            aria-label="Digite o conteúdo da mensagem"
-          ></textarea>
-          <div
-            *ngIf="form.get('content')?.invalid && form.get('content')?.touched"
-            class="text-red-500 text-sm mt-2"
-          >
-            O conteúdo é obrigatório e deve ter no máximo 255 caracteres.
+      <!-- Message Form -->
+      <div class="message-form mt-4 flex-shrink-0">
+        <form [formGroup]="form" (ngSubmit)="saveMessage()">
+          <div class="form-control">
+            <textarea id="content" class="textarea textarea-bordered w-full rounded-md" formControlName="content"
+              placeholder="Digite sua mensagem..." rows="3" aria-label="Digite o conteúdo da mensagem"></textarea>
+            <div *ngIf="form.get('content')?.invalid && form.get('content')?.touched" class="text-red-500 text-sm mt-2">
+              O conteúdo é obrigatório e deve ter no máximo 255 caracteres.
+            </div>
           </div>
-        </div>
 
-        <div class="mt-4 flex space-x-2">
-          <button
-            type="submit"
-            class="btn btn-success flex items-center space-x-2"
-          >
-            <img src="check.svg" alt="Check" class="w-6 h-6" />
-            <span>{{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}</span>
-          </button>
-          <button
-            *ngIf="isEditing"
-            type="button"
-            (click)="resetForm()"
-            class="btn btn-secondary flex items-center space-x-2"
-          >
-            <img src="no.svg" alt="Delete" class="w-6 h-6" />
-            <span>Cancelar</span>
-          </button>
-        </div>
-      </form>
+          <div class="mt-4 flex space-x-2">
+            <button type="submit" class="btn btn-success flex items-center space-x-2">
+              <img src="check.svg" alt="Check" class="w-6 h-6" />
+              <span>{{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}</span>
+            </button>
+            <button *ngIf="isEditing" type="button" (click)="resetForm()"
+              class="btn btn-secondary flex items-center space-x-2">
+              <img src="no.svg" alt="Delete" class="w-6 h-6" />
+              <span>Cancelar</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
-  </div>

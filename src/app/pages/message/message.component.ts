@@ -31,7 +31,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
     this.form = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(255)]],
@@ -46,7 +46,6 @@ export class MessageComponent implements OnInit, OnDestroy {
       this.renderer.removeClass(mainElement, 'sm:px-0');
       this.renderer.removeClass(mainElement, 'mx-auto');
       this.renderer.removeClass(mainElement, 'pt-10');
-
     }
 
     const idFromRoute = this.route.snapshot.params['residentId'];
@@ -87,6 +86,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     if (this.residentId) {
       this.messageService.fetchList(this.residentId).subscribe({
         next: (response) => {
+          console.log('Mensagens carregadas:', response);
           this.messages = response.reverse();
         },
         error: (err) => {
@@ -99,15 +99,16 @@ export class MessageComponent implements OnInit, OnDestroy {
   startPolling(): void {
     this.pollingSubscription = interval(5000)
       .pipe(
-        switchMap(() => this.messageService.fetchList(this.residentId!, 1, 10))
+        switchMap(() => this.messageService.fetchList(this.residentId!, 1, 10)),
       )
       .subscribe({
         next: (newMessages) => {
           const uniqueMessages = [
             ...newMessages.reverse(),
-            ...this.messages
-          ].filter((message, index, self) =>
-            index === self.findIndex(m => m.id === message.id)
+            ...this.messages,
+          ].filter(
+            (message, index, self) =>
+              index === self.findIndex((m) => m.id === message.id),
           );
 
           this.messages = uniqueMessages;
@@ -125,22 +126,25 @@ export class MessageComponent implements OnInit, OnDestroy {
 
     this.currentPage++; // Avança para a próxima página
 
-    this.messageService.fetchList(this.residentId, this.currentPage, 10).subscribe({
-      next: (newMessages) => {
-        const uniqueMessages = [
-          ...newMessages.reverse(), // Garante a ordem cronológica
-          ...this.messages,
-        ].filter((message, index, self) =>
-          index === self.findIndex((m) => m.id === message.id)
-        );
+    this.messageService
+      .fetchList(this.residentId, this.currentPage, 10)
+      .subscribe({
+        next: (newMessages) => {
+          const uniqueMessages = [
+            ...newMessages.reverse(), // Garante a ordem cronológica
+            ...this.messages,
+          ].filter(
+            (message, index, self) =>
+              index === self.findIndex((m) => m.id === message.id),
+          );
 
-        this.messages = uniqueMessages;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar mensagens:', err);
-        this.currentPage--; // Reverte a página em caso de erro
-      },
-    });
+          this.messages = uniqueMessages;
+        },
+        error: (err) => {
+          console.error('Erro ao buscar mensagens:', err);
+          this.currentPage--; // Reverte a página em caso de erro
+        },
+      });
   }
 
   saveMessage(): void {

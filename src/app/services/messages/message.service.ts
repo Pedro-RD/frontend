@@ -15,58 +15,80 @@ export class MessageService extends ListService<Message> {
 
   constructor(
     private httpClient: HttpClient,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     super();
   }
 
-  fetchList(residentId: number, page: number = 1, limit: number = 10): Observable<Message[]> {
-    return this.httpClient.get<PagedResponse<Message>>(
-      `${this.url}${residentId}/messages?page=${page}&limit=${limit}`
-    ).pipe(
-      tap((response) => {
-        // Atualiza o total de páginas, se necessário
-        if (response.totalPages) {
-          this.setTotalPages(response.totalPages);
-        }
-      }),
-      map((response) => response.data), // Retorna apenas os dados das mensagens
-      catchError((error) => {
-        console.error('Erro ao buscar lista de mensagens:', error);
-        // Retorna um array vazio para manter a aplicação funcional
-        return of([]);
-      })
-    );
+  fetchList(
+    residentId: number,
+    page: number = 1,
+    limit: number = 10,
+  ): Observable<Message[]> {
+    return this.httpClient
+      .get<PagedResponse<Message>>(
+        `${this.url}${residentId}/messages?page=${page}&limit=${limit}`,
+      )
+      .pipe(
+        tap((response) => {
+          // Atualiza o total de páginas, se necessário
+          if (response.totalPages) {
+            this.setTotalPages(response.totalPages);
+          }
+        }),
+        map((response) =>
+          response.data.map((msg) => {
+            if (msg.user.profilePicture) {
+              msg.user.profilePicture =
+                environment.photoUser + msg.user.profilePicture;
+            }
+            return msg;
+          }),
+        ), // Retorna apenas os dados das mensagens
+        catchError((error) => {
+          console.error('Erro ao buscar lista de mensagens:', error);
+          // Retorna um array vazio para manter a aplicação funcional
+          return of([]);
+        }),
+      );
   }
 
   // Método para buscar uma mensagem específica
   fetchItem(id: number, residentId: number): Observable<Message> {
-    return this.httpClient.get<Message>(`${this.url}${residentId}/messages/${id}`).pipe(
-      catchError((err) => {
-        console.error('Erro ao buscar mensagem:', err);
-        this.toastService.error('Erro ao buscar mensagem');
-        return of({} as Message);
-      })
-    );
+    return this.httpClient
+      .get<Message>(`${this.url}${residentId}/messages/${id}`)
+      .pipe(
+        catchError((err) => {
+          console.error('Erro ao buscar mensagem:', err);
+          this.toastService.error('Erro ao buscar mensagem');
+          return of({} as Message);
+        }),
+      );
   }
 
   // Método para criar uma nova mensagem
   create(item: MessageDTO, residentId: number): Observable<Message> {
-    return this.httpClient.post<Message>(`${this.url}${residentId}/messages`, item).pipe(
-      map((message) => {
-        this.toastService.success('Mensagem envidada com sucesso');
-        return message;
-      }),
-      catchError((error) => {
-        console.error('Erro ao criar mensagem:', error);
-        this.toastService.error('Erro ao criar mensagem');
-        throw error;
-      })
-    );
+    return this.httpClient
+      .post<Message>(`${this.url}${residentId}/messages`, item)
+      .pipe(
+        map((message) => {
+          this.toastService.success('Mensagem envidada com sucesso');
+          return message;
+        }),
+        catchError((error) => {
+          console.error('Erro ao criar mensagem:', error);
+          this.toastService.error('Erro ao criar mensagem');
+          throw error;
+        }),
+      );
   }
 
   // Método para atualizar uma mensagem
-  update(id: number, item: MessageDTO, residentId: number): Observable<Message> {
+  update(
+    id: number,
+    item: MessageDTO,
+    residentId: number,
+  ): Observable<Message> {
     const url = `${this.url}${residentId}/messages/${id}`;
     return this.httpClient.patch<Message>(url, item).pipe(
       tap(() => {
@@ -76,7 +98,7 @@ export class MessageService extends ListService<Message> {
         console.error('Erro ao atualizar mensagem:', error);
         this.toastService.error('Erro ao atualizar mensagem');
         return of({} as Message);
-      })
+      }),
     );
   }
 
@@ -88,18 +110,19 @@ export class MessageService extends ListService<Message> {
     if (this.isDeleting) return of(); // Evita múltiplas requisições simultâneas
     this.isDeleting = true;
 
-    return this.httpClient.delete<void>(`${this.url}${residentId}/messages/${id}`).pipe(
-      map(() => {
-        this.isDeleting = false;
-        this.toastService.success('Mensagem eliminada com sucesso');
-      }),
-      catchError((error) => {
-        console.error('Erro ao eliminar mensagem:', error);
-        this.isDeleting = false;
-        this.toastService.error('Erro ao eliminar mensagem');
-        throw error; // Propaga o erro para ser tratado no componente
-      })
-    );
+    return this.httpClient
+      .delete<void>(`${this.url}${residentId}/messages/${id}`)
+      .pipe(
+        map(() => {
+          this.isDeleting = false;
+          this.toastService.success('Mensagem eliminada com sucesso');
+        }),
+        catchError((error) => {
+          console.error('Erro ao eliminar mensagem:', error);
+          this.isDeleting = false;
+          this.toastService.error('Erro ao eliminar mensagem');
+          throw error; // Propaga o erro para ser tratado no componente
+        }),
+      );
   }
-
 }
