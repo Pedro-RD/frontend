@@ -17,15 +17,29 @@ export class NavbarPublicComponent {
   constructor(private router: Router, private viewportScroller: ViewportScroller) {}
 
   scrollToFragment(fragment: string): void {
+    if (this.router.url !== '/') {
+      // Navigate to the root page
+      this.router.navigate(['/'], { fragment }).then(() => {
+        setTimeout(() => this.smoothScrollToFragment(fragment), 0);
+      });
+    } else {
+      // Scroll directly if already on the root page
+      this.smoothScrollToFragment(fragment);
+    }
+  }
+
+  private smoothScrollToFragment(fragment: string): void {
     const targetElement = document.getElementById(fragment);
     if (targetElement) {
       const offset = 0; // Adjust for navbar height
       const targetPosition = targetElement.offsetTop - offset;
-
-      // Animate the scroll
-      this.smoothScroll(targetPosition, 800); // 800ms for the scroll
+      this.smoothScroll(targetPosition, 800);
+    } else {
+      console.warn(`Element with ID '${fragment}' not found.`);
     }
   }
+
+
 
   private smoothScroll(targetPosition: number, duration: number): void {
     const startPosition = window.scrollY || document.documentElement.scrollTop;
