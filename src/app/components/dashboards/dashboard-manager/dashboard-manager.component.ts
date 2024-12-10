@@ -63,6 +63,7 @@ export class DashboardManagerComponent implements OnInit {
         this.dashboardData = data;
         this.prepareChartData();
         this.prepareGroupedBarChartData();
+        this.prepareBedOccupancyData();
         this.isLoading = false;
       }),
       catchError((error) => {
@@ -155,5 +156,27 @@ export class DashboardManagerComponent implements OnInit {
         this.toastService.error('Falha ao exportar');
       }
     );  }
+
+  // Inside the class DashboardManagerComponent
+  bedOccupancyData: any[] = [];
+  bedOccupancyColors = [
+    { name: 'Camas Ocupadas', value: '#fc8e8e' },
+    { name: 'Camas Disponíveis', value: '#92ffb3' },
+  ];
+
+  // Prepare data for the bed occupancy chart
+  private prepareBedOccupancyData() {
+    const occupiedBeds = this.dashboardData.occupiedBeds;
+    const totalBeds = this.dashboardData.totalBeds;
+    const availableBeds = totalBeds - occupiedBeds;
+
+    const occupiedPercentage = ((occupiedBeds / totalBeds) * 100).toFixed(2);
+    const availablePercentage = ((availableBeds / totalBeds) * 100).toFixed(2);
+
+    this.bedOccupancyData = [
+      { name: `${occupiedPercentage}% Ocupadas`, value: occupiedBeds },
+      { name: `${availablePercentage}% Disponíveis`, value: availableBeds },
+    ];
+  }
 
 }
