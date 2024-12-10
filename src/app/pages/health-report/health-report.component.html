@@ -3,6 +3,7 @@
     <app-search-box class="grow" (onSearch)="handleSearch($event)"/>
     <div class="flex gap-2">
       <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow"/>
+      @if(!(isRelative | async)) {
       <a class="btn" [routerLink]="['/residents',this.route.snapshot.paramMap.get('residentId') ||'', 'health-reports','create']">
         <svg class="size-6" fill="none" stroke="currentColor"
              stroke-width="1.5" viewBox="0 0 24 24"
@@ -11,6 +12,7 @@
         </svg>
         Adicionar
       </a>
+      }
       <app-back-button/>
     </div>
   </section>

@@ -14,6 +14,7 @@
           <img src="left-arrow.svg" alt="Voltar" class="w-6 h-6" />
           Voltar
         </a>
+        @if(!(isRelative | async)) {
         <button
           type="button"
           class="btn btn-success flex items-center gap-2"
@@ -36,6 +37,7 @@
           <img src="delete.svg" alt="Eliminar" class="w-6 h-6" />
           Eliminar
         </button>
+        }
       </div>
     </div>
 

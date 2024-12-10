@@ -108,4 +108,12 @@ export class AuthService {
     );
   }
 
+  public isRelative(): Observable<boolean> {
+    return this.getUser().pipe(map((user) => user?.role === Role.Relative));
+
+  }
+  public isManager(): Observable<boolean> {
+    return this.getUser().pipe(map((user) => user?.role === Role.Manager));
+  }
+
 }

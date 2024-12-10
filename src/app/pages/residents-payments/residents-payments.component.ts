@@ -12,6 +12,7 @@ import { Order } from '../../interfaces/paged-response.interface';
 import { ResidentPaymentsService } from '../../services/residentsPayments/residents-payments.service';
 import { PaymentType } from '../../interfaces/payment-type.enum';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-residents-payments',
   standalone: true,
@@ -62,13 +63,21 @@ residentPaymentsList = computed(() => this.residentPaymentsListSignal());
 
   private subscription?: Subscription;
 
-  constructor(private residentPaymentsService: ResidentPaymentsService, private router: Router, public route: ActivatedRoute) {
+  constructor(private residentPaymentsService: ResidentPaymentsService,
+              private router: Router,
+              public route: ActivatedRoute,
+              private auth: AuthService) {
   }
 
   ngOnDestroy(): void {
     this.residentPaymentsService.clearAll();
     this.subscription?.unsubscribe();
   }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
+  }
+
   get page (): Observable<number> {
     return this.residentPaymentsService.page$;
   }
@@ -136,5 +145,6 @@ residentPaymentsList = computed(() => this.residentPaymentsListSignal());
   }
 
   protected readonly Order = Order;
+
 }
 

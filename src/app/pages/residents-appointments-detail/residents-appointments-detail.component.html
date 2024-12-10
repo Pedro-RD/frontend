@@ -14,6 +14,7 @@
               Voltar
             </button>
 
+            @if(!(isRelative | async)) {
             <a
               [routerLink]="['/residents', resident?.id, 'appointments', appointment.id, 'edit']"
               class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark"
@@ -28,6 +29,7 @@
               <img src="delete.svg" alt="Eliminar Icon" class="w-5 h-5" />
               Eliminar
             </button>
+            }
           </div>
         </div>
 

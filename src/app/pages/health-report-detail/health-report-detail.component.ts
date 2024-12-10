@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HealthReport } from '../../interfaces/health-report';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HealthReportService } from '../../services/health-report/health-report.service';
-import { DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Resident } from '../../interfaces/resident';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-health-report-detail',
@@ -17,6 +18,7 @@ import { Resident } from '../../interfaces/resident';
     ModalConfirmComponent,
     LoadingComponent,
     NgIf,
+    AsyncPipe,
   ],
   templateUrl: './health-report-detail.component.html',
   styleUrls: []
@@ -28,10 +30,12 @@ export class HealthReportDetailComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
+
   constructor(
     private healthReportService: HealthReportService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -51,6 +55,10 @@ export class HealthReportDetailComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
   }
 
   ngOnDestroy() {

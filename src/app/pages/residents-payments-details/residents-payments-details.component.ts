@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Payment } from '../../interfaces/payment';
 import { Resident } from '../../interfaces/resident';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ResidentPaymentsService } from '../../services/residentsPayments/residents-payments.service';
 import { Location } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-residents-payments-details',
@@ -18,6 +19,7 @@ import { Location } from '@angular/common';
     ModalConfirmComponent,
     LoadingComponent,
     NgIf,
+    AsyncPipe,
   ],
   templateUrl: './residents-payments-details.component.html',
   styleUrl: './residents-payments-details.component.css'
@@ -29,11 +31,13 @@ export class ResidentsPaymentsDetailsComponent implements OnInit, OnDestroy{
   private subs: Subscription[] = [];
   @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
+
   constructor(
   private residentPaymentsService: ResidentPaymentsService,
   private route: ActivatedRoute,
   private router: Router,
-  private location: Location
+  private location: Location,
+  private auth: AuthService
   ) {}
 
 
@@ -55,6 +59,8 @@ export class ResidentsPaymentsDetailsComponent implements OnInit, OnDestroy{
       );
     }
   }
+
+
   ngOnDestroy() {
     this.subs.forEach((sub) => sub.unsubscribe());
 }
@@ -89,4 +95,9 @@ showDeleteModal() {
     this.location.back();
 
   }
+
+  get isRelative(): Observable<boolean> {
+    return this.auth.isRelative();
+  }
+
 }
