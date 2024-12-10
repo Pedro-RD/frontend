@@ -95,17 +95,17 @@
               <p><span class="font-bold">Morada:</span> {{ user.address }}</p>
               <p><span class="font-bold">Cidade:</span> {{ user.city }}</p>
               <p><span class="font-bold">Código Postal:</span> {{ user.postcode }}</p>
-              <ng-container *ngIf="user.role !== Role.Relative">
-                <p><span class="font-bold">Salário:</span> {{ user.employee?.salary }}</p>
-                <p>
-                  <span class="font-bold">Início do Contrato:</span>
-                  {{ formatDateToPortuguese(user.employee?.contractStart) }}
-                </p>
-                <p>
-                  <span class="font-bold">Fim do Contrato:</span>
-                  {{ formatDateToPortuguese(user.employee?.contractEnds) }}
-                </p>
-              </ng-container>
+              @if (user.employee) {
+              <p><span class="font-bold">Salário:</span> {{ user.employee.salary }}</p>
+              <p>
+                <span class="font-bold">Início do Contrato:</span>
+                {{ formatDateToPortuguese(user.employee.contractStart) }}
+              </p>
+              <p>
+                <span class="font-bold">Fim do Contrato:</span>
+                {{ formatDateToPortuguese(user.employee.contractEnds) }}
+              </p>
+              }
             </div>
           </div>
         </div>
