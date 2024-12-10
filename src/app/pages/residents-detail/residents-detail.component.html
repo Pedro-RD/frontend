@@ -44,6 +44,12 @@
                 </ul>
               </div>
             }
+            <!-- Botão de Mensagens -->
+            <a [routerLink]="['/residents', resident.id, 'messages']"
+              class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base">
+              <img src="comments.svg" alt="Comments Icon" class="w-6 h-6" />
+              Mensagens
+            </a>
             <!-- Botão de Saúde com Dropdown -->
             <div class="dropdown">
               <label tabindex="0" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base">
@@ -56,33 +62,27 @@
               >
                 <li>
                   <a [routerLink]="['/residents', resident.id, 'health-reports']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base">
+                     class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medical-report.svg" alt="Medical Report Icon" class="w-6 h-6 " />
                     Relatórios
                   </a>
                 </li>
                 <li>
                   <a [routerLink]="['/residents', resident.id, 'medicaments']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base">
+                     class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medicine.svg" alt="Medicine Icon" class="w-6 h-6" />
                     Medicação
                   </a>
                 </li>
                 <li>
                   <a [routerLink]="['/residents', resident.id, 'appointments']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base">
+                     class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medical-check.svg" alt="Medical Check Icon" class="w-6 h-6" />
                     Consultas
                   </a>
                 </li>
               </ul>
             </div>
-            <!-- Botão de Mensagens -->
-            <a [routerLink]="['/residents', resident.id, 'messages']"
-              class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base">
-              <img src="comments.svg" alt="Comments Icon" class="w-6 h-6" />
-              Mensagens
-            </a>
             <!-- Botão de Pagamentos -->
             @if((isManager | async)) {
             <a [routerLink]="['/residents', resident.id, 'payments']"
@@ -93,8 +93,6 @@
             }
           </div>
         </div>
-
-
         <!-- Perfil e informações do residente -->
         <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 ">
           <div class="avatar flex-shrink-0">
