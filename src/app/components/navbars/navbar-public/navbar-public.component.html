@@ -6,110 +6,101 @@
     <li>
       <a
         (click)="scrollToFragment('home')"
+        [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'home' }"
         class="flex items-center space-x-2"
       >
         <!-- Icon -->
         <img src="home.svg" alt="Home Icon" class="w-8 h-8" />
         <!-- Link Text -->
-        <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-          Página Inicial
-        </span>
+        <span>Página Inicial</span>
       </a>
     </li>
     <li>
       <a
         (click)="scrollToFragment('services')"
+        [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'services' }"
         class="flex items-center space-x-2"
       >
         <!-- Icon -->
         <img src="healthcare.svg" alt="Services Icon" class="w-8 h-8" />
         <!-- Link Text -->
-        <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-          Serviços
-        </span>
+        <span>Serviços</span>
       </a>
     </li>
     <li>
       <a
         (click)="scrollToFragment('about')"
+        [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'about' }"
         class="flex items-center space-x-2"
       >
         <!-- Icon -->
         <img src="aboutSvg.svg" alt="About Icon" class="w-8 h-8" />
         <!-- Link Text -->
-        <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-          Sobre Nós
-        </span>
+        <span>Sobre Nós</span>
       </a>
     </li>
     <li>
       <a
         (click)="scrollToFragment('contact')"
+        [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'contact' }"
         class="flex items-center space-x-2"
       >
         <!-- Icon -->
         <img src="call.svg" alt="Contact Icon" class="w-8 h-8" />
         <!-- Link Text -->
-        <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-          Contactos
-        </span>
+        <span>Contactos</span>
       </a>
     </li>
   </ul>
 } @else {
-  <div class="navbar-center hidden lg:flex">
+  <div class="navbar-center hidden lg:flex -ml-24">
     <ul class="menu menu-horizontal px-1">
       <li>
         <a
-          href="#"
           (click)="scrollToFragment('home')"
-          class="flex items-center space-x-2 cursor-pointer"
+          [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'home' }"
+          class="flex items-center space-x-2"
         >
           <!-- Icon -->
           <img src="home.svg" alt="Home Icon" class="w-8 h-8" />
           <!-- Link Text -->
-          <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-      Página Inicial
-    </span>
+          <span>Página Inicial</span>
         </a>
       </li>
       <li>
         <a
           (click)="scrollToFragment('services')"
+          [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'services' }"
           class="flex items-center space-x-2"
         >
           <!-- Icon -->
           <img src="healthcare.svg" alt="Services Icon" class="w-8 h-8" />
           <!-- Link Text -->
-          <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-            Serviços
-          </span>
+          <span>Serviços</span>
         </a>
       </li>
       <li>
         <a
           (click)="scrollToFragment('about')"
+          [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'about' }"
           class="flex items-center space-x-2"
         >
           <!-- Icon -->
           <img src="aboutSvg.svg" alt="About Icon" class="w-8 h-8" />
           <!-- Link Text -->
-          <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-            Sobre Nós
-          </span>
+          <span>Sobre Nós</span>
         </a>
       </li>
       <li>
         <a
           (click)="scrollToFragment('contact')"
+          [ngClass]="{ 'translate-x-1 font-bold border-b-2 border-info duration-500': activeFragment === 'contact' }"
           class="flex items-center space-x-2"
         >
           <!-- Icon -->
           <img src="call.svg" alt="Contact Icon" class="w-8 h-8" />
           <!-- Link Text -->
-          <span class="hover:translate-x-1 hover:scale-105 hover:font-bold hover:border-b-2 hover:border-info duration-500">
-            Contactos
-          </span>
+          <span>Contactos</span>
         </a>
       </li>
     </ul>
