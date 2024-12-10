@@ -9,13 +9,51 @@
           </h2>
           <!-- Buttons -->
           <div class="flex flex-wrap justify-center md:justify-end gap-2">
+            @if((isManager | async)) {
+              <!-- Botão de Perfil com Dropdown -->
+              <div class="dropdown">
+                <label
+                  tabindex="0"
+                  class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base"
+                >
+                  <img src="profile.svg" alt="Profile Icon" class="w-6 h-6" />
+                  Perfil
+                </label>
+                <ul
+                  tabindex="0"
+                  class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
+                >
+                  <li>
+                    <a
+                      [routerLink]="['/residents', resident.id, 'edit']"
+                      class="inline-flex items-center gap-1 text-xs md:text-base"
+                    >
+                      <img src="pencil.svg" alt="Edit Icon" class="w-6 h-6" />
+                      Editar
+                    </a>
+                  </li>
+                  <li>
+                    <button
+                      (click)="showDeleteModal()"
+                      class="inline-flex items-center gap-1 text-xs md:text-base text-error"
+                    >
+                      <img src="delete.svg" alt="Delete Icon" class="w-6 h-6" />
+                      Eliminar
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            }
             <!-- Botão de Saúde com Dropdown -->
             <div class="dropdown">
               <label tabindex="0" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base">
                 <img src="healthcare.svg" alt="Healthcare Icon" class="w-6 h-6 z-45" />
                 Saúde
               </label>
-              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <ul
+                tabindex="0"
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
+              >
                 <li>
                   <a [routerLink]="['/residents', resident.id, 'health-reports']"
                     class="inline-flex items-center gap-1 text-xs md:text-base">
@@ -53,6 +91,7 @@
               Pagamentos
             </a>
             }
+            
             @if((isManager | async)) {
             <!-- Botão de Perfil com Dropdown -->
             <div class="dropdown">
@@ -78,6 +117,7 @@
               </ul>
             </div>
             }
+
           </div>
         </div>
 

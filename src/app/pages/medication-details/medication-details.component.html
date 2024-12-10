@@ -52,13 +52,11 @@
       </div>
 
       <!-- Coluna da Direita: Administração do Medicamento -->
-      <div class="space-y-2">
-        <h1 class="text-xl font-semibold mb-2">Registo de Administrações</h1>
-
+      <div>
         <!-- Add Administration Modal -->
         <div
           *ngIf="showAddForm"
-          class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50"
+          class="fixed -inset-2 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50"
         >
           <!-- Modal Container -->
           <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4 md:mx-0">
