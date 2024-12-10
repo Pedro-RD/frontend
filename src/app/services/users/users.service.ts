@@ -49,8 +49,6 @@ export class UsersService extends ListService<User> {
           users.map((user): User => {
             if (user.profilePicture) {
               user.profilePicture = environment.photoUser + user.profilePicture;
-            } else {
-              user.profilePicture = './user.svg';
             }
             return user;
           }),

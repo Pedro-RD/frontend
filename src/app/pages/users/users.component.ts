@@ -21,9 +21,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Role, RolePt } from '../../interfaces/roles.enum';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BackButtonComponent } from '../../components/table/back-button/back-button.component';
-import {
-  BackButtonDashboardComponent
-} from '../../components/table/back-button-dashboard/back-button-dashboard.component';
+import { BackButtonDashboardComponent } from '../../components/table/back-button-dashboard/back-button-dashboard.component';
 
 @Component({
   selector: 'app-users',

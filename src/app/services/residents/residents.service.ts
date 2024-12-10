@@ -34,8 +34,6 @@ export class ResidentsService extends ListService<Resident> {
             if (resident.profilePicture) {
               resident.profilePicture =
                 environment.photoResident + resident.profilePicture;
-            } else {
-              resident.profilePicture = './user.svg';
             }
             return resident;
           }),

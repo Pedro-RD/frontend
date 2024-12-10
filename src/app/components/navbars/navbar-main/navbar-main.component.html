@@ -10,9 +10,7 @@
       <ng-container *ngComponentOutlet="( navbarLinks | async ); inputs: { side: true }" />
     </div>
 
-    <a
-      (click)="navigateToSection()"
-    >
+    <a (click)="navigateToSection()">
       <img src="logo.png" alt="logo" class="h-8 cursor-pointer" />
     </a>
   </div>
@@ -110,15 +108,17 @@
     <div *ngIf="loggedIn | async" class="dropdown dropdown-end mr-4">
       <div class="btn btn-ghost btn-circle avatar" role="button" tabindex="0">
         <div class="w-10 rounded-full">
+          @if (profilePicture | async) {
+
           <img alt="User Avatar" [src]="profilePicture | async" />
+          } @else {
+          <img alt="User Avatar" src="user.svg" />
+          }
         </div>
       </div>
       <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow" tabindex="0">
         <li *ngIf="user | async as currentUser">
-          <a
-            class="flex items-center"
-            [routerLink]="['/users', currentUser.id, 'reset-password']"
-          >
+          <a class="flex items-center" [routerLink]="['/users', currentUser.id, 'reset-password']">
             <img src="gear.svg" alt="Settings Icon" class="w-5 h-5 mr-2" />
             Alterar Password
           </a>

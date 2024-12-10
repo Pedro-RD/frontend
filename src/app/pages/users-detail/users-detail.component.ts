@@ -18,7 +18,7 @@ import { ToastService } from '../../services/toast/toast.service';
   imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent],
   templateUrl: './users-detail.component.html',
   styleUrl: './users-detail.component.css',
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class UsersDetailComponent implements OnInit, OnDestroy {
   user: UserRxpDTO | null = null;
@@ -51,7 +51,7 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
             map((user) => ({
               ...user,
               role: this.translateRole(user.role),
-            }))
+            })),
           )
           .subscribe({
             next: (user) => {
@@ -60,9 +60,9 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
               const photo = this.user?.profilePicture;
 
               if (photo) {
-                this.profilePicture = `${this.photoResidentUrl}${this.user?.profilePicture}`
+                this.profilePicture = `${this.photoResidentUrl}${this.user?.profilePicture}`;
               }
-              },
+            },
             error: (err) => {
               console.error(err);
               this.error = 'User not found';
@@ -72,9 +72,8 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  get loggedUser () {
-    return this.authService
-      .getUser()
+  get loggedUser() {
+    return this.authService.getUser();
   }
 
   ngOnDestroy() {
@@ -113,11 +112,11 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
   translateRole(role: RolePt | Role): RolePt {
     switch (role) {
       case Role.Manager:
-        return RolePt.Manager
+        return RolePt.Manager;
       case Role.Caretaker:
         return RolePt.Cuidador;
       case Role.Relative:
-        return RolePt.Familiar
+        return RolePt.Familiar;
       default:
         return RolePt.Desconhecido;
     }
@@ -131,18 +130,20 @@ export class UsersDetailComponent implements OnInit, OnDestroy {
     if (input.files && input.files[0]) {
       const file: File = input.files[0];
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
-      this.http.post(`${this.apiUrl}residents/${this.user?.id!}/upload`, formData).subscribe({
-        next: () => {
-          // Atualiza a imagem diretamente sem reload
-          this.profilePicture = URL.createObjectURL(file);
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.error('Falha ao enviar imagem');
-        },
-      });
+      this.http
+        .post(`${this.apiUrl}users/${this.user?.id!}/upload`, formData)
+        .subscribe({
+          next: () => {
+            // Atualiza a imagem diretamente sem reload
+            this.profilePicture = URL.createObjectURL(file);
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastService.error('Falha ao enviar imagem');
+          },
+        });
     }
   }
 

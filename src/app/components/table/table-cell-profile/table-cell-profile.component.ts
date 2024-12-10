@@ -8,7 +8,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './table-cell-profile.component.css',
 })
 export class TableCellProfileComponent {
-  imgUrl = input<string>();
+  imgUrl = input<string | null>();
   mainText = input.required<string>();
   subText = input<string>();
 }

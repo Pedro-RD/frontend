@@ -11,40 +11,28 @@
           <div class="flex flex-wrap justify-center md:justify-end gap-2">
             <!-- Botão de Saúde com Dropdown -->
             <div class="dropdown">
-              <label
-                tabindex="0"
-                class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base"
-              >
+              <label tabindex="0" class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base">
                 <img src="healthcare.svg" alt="Healthcare Icon" class="w-6 h-6 z-45" />
                 Saúde
               </label>
-              <ul
-                tabindex="0"
-                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                  <a
-                    [routerLink]="['/residents', resident.id, 'health-reports']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base"
-                  >
+                  <a [routerLink]="['/residents', resident.id, 'health-reports']"
+                    class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medical-report.svg" alt="Medical Report Icon" class="w-6 h-6 " />
                     Relatórios
                   </a>
                 </li>
                 <li>
-                  <a
-                    [routerLink]="['/residents', resident.id, 'medicaments']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base"
-                  >
+                  <a [routerLink]="['/residents', resident.id, 'medicaments']"
+                    class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medicine.svg" alt="Medicine Icon" class="w-6 h-6" />
                     Medicação
                   </a>
                 </li>
                 <li>
-                  <a
-                    [routerLink]="['/residents', resident.id, 'appointments']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base"
-                  >
+                  <a [routerLink]="['/residents', resident.id, 'appointments']"
+                    class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="medical-check.svg" alt="Medical Check Icon" class="w-6 h-6" />
                     Consultas
                   </a>
@@ -52,19 +40,15 @@
               </ul>
             </div>
             <!-- Botão de Mensagens -->
-            <a
-              [routerLink]="['/residents', resident.id, 'messages']"
-              class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base"
-            >
+            <a [routerLink]="['/residents', resident.id, 'messages']"
+              class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base">
               <img src="comments.svg" alt="Comments Icon" class="w-6 h-6" />
               Mensagens
             </a>
             <!-- Botão de Pagamentos -->
             @if((isManager | async)) {
-            <a
-              [routerLink]="['/residents', resident.id, 'payments']"
-              class="btn btn-success inline-flex items-center gap-1 text-xs md:text-base"
-            >
+            <a [routerLink]="['/residents', resident.id, 'payments']"
+              class="btn btn-success inline-flex items-center gap-1 text-xs md:text-base">
               <img src="money.svg" alt="Wallet Icon" class="w-6 h-6" />
               Pagamentos
             </a>
@@ -72,31 +56,21 @@
             @if((isManager | async)) {
             <!-- Botão de Perfil com Dropdown -->
             <div class="dropdown">
-              <label
-                tabindex="0"
-                class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base"
-              >
+              <label tabindex="0" class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base">
                 <img src="profile.svg" alt="Profile Icon" class="w-6 h-6" />
                 Perfil
               </label>
-              <ul
-                tabindex="0"
-                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                  <a
-                    [routerLink]="['/residents', resident.id, 'edit']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base"
-                  >
+                  <a [routerLink]="['/residents', resident.id, 'edit']"
+                    class="inline-flex items-center gap-1 text-xs md:text-base">
                     <img src="pencil.svg" alt="Edit Icon" class="w-6 h-6" />
                     Editar
                   </a>
                 </li>
                 <li>
-                  <button
-                    (click)="showDeleteModal()"
-                    class="inline-flex items-center gap-1 text-xs md:text-base text-error"
-                  >
+                  <button (click)="showDeleteModal()"
+                    class="inline-flex items-center gap-1 text-xs md:text-base text-error">
                     <img src="delete.svg" alt="Delete Icon" class="w-6 h-6" />
                     Eliminar
                   </button>
@@ -111,59 +85,45 @@
         <!-- Perfil e informações do residente -->
         <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 ">
           <div class="avatar flex-shrink-0">
-            <div class="w-32 h-32 md:w-72 md:h-72 rounded-lg ring ring-neutral ring-offset-base-100 ring-offset-2 overflow-hidden">
-<!--              img-->
-                <!-- Foto de perfil -->
-                <div class="relative group">
-                  <img
-                    *ngIf="profilePicture; else defaultPicture"
-                    [src]="profilePicture"
-                    alt="Foto de Perfil"
-                    class="object-cover w-full h-full max-w-full"
-                  >
-                  <ng-template #defaultPicture>
-                    <img
-                      src="/user.svg"
-                      alt="Foto de Perfil"
-                      class="object-cover w-full h-full max-w-full"
-                    >
-                  </ng-template>
-                  @if((isManager | async)) {
-                  <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition">
-                    <div class="flex flex-col space-y-2">
-                      <!-- Botão de editar sobreposto -->
-                      <button
-                        class="w-full bg-white text-gray-800 text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-200"
-                        (click)="fileUpload.click()"
-                      >
-                        Alterar Foto
-                      </button>
+            <div
+              class="w-32 h-32 md:w-72 md:h-72 rounded-lg ring ring-neutral ring-offset-base-100 ring-offset-2 overflow-hidden">
+              <!--              img-->
+              <!-- Foto de perfil -->
+              <div class="relative group">
+                <img *ngIf="profilePicture; else defaultPicture" [src]="profilePicture" alt="Foto de Perfil"
+                  class="object-cover w-full h-full max-w-full">
+                <ng-template #defaultPicture>
+                  <img src="user.svg" alt="Foto de Perfil" class="object-cover w-full h-full max-w-full">
+                </ng-template>
+                @if((isManager | async)) {
+                <div
+                  class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition">
+                  <div class="flex flex-col space-y-2">
+                    <!-- Botão de editar sobreposto -->
+                    <button
+                      class="w-full bg-white text-gray-800 text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-gray-200"
+                      (click)="fileUpload.click()">
+                      Alterar Foto
+                    </button>
 
-                      <!-- Botão para remover foto -->
-                      <button
-                        *ngIf="profilePicture"
-                        class="w-full bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-red-600"
-                        (click)="removeProfilePicture()"
-                      >
-                        Remover Foto
-                      </button>
-                    </div>
+                    <!-- Botão para remover foto -->
+                    <button *ngIf="profilePicture"
+                      class="w-full bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg shadow hover:bg-red-600"
+                      (click)="removeProfilePicture()">
+                      Remover Foto
+                    </button>
                   </div>
-                  }
+                </div>
+                }
 
 
-                  <!-- Input oculto para upload -->
-                <input type="file"
-                       accept="image/*"
-                       class="hidden"
-                       (change)="onProfilePictureSelected($event)"
-                       #fileUpload>
+                <!-- Input oculto para upload -->
+                <input type="file" accept="image/*" class="hidden" (change)="onProfilePictureSelected($event)"
+                  #fileUpload>
               </div>
             </div>
           </div>
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-neutral rounded-lg w-full md:min-h-auto"
-          >
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-neutral rounded-lg w-full md:min-h-auto">
             <div class="space-y-2">
               <h3 class="text-xl font-semibold mb-2 text-center md:text-left">
                 Dados Pessoais
@@ -216,7 +176,8 @@
             <div class="space-y-2">
               <h3 class="text-xl font-semibold mb-2 text-center md:text-left">Informações Alimentares</h3>
               <p><span class="font-bold">Dieta:</span> {{ resident.diet }}</p>
-              <p><span class="font-bold">Restrições Alimentares:</span> {{ resident.dietRestrictions || 'Nenhuma restrição' }}</p>
+              <p><span class="font-bold">Restrições Alimentares:</span> {{ resident.dietRestrictions || 'Nenhuma
+                restrição' }}</p>
             </div>
           </div>
 
@@ -226,16 +187,12 @@
     </div>
 
     <!-- Modal de Confirmação -->
-    <app-modal-confirm
-      title="Apagar Residente"
-      message="Tem certeza de que deseja excluir este residente?"
-      confirmLabel="Eliminar"
-      (confirm)="onDelete()"
-    ></app-modal-confirm>
+    <app-modal-confirm title="Apagar Residente" message="Tem certeza de que deseja excluir este residente?"
+      confirmLabel="Eliminar" (confirm)="onDelete()"></app-modal-confirm>
   </div>
 
   @if(!resident) {
-    <app-loading />
+  <app-loading />
   }
 </ng-container>
 
@@ -249,4 +206,3 @@
 <ng-template #errorTpl>
   <p class="text-error p-4">{{ error }}</p>
 </ng-template>
-
