@@ -140,6 +140,10 @@ residentPaymentsList = computed(() => this.residentPaymentsListSignal());
   }
 
 
+  goBackResidentProfile() {
+    this.router.navigate([`residents/detail/${this.route.snapshot.paramMap.get("residentId")}`]);
+  }
+
   handleLimitChange(limit: number) {
     this.residentPaymentsService.setPageSize(limit);
   }

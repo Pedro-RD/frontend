@@ -167,6 +167,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
   protected readonly Order = Order;
   selectedMedication: any;
 
+  goBackResidentProfile() {
+    this.router.navigate(["residents","detail", this.route.snapshot.paramMap.get("residentId")]);
+
+  }
+
 
   showModal(selectedMedication: any) {
     return false;

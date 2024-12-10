@@ -148,5 +148,12 @@ export class HealthReportComponent implements OnInit, OnDestroy {
     this.healthreportService.setPageSize(limit);
   }
 
+ goBackResidentProfile() {
+    this.router.navigate(["residents","detail", this.route.snapshot.paramMap.get("residentId")]);
+
+ }
+
+
   protected readonly Order = Order;
+
 }
