@@ -25,7 +25,6 @@ import { MedicationCreateComponent } from './pages/medication-create/medication-
 import { MedicationDetailsComponent } from './pages/medication-details/medication-details.component';
 import { MedicationAdministrationComponent } from './pages/medication-administration/medication-administration.component';
 
-
 import { ResidentsAppointmentsCreateComponent } from './pages/residents-appointments-create/residents-appointments-create.component';
 import { ResidentsAppointmentsDetailComponent } from './pages/residents-appointments-detail/residents-appointments-detail.component';
 import { ResidentsAppointmentsEditComponent } from './pages/residents-appointments-edit/residents-appointments-edit.component';
@@ -35,74 +34,108 @@ import { ResidentsPaymentsCreateComponent } from './pages/residents-payments-cre
 import { ResidentsPaymentsEditComponent } from './pages/residents-payments-edit/residents-payments-edit.component';
 import { MedicationEditComponent } from './pages/medication-edit/medication-edit.component';
 import { EmployeesShiftsComponent } from './pages/employees-shifts/employees-shifts.component';
-import {
-  EmployeeShiftsManagementComponent
-} from './pages/employee-shifts-management/employee-shifts-management.component';
-import { DashboardManagerComponent } from './components/dashboards/dashboard-manager/dashboard-manager.component';
+import { EmployeeShiftsManagementComponent } from './pages/employee-shifts-management/employee-shifts-management.component';
 import { FormResetPasswordComponent } from './pages/form-reset-password/form-reset-password.component';
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: FormLoginComponent },
 
-  {path: 'users/:id/reset-password', component: FormResetPasswordComponent},
-
   {
-    path:'employees/:id/shifts', component: EmployeeShiftsManagementComponent
+    path: 'users/:id/reset-password',
+    component: FormResetPasswordComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Relative, Role.Manager, Role.Caretaker] },
   },
 
-  { path: 'employees/:id/shifts', component: EmployeesShiftsComponent },
+  {
+    path: 'employees/:id/shifts',
+    component: EmployeeShiftsManagementComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
+  },
+
+  {
+    path: 'employees/:id/shifts',
+    component: EmployeesShiftsComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
+  },
 
   {
     path: 'residents/:residentId/payments/create',
     component: ResidentsPaymentsCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
 
   {
     path: 'residents/:residentId/payments/:paymentId/edit',
     component: ResidentsPaymentsEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
 
   {
     path: 'residents/:residentId/payments/:id',
     component: ResidentsPaymentsDetailsComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
 
   {
     path: 'residents/:residentId/payments',
     component: ResidentsPaymentsComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
 
   {
     path: 'residents/:residentId/appointments/create',
     component: ResidentsAppointmentsCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/appointments/:appointmentId/edit',
     component: ResidentsAppointmentsEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/appointments/:id',
     component: ResidentsAppointmentsDetailComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/appointments',
     component: ResidentsAppointmentsComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/health-reports/create',
     component: HealthReportCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/health-reports/:reportId/edit',
     component: HealthReportEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/health-reports/:id',
     component: HealthReportDetailComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/health-reports',
     component: HealthReportComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/messages',
@@ -113,20 +146,26 @@ export const routes: Routes = [
   {
     path: 'residents',
     component: ResidentsComponent,
-    // canActivate: [authGuard],
-    // data: {roles: [Role.Admin, Role.Manager, Role.Caretaker]}
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/detail/:id',
     component: ResidentsDetailComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/create',
     component: ResidentsCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
   {
     path: 'residents/:id/edit',
     component: ResidentsEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
 
   {
@@ -134,47 +173,64 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
-
   },
 
   {
     path: 'users',
     component: UsersComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
   {
     path: 'users/detail/:id',
     component: UsersDetailComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'users/create',
     component: UsersCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager] },
   },
   {
     path: 'users/:id/edit',
     component: UsersEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/medicaments',
     component: MedicationComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
   {
     path: 'residents/:residentId/medicaments/create',
     component: MedicationCreateComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/medicaments/:id/edit',
     component: MedicationEditComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker] },
   },
   {
     path: 'residents/:residentId/medicaments/:id',
     component: MedicationDetailsComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
     children: [
-      { path: 'administration', component: MedicationAdministrationComponent }
-    ]
+      { path: 'administration', component: MedicationAdministrationComponent },
+    ],
   },
   {
     path: 'residents/:residentId/medicaments/:id/administration',
     component: MedicationAdministrationComponent,
+    canActivate: [authGuard],
+    data: { roles: [Role.Manager, Role.Caretaker, Role.Relative] },
   },
 
   { path: 'forbidden', component: NotAllowedComponent },
