@@ -91,33 +91,6 @@
               Pagamentos
             </a>
             }
-            
-            @if((isManager | async)) {
-            <!-- Botão de Perfil com Dropdown -->
-            <div class="dropdown">
-              <label tabindex="0" class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base">
-                <img src="profile.svg" alt="Profile Icon" class="w-6 h-6" />
-                Perfil
-              </label>
-              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li>
-                  <a [routerLink]="['/residents', resident.id, 'edit']"
-                    class="inline-flex items-center gap-1 text-xs md:text-base">
-                    <img src="pencil.svg" alt="Edit Icon" class="w-6 h-6" />
-                    Editar
-                  </a>
-                </li>
-                <li>
-                  <button (click)="showDeleteModal()"
-                    class="inline-flex items-center gap-1 text-xs md:text-base text-error">
-                    <img src="delete.svg" alt="Delete Icon" class="w-6 h-6" />
-                    Eliminar
-                  </button>
-                </li>
-              </ul>
-            </div>
-            }
-
           </div>
         </div>
 
@@ -216,8 +189,7 @@
             <div class="space-y-2">
               <h3 class="text-xl font-semibold mb-2 text-center md:text-left">Informações Alimentares</h3>
               <p><span class="font-bold">Dieta:</span> {{ resident.diet }}</p>
-              <p><span class="font-bold">Restrições Alimentares:</span> {{ resident.dietRestrictions || 'Nenhuma
-                restrição' }}</p>
+              <p><span class="font-bold">Restrições Alimentares:</span> {{ resident.dietRestrictions || 'Nenhuma restrição'}}</p>
             </div>
           </div>
 
