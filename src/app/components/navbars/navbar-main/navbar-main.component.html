@@ -22,10 +22,12 @@
     <app-sidebar *ngIf="(loggedIn | async) && (user | async)?.role !== 'relative'">
       <span class="indicator relative" icon>
         <img src="checklist.svg" alt="Task Icon" class="w-8 h-8 mt-1 hover:brightness-90" />
+        @if((tasks | async)?.length || 0 > 0) {
         <span
           class="badge badge-sm badge-primary absolute top-1.5 left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-full border-3 border-black">
           {{ (tasks | async)?.length }}
         </span>
+        }
       </span>
       <app-task-filter />
       @for (task of (tasks | async); track task.id) {
@@ -116,7 +118,7 @@
             [routerLink]="['/users', currentUser.id, 'reset-password']"
           >
             <img src="gear.svg" alt="Settings Icon" class="w-5 h-5 mr-2" />
-            Recuperar Password
+            Alterar Password
           </a>
         </li>
         <li>
