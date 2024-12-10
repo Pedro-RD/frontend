@@ -1,7 +1,4 @@
-<button
-  [type]="type()"
-  class="btn btn-success"
->
+<button [type]="type()" class="btn btn-success" (click)="handleOnClick()">
   <img src="check.svg" alt="Check Icon" class="w-6 h-6" />
   <span>{{ label() }}</span>
   <ng-content></ng-content>

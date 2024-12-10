@@ -1,5 +1,5 @@
 <div class="container px-4 sm:px-0 mx-auto">
-  <form class="lg:px-36 flex flex-col" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <form class="lg:px-36 flex flex-col" [formGroup]="form">
     <h1 class="card-title text-2xl mb-5 text-center">{{ initialData() ? 'Editar' : 'Adicionar' }} Medicamento</h1>
 
     <h2 class="mb-3 card-title">Informações do Medicamento</h2>
@@ -28,7 +28,7 @@
       </button>
 
       <!-- Botão de Submissão -->
-      <app-button label="Guardar" type="submit"></app-button>
+      <app-button label="Guardar" type="button" (onClick)="onSubmit()"></app-button>
     </div>
   </form>
 </div>
