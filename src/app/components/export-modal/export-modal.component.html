@@ -11,12 +11,13 @@
     <form class="space-y-4">
       <!-- Mês -->
       <div>
-        <label class="block text-sm font-medium mb-1">Mês</label>
+        <label class="block text-sm font-medium mb-1">Mês *</label>
         <select
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           [(ngModel)]="selectedMes"
           name="mes"
         >
+          <option value="" disabled selected>Selecionar mês</option>
           @for (mes of meses; track mes.value) {
             <option [value]="mes.value">{{ mes.label }}</option>
           } @empty {
@@ -26,19 +27,24 @@
       </div>
       <!-- Ano -->
       <div>
-        <label class="block text-sm font-medium mb-1">Ano</label>
+        <label class="block text-sm font-medium mb-1">Ano *</label>
         <input
           type="number"
           class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           [(ngModel)]="selectedAno"
           name="ano"
           placeholder="Digite o ano"
+          min="2000"
         />
+        <p class="text-gray-500 text-sm mt-1">O ano mínimo é 2000.</p>
       </div>
     </form>
     <!-- Ações -->
     <div class="modal-action">
-      <button class="btn btn-success" (click)="onConfirm()">Confirmar</button>
+      <button
+        class="btn btn-success"
+        [disabled]="!selectedMes || !selectedAno || selectedAno < 2000"
+        (click)="onConfirm()">Confirmar</button>
       <button class="btn btn-primary" (click)="close()">Cancelar</button>
     </div>
   </div>
