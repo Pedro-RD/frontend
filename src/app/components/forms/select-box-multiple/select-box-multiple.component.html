@@ -6,7 +6,7 @@
   <!-- Botão para abrir/fechar o dropdown -->
   <button type="button" class="select select-bordered grow flex justify-between items-center" (click)="toggleDropdown()"
     [ngClass]="{ 'dropdown-open': isDropdownOpen }">
-    <span>Parente Responsável pelo Residente</span>
+    <span>Parente Responsável pelo Residente ({{control().value?.length}})</span>
   </button>
 
   <!-- Dropdown -->
