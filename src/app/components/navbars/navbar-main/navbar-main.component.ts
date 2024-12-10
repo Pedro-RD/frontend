@@ -56,6 +56,7 @@ export class NavbarMainComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private taskService: TasksService,
     private notificationService: NotificationService,
+    private router: Router,
   ) {}
 
   get profilePicture(): Observable<string> {
@@ -155,5 +156,17 @@ export class NavbarMainComponent implements OnInit, OnDestroy {
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  }
+
+  navigateToSection() {
+    this.loggedIn.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        // Navigate to the dashboard
+        this.router.navigate(['/dashboard']);
+      } else {
+        // Navigate to the home section
+        this.router.navigate(['/'], { fragment: 'home' });
+      }
+    });
   }
 }

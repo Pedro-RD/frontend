@@ -10,8 +10,10 @@
       <ng-container *ngComponentOutlet="( navbarLinks | async ); inputs: { side: true }" />
     </div>
 
-    <a [routerLink]="(loggedIn | async) ? '/dashboard' : '/'">
-      <img src="logo.png" alt="logo" class="h-8" />
+    <a
+      (click)="navigateToSection()"
+    >
+      <img src="logo.png" alt="logo" class="h-8 cursor-pointer" />
     </a>
   </div>
 
