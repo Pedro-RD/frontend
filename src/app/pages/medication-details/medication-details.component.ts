@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { MedicationService } from '../../services/medication/medication.service';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
-import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
 import { Medication } from '../../interfaces/medication';
 import { Administration } from '../../interfaces/administration';
 import {
@@ -26,8 +24,6 @@ import { AuthService } from '../../services/auth/auth.service';
     RouterLink,
     DatePipe,
     NgIf,
-    LoadingComponent,
-    ModalConfirmComponent,
     ReactiveFormsModule,
     InputComponent,
   ],
@@ -190,6 +186,4 @@ export class MedicationDetailsComponent implements OnInit {
     while (s.length < size) s = '0' + s;
     return s;
   }
-
-
 }

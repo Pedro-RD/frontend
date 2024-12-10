@@ -10,18 +10,18 @@
           <!-- Botões no canto superior direito -->
           <div class="flex justify-center md:justify-end gap-2 mt-4 md:mt-0">
             <a [routerLink]="['/residents', resident?.id, 'health-reports']"
-               class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base hover:bg-warning-dark">
+              class="btn btn-secondary inline-flex items-center gap-1 text-xs md:text-base hover:bg-warning-dark">
               <img src="left-arrow.svg" alt="Left Arrow Icon" class="h-4 w-4 md:h-5 md:w-5" />
               Voltar
             </a>
             @if(!(isRelative | async)) {
             <a [routerLink]="['/residents', resident?.id, 'health-reports', healthReport.id, 'edit']"
-               class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
+              class="btn btn-info inline-flex items-center gap-1 text-xs md:text-base hover:bg-info-dark">
               <img src="pencil.svg" alt="Edit Icon" class="h-4 w-4 md:h-6 md:w-6" />
               Editar
             </a>
             <button (click)="showDeleteModal()"
-                    class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">
+              class="btn btn-primary inline-flex items-center gap-1 text-xs md:text-base hover:bg-error-dark">
               <img src="delete.svg" alt="Delete Icon" class="h-4 w-4 md:h-6 md:w-6" />
               Eliminar
             </button>
@@ -49,16 +49,10 @@
   </div>
 
   <!-- Modal de Confirmação -->
-  <app-modal-confirm
-    title="Apagar Consulta"
-    message="Tem certeza de que deseja eliminar esta consulta?"
-    confirmLabel="Eliminar"
-    (confirm)="onDelete()"
-  ></app-modal-confirm>
+  <app-modal-confirm title="Apagar Consulta" message="Tem certeza de que deseja eliminar esta consulta?"
+    confirmLabel="Eliminar" (confirm)="onDelete()"></app-modal-confirm>
 
-  <div *ngIf="!healthReport">
-    <app-loading />
-  </div>
+
 </ng-container>
 
 <!-- Template de Erro -->

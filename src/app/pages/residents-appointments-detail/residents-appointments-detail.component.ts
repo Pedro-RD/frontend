@@ -5,43 +5,31 @@ import { ModalConfirmComponent } from '../../components/forms/modal-confirm/moda
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResidentAppointmentsService } from '../../services/residentsAppointments/resident-appointments.service';
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Resident } from '../../interfaces/resident';
 import { Location } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 
-
 @Component({
   selector: 'app-residents-appointments-detail',
   standalone: true,
-  imports: [
-    DatePipe,
-    RouterLink,
-    ModalConfirmComponent,
-    LoadingComponent,
-    NgIf,
-    AsyncPipe,
-
-  ],
+  imports: [DatePipe, RouterLink, ModalConfirmComponent, NgIf, AsyncPipe],
   templateUrl: './residents-appointments-detail.component.html',
-  styleUrl: './residents-appointments-detail.component.css'
+  styleUrl: './residents-appointments-detail.component.css',
 })
 export class ResidentsAppointmentsDetailComponent implements OnInit, OnDestroy {
-appointment?: Appointment
-  resident?: Resident
+  appointment?: Appointment;
+  resident?: Resident;
   error: string | null = null;
-private subs: Subscription[] = [];
-@ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
+  private subs: Subscription[] = [];
+  @ViewChild(ModalConfirmComponent) deleteModal!: ModalConfirmComponent;
 
-
-constructor(
-  private residentAppointmentsService: ResidentAppointmentsService,
-  private route: ActivatedRoute,
-  private router: Router,
-  private location: Location,
-  private auth: AuthService
-
-) {}
+  constructor(
+    private residentAppointmentsService: ResidentAppointmentsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
+    private auth: AuthService,
+  ) {}
 
   goBack() {
     this.location.back();
@@ -61,7 +49,7 @@ constructor(
             console.error(err);
             this.error = 'Consulta não encontrada';
           },
-        })
+        }),
       );
     }
   }
@@ -70,9 +58,9 @@ constructor(
     return this.auth.isRelative();
   }
 
-ngOnDestroy() {
-  this.subs.forEach(sub => sub.unsubscribe());
-}
+  ngOnDestroy() {
+    this.subs.forEach((sub) => sub.unsubscribe());
+  }
 
   onDelete() {
     const id = Number(this.route.snapshot.paramMap.get('id')); // Obtemos o ID da consulta novamente
@@ -94,11 +82,11 @@ ngOnDestroy() {
           console.error(err);
           this.error = 'Falha ao eliminar consulta';
         },
-      })
+      }),
     );
   }
 
-showDeleteModal() {
-  this.deleteModal.show();
-}
+  showDeleteModal() {
+    this.deleteModal.show();
+  }
 }

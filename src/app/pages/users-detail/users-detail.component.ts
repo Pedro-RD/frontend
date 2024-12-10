@@ -5,7 +5,6 @@ import { User, UserRxpDTO } from '../../interfaces/user';
 import { map, Subscription, tap } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ModalConfirmComponent } from '../../components/forms/modal-confirm/modal-confirm.component';
-import { LoadingComponent } from '../../components/forms/loading/loading.component';
 import { Role, RolePt } from '../../interfaces/roles.enum';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
@@ -15,7 +14,7 @@ import { ToastService } from '../../services/toast/toast.service';
 @Component({
   selector: 'app-users-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, ModalConfirmComponent, LoadingComponent],
+  imports: [CommonModule, RouterLink, ModalConfirmComponent],
   templateUrl: './users-detail.component.html',
   styleUrl: './users-detail.component.css',
   providers: [DatePipe],

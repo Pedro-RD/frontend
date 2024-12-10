@@ -1,13 +1,7 @@
 @if (resident && healthReport) {
-    <app-form-health-report
-        [initialData]="healthReport || undefined"
-        (createRequested)="onFormSubmit($event)"
-    />
-} @else {
-    <app-loading />
+<app-form-health-report [initialData]="healthReport || undefined" (createRequested)="onFormSubmit($event)" />
 }
 
 @if(error ) {
-    <p class="error">{{ error }}</p>
-  }
-  
+<p class="error">{{ error }}</p>
+}
