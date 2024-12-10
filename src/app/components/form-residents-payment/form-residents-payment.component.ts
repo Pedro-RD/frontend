@@ -40,7 +40,10 @@ export class FormResidentsPaymentComponent implements OnInit {
   initialData = input<PaymentDTO | undefined>();
   createRequested = output<PaymentDTO>();
 
-  amount = new FormControl<number | null>(null, [Validators.required]);
+  amount = new FormControl<number | null>(null, [
+    Validators.required,
+    Validators.min(0.01),
+  ]);
   date = new FormControl<string>(new Date().toISOString().substring(0, 10), [
     Validators.required,
   ]);

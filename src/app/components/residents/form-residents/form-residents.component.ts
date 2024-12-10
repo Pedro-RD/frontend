@@ -228,12 +228,13 @@ export class FormResidentsComponent implements OnInit {
           label: data.nationality,
         });
         this.nationality.setValue(data.nationality);
-        this.relatives.setValue(
-          data.relatives.map((r) =>
-            isNaN(parseInt(`${r}`)) ? (r as User).id : parseInt(`${r}`),
-          ),
-        );
       }
+
+      this.relatives.setValue(
+        data.relatives.map((r) =>
+          isNaN(parseInt(`${r}`)) ? (r as User).id : parseInt(`${r}`),
+        ),
+      );
     }
   }
 
