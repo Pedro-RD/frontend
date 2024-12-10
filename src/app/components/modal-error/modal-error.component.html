@@ -3,7 +3,7 @@
     <dialog id="error_modal" class="modal modal-open modal-bottom sm:modal-middle">
         <div class="modal-box">
             <h3 class="text-lg font-bold text-primary">Erro!</h3>
-            <p class="py-4">Pedido não concluido.
+            <p class="py-4">Não foi possível realizar a operação. Tente novamente.
             </p>
             <ul>
                 @for (error of errors$ | async; track $index) {
@@ -13,6 +13,7 @@
 
             <div class="modal-action">
                 <form method="dialog">
+                  <img src="no.svg" alt="Erro" class="h-6 w-6">
                     <button (click)="clearErrors()" class="btn btn-primary">Fechar</button>
                 </form>
             </div>

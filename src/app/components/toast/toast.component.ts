@@ -37,7 +37,7 @@ export class ToastComponent {
       case ToastType.SUCCESS:
         return 'alert-success';
       case ToastType.ERROR:
-        return 'alert-error';
+        return 'alert-primary';
       case ToastType.WARNING:
         return 'alert-warning';
       default:

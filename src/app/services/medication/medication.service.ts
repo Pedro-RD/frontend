@@ -102,7 +102,7 @@ export class MedicationService extends ListService<Medication> {
       .delete<void>(`${this.url}${residentId}/medicaments/${medicationId}`)
       .pipe(
         tap(() => {
-          this.toastService.info('Medicação eliminada com sucesso');
+          this.toastService.success('Medicação eliminada com sucesso');
         }),
         catchError((err) => {
           console.error(err);
