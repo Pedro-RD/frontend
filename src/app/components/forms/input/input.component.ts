@@ -54,7 +54,7 @@ export class InputComponent<T> implements OnInit, OnDestroy {
 
   private updateValidation = () => {
     const control = this.control();
-    this.showErrorSignal.set(control.invalid);
+    this.showErrorSignal.set(control.invalid && control.touched);
 
     if (control.errors?.['required']) {
       this.errorMessageSignal.set('Este campo é obrigatório');
@@ -70,8 +70,46 @@ export class InputComponent<T> implements OnInit, OnDestroy {
       );
     } else if (control.errors?.['pattern']) {
       this.errorMessageSignal.set('Formato inválido');
+    } else if (control.errors?.['min']) {
+      this.errorMessageSignal.set(
+        `O valor mínimo é ${control.errors?.['min'].min}`,
+      );
+    } else if (control.errors?.['max']) {
+      this.errorMessageSignal.set(
+        `O valor máximo é ${control.errors?.['max'].max}`,
+      );
     } else {
       this.errorMessageSignal.set('');
     }
   };
+
+  get message() {
+    if (!this.control().invalid) return '';
+    if (this.control().errors?.['required']) {
+      return 'Este campo é obrigatório';
+    } else if (this.control().errors?.['email']) {
+      return 'Por favor, introduza um email válido';
+    } else if (this.control().errors?.['minlength']) {
+      return `O comprimento mínimo é ${
+        this.control().errors?.['minlength'].requiredLength
+      }`;
+    } else if (this.control().errors?.['maxlength']) {
+      return `O comprimento máximo é ${
+        this.control().errors?.['maxlength'].requiredLength
+      }`;
+    } else if (this.control().errors?.['pattern']) {
+      return 'Formato inválido';
+    } else if (this.control().errors?.['min']) {
+      return `O valor mínimo é ${this.control().errors?.['min'].min}`;
+    } else if (this.control().errors?.['max']) {
+      return `O valor máximo é ${this.control().errors?.['max'].max}`;
+    } else if (this.control().errors?.['passwordMismatch']) {
+      return 'As palavras-passe não coincidem';
+    } else if (this.control().errors?.['salaryTooLow']) {
+      return 'O salário não pode ser inferior a 820€ (salário mínimo)';
+    } else if (this.control().errors?.['contractEndsBeforeStart']) {
+      return 'A data de fim do contrato não pode ser anterior à data de início';
+    }
+    return 'Por favor, introduza um valor válido';
+  }
 }

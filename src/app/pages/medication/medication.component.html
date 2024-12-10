@@ -12,7 +12,7 @@
         Adicionar
       </a>
       }
-      <app-back-button (click)="goBackResidentProfile()"/>
+      <app-back-button (click)="goBackResidentProfile()" />
     </div>
   </section>
 
@@ -25,6 +25,4 @@
     <app-paginator (nextPage)="handleNextPage()" (previousPage)="handlePreviousPage()"
       [pageNumber]="(page | async) || 1" [totalPages]="(totalPages | async) || 1" />
   </section>
-
-
 </div>

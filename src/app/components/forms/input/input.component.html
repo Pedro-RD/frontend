@@ -1,6 +1,6 @@
 <div class="flex-nowrap text-nowrap">
   <div class="form-control w-full">
-    <label [class.input-error]="showError()"
+    <label [class.input-error]="control().invalid && control().touched"
       class="input input-bordered flex items-center gap-2 text-nowrap flex-nowrap">
       <span class="text-nowrap">
         {{displayLabel}}
@@ -12,11 +12,13 @@
 
     </label>
     <div class="label">
-      @if (showError()) {
-      <span class="label-text-alt text-error">{{ errorMessage() }}</span>
-      } @else {
-      <ng-content select="[error]" />
-      }
+      <span class="label-text-alt text-error">
+        @if (control().invalid && control().touched) {
+        @if (message) {
+        {{ message }}
+        } @else {
+        <ng-content select="[error]" />
+        }}</span>
     </div>
   </div>
 </div>
