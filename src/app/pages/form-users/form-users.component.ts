@@ -38,7 +38,7 @@ export class FormUsersComponent implements OnInit {
   constructor(private location: Location) {}
 
   name = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
-  email = new FormControl('', [Validators.required, Validators.email]);
+  email = new FormControl('', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]);
   phoneNumber = new FormControl('', [
     Validators.required,
     Validators.minLength(7),

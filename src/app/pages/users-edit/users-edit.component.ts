@@ -89,7 +89,7 @@ export class UsersEditComponent implements OnInit, OnDestroy {
           }),
         )
         .subscribe({
-          next: () => this.router.navigate(['/users']),
+          next: () => {this.router.navigate(['/users'])},
           error: (err) => {
             this.isSubmitting = false;
             this.error = err.error?.message || 'Failed to update user';
