@@ -53,8 +53,8 @@ export class FormUsersComponent implements OnInit {
     Validators.required,
     Validators.minLength(8),
   ]);
-  address = new FormControl('', [Validators.required]);
-  city = new FormControl('', [Validators.required]);
+  address = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]);
+  city = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   postcode = new FormControl('', [Validators.required, Validators.minLength(4)]);
   nationality = new FormControl('', [Validators.required]);
   fiscalCode = new FormControl('', [Validators.required, Validators.maxLength(15)]);
