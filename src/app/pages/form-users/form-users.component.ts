@@ -16,7 +16,7 @@ import { ButtonComponent } from '../../components/forms/button/button.component'
 import { UserRxpDTO } from '../../interfaces/user';
 import { Role, RolePt } from '../../interfaces/roles.enum';
 import { UserEmployee } from '../../interfaces/employee';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-users',
@@ -26,7 +26,7 @@ import { Location, NgIf } from '@angular/common';
     SelectBoxComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    NgIf,
+
   ],
   templateUrl: './form-users.component.html',
   styleUrl: './form-users.component.css',
@@ -37,8 +37,8 @@ export class FormUsersComponent implements OnInit {
 
   constructor(private location: Location) {}
 
-  name = new FormControl('', [Validators.required]);
-  email = new FormControl('', [Validators.required, Validators.email]);
+  name = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+  email = new FormControl('', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]);
   phoneNumber = new FormControl('', [
     Validators.required,
     Validators.minLength(7),
@@ -48,16 +48,18 @@ export class FormUsersComponent implements OnInit {
   password = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
+    Validators.maxLength(20),
   ]);
   repeatPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
+    Validators.maxLength(20),
   ]);
-  address = new FormControl('', [Validators.required]);
-  city = new FormControl('', [Validators.required]);
-  postcode = new FormControl('', [Validators.required]);
+  address = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]);
+  city = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+  postcode = new FormControl('', [Validators.required, Validators.minLength(4)]);
   nationality = new FormControl('', [Validators.required]);
-  fiscalCode = new FormControl('', [Validators.required]);
+  fiscalCode = new FormControl('', [Validators.required, Validators.maxLength(15)]);
   role = new FormControl<Role | ''>('', [Validators.required]);
   contractStart = new FormControl<string>(
     new Date().toISOString().substring(0, 10),

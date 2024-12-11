@@ -24,7 +24,7 @@ export class FormHealthReportComponent implements OnInit {
 
   constructor(private location: Location) {}
 
-  arterialBloodPressure = new FormControl<string>('', [Validators.required]);
+  arterialBloodPressure = new FormControl<string>('', [Validators.required, Validators.pattern(/^\d+\/\d+$/)],);
   temperature = new FormControl<number | null>(null, [Validators.required]);
   height = new FormControl<number | null>(null, [Validators.required]);
   weight = new FormControl<number | null>(null, [Validators.required]);
@@ -33,10 +33,11 @@ export class FormHealthReportComponent implements OnInit {
   bloodGlucoseLevel = new FormControl<number | null>(null, [
     Validators.required,
   ]);
-  mobility = new FormControl<string>('', [Validators.required]);
-  hydrationLevel = new FormControl<string>('', [Validators.required]);
+  mobility = new FormControl<string>('', [Validators.required, Validators.maxLength(255)]);
+  hydrationLevel = new FormControl<string>('', [Validators.required, Validators.maxLength(255)]);
   cognitiveEmotionalAssessment = new FormControl<string>('', [
     Validators.required,
+    Validators.maxLength(255),
   ]);
   bloodOxygenLevel = new FormControl<number | null>(null, [
     Validators.required,

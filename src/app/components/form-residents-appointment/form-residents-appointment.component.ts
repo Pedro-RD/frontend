@@ -42,7 +42,6 @@ export class FormResidentsAppointmentComponent implements OnInit {
   status = new FormControl<AppointmentStatus | ''>('', [Validators.required]);
   start = new FormControl<string>(new Date().toISOString().substring(0, 16), [
     Validators.required,
-    this.futureDateValidator.bind(this),
   ]);
   observation = new FormControl<string | undefined>('', []);
 

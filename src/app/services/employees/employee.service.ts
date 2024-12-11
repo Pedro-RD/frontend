@@ -54,7 +54,7 @@ export class EmployeeService {
     return this.httpClient.patch<Employee>(`${this.url}/${employeeData.id}`, employeeData).pipe(
       map(employee => {
         if (!environment.production) console.log('Funcionário atualizado com sucesso:', employee);
-        this.toastService.success('Employee updated successfully');
+        this.toastService.success('Funcionário atualizado com sucesso');
         return employee;
       }),
       catchError((error) => {

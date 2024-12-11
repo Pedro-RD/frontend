@@ -116,9 +116,11 @@
                   <p><span class="font-bold">Hora da Administração:</span> {{ pad(+a.hour, 2) }}:{{ pad(+a.minute!, 2) }}</p>
                 </div>
                 @if (a.id) {
-                  <span (click)="onDeleteAdministration(a.id!)" class="cursor-pointer">
-                    <img src="no.svg" alt="Delete Icon" class="w-6 h-6">
-                  </span>
+                  @if (!(isRelative | async)) {
+                    <span (click)="onDeleteAdministration(a.id!)" class="cursor-pointer">
+                      <img src="no.svg" alt="Delete Icon" class="w-6 h-6">
+                    </span>
+                  }
                 }
               </div>
             }
