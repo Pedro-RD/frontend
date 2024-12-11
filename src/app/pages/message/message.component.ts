@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subscription, interval } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Message, MessageDTO } from '../../interfaces/message';
 import { MessageService } from '../../../app/services/messages/message.service';
 import { AuthService } from '../../../app/services/auth/auth.service';
@@ -32,6 +32,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
+    private router: Router
   ) {
     this.form = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(255)]],
@@ -180,5 +181,10 @@ export class MessageComponent implements OnInit, OnDestroy {
   resetForm(): void {
     this.form.reset();
     this.isEditing = false;
+  }
+
+  goBackResidentProfile() {
+    this.router.navigate(["residents","detail", this.route.snapshot.paramMap.get("residentId")]);
+
   }
 }

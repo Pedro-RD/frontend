@@ -5,13 +5,17 @@
     <!-- Card for the Chat -->
     <div class="card w-full max-w-4xl shadow-lg rounded-lg bg-white p-4 flex flex-col h-[80vh]">
       <!-- Header -->
-      <div class="card-header text-lg font-semibold text-gray-800 border-b pb-2">
-        Chat
+      <div class="card-header text-lg font-semibold text-gray-800 border-b pb-2 flex justify-between items-center">
+        <span>Chat</span>
+        <button type="button" class="btn btn-secondary" (click)="goBackResidentProfile()">
+        <img src="left-arrow.svg" alt="Chat Icon" class="w-6 h-6" />
+          Voltar
+          </button>
       </div>
 
       <!-- Chat Messages -->
       <div *ngIf="messages.length > 0"
-        class="space-y-4 flex-1 overflow-y-auto custom-scrollbar p-4 bg-gray-50 rounded-lg">
+           class="space-y-4 flex-1 overflow-y-auto custom-scrollbar p-4 bg-gray-50 rounded-lg">
         <!-- Load More Button -->
         <div class="flex justify-center my-4">
           <button type="button" class="btn btn-info" (click)="fetchLastMessages()" [disabled]="currentPage >= 10">
@@ -28,9 +32,9 @@
           <div class="chat-image avatar">
             <div class="w-10 rounded-full mr-2">
               @if (message.user.profilePicture) {
-              <img [alt]="'Avatar de ' + message.user.name" [src]="message.user.profilePicture" />
+                <img [alt]="'Avatar de ' + message.user.name" [src]="message.user.profilePicture" />
               } @else {
-              <img src="user.svg" alt="Avatar" />
+                <img src="user.svg" alt="Avatar" />
               }
             </div>
           </div>
@@ -65,7 +69,8 @@
         <form [formGroup]="form" (ngSubmit)="saveMessage()">
           <div class="form-control">
             <textarea id="content" class="textarea textarea-bordered w-full rounded-md" formControlName="content"
-              placeholder="Digite sua mensagem..." rows="3" aria-label="Digite o conteúdo da mensagem"></textarea>
+                      placeholder="Digite sua mensagem..." rows="3" aria-label="Digite o conteúdo da mensagem"
+                      maxlength="255" style="resize: none;"></textarea>
             <div *ngIf="form.get('content')?.invalid && form.get('content')?.touched" class="text-red-500 text-sm mt-2">
               O conteúdo é obrigatório e deve ter no máximo 255 caracteres.
             </div>
@@ -77,7 +82,7 @@
               <span>{{ isEditing ? 'Atualizar Mensagem' : 'Enviar Mensagem' }}</span>
             </button>
             <button *ngIf="isEditing" type="button" (click)="resetForm()"
-              class="btn btn-secondary flex items-center space-x-2">
+                    class="btn btn-secondary flex items-center space-x-2">
               <img src="no.svg" alt="Delete" class="w-6 h-6" />
               <span>Cancelar</span>
             </button>
