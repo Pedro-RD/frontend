@@ -42,10 +42,17 @@
     <!-- Ações -->
     <div class="modal-action">
       <button
-        class="btn btn-success"
+        class="btn btn-success flex items-center gap-2"
         [disabled]="!selectedMes || !selectedAno || selectedAno < 2000"
-        (click)="onConfirm()">Confirmar</button>
-      <button class="btn btn-primary" (click)="close()">Cancelar</button>
+        (click)="onConfirm()"
+      >
+        <img src="check.svg" alt="Confirm Icon" class="h-6 w-6" />
+        Exportar
+      </button>
+      <button class="btn btn-primary flex items-center gap-2" (click)="close()">
+        <img src="no.svg" alt="Cancel Icon" class="h-5 w-5" />
+        Cancelar
+      </button>
     </div>
   </div>
 </dialog>
