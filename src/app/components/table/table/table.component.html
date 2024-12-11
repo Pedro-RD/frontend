@@ -43,11 +43,18 @@
         @for (col of tableConfig().columns; track $index; let i = $index) {
           @if (i == 0) {
             <th scope="row">
-              <app-table-cell-profile
+                @if (col.type === ColumnType.PROFILE) {
+                <app-table-cell-profile
+                  [mainText]="getValue(row, col.colKey)"
+                  [subText]="col.subKey ? getValue(row, col.subKey!) : ''"
+                  [imgUrl]="col.imageKey ? getValue(row, col.imageKey!) : ''"
+                />
+              } @else {
+                <app-table-cell-text
                 [mainText]="getValue(row, col.colKey)"
                 [subText]="col.subKey ? getValue(row, col.subKey!) : ''"
-                [imgUrl]="col.imageKey ? getValue(row, col.imageKey!): ''"
-              />
+                />
+              }
             </th>
           } @else {
             <td class="hidden sm:table-cell">
