@@ -37,7 +37,7 @@ export class UsersEditComponent implements OnInit, OnDestroy {
           next: (user) => (this.user = user),
           error: (err) => {
             console.error(err);
-            this.error = 'User not found';
+            this.error = 'Utilizador não encontrado';
           },
         }),
       );
@@ -71,28 +71,21 @@ export class UsersEditComponent implements OnInit, OnDestroy {
           // merge entre os observables
           mergeMap((user) => {
             const employee = this.user?.employee;
+            if (!employee) return of(user);
 
-            return iif(
-              //verifica se  user é employee
-              () => user.role !== Role.Relative,
-              this.employeeService.update({
-                id: employee!.id,
-                salary: userDto.salary!,
-                contractStart: userDto.contractStart!,
-                contractEnds: userDto.contractEnds!,
-                // user id não pode ser alterado
-                // userId: this.user.id!,
-              }),
-              //of() == observable vazio
-              of(user),
-            );
+            return this.employeeService.update({
+              id: employee!.id,
+              salary: userDto.salary!,
+              contractStart: userDto.contractStart!,
+              contractEnds: userDto.contractEnds!,
+            })
           }),
         )
         .subscribe({
-          next: () => {this.router.navigate(['/users'])},
+          complete: () => {this.router.navigate(['/users'])},
           error: (err) => {
             this.isSubmitting = false;
-            this.error = err.error?.message || 'Failed to update user';
+            this.error = err.error?.message || 'Falha ao atualizar o utilizador';
           },
         }),
     );
