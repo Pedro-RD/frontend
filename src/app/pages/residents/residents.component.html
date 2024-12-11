@@ -3,14 +3,16 @@
     <app-search-box class="grow" (onSearch)="handleSearch($event)"/>
     <div class="flex gap-2">
       <app-select-limit (valueSelected)="handleLimitChange($event)" class="grow"/>
-      <a class="btn" routerLink="/residents/create">
-        <svg class="size-6" fill="none" stroke="currentColor"
-             stroke-width="1.5" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Adicionar
-      </a>
+      @if (isManager | async) {
+        <a class="btn" routerLink="/residents/create">
+          <svg class="size-6" fill="none" stroke="currentColor"
+               stroke-width="1.5" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Adicionar
+        </a>
+      }
       <app-back-button-dashboard></app-back-button-dashboard>
     </div>
   </section>

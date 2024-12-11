@@ -47,7 +47,7 @@ export class FormResidentsPaymentComponent implements OnInit {
   date = new FormControl<string>(new Date().toISOString().substring(0, 10), [
     Validators.required,
   ]);
-  observation = new FormControl<string | undefined>(undefined, []);
+  observation = new FormControl<string | undefined>(undefined, [Validators.maxLength(255)]);
   month = new FormControl<number | string | null>(null);
   year = new FormControl<number | string | null>(null);
   type = new FormControl<PaymentType | ''>('', [Validators.required]);

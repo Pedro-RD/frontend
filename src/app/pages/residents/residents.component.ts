@@ -14,6 +14,7 @@ import { BackButtonComponent } from '../../components/table/back-button/back-but
 import {
   BackButtonDashboardComponent
 } from '../../components/table/back-button-dashboard/back-button-dashboard.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-residents',
@@ -25,7 +26,6 @@ import {
     AsyncPipe,
     SelectLimitComponent,
     RouterLink,
-    BackButtonComponent,
     BackButtonDashboardComponent,
   ],
   templateUrl: './residents.component.html',
@@ -68,7 +68,12 @@ export class ResidentsComponent implements OnInit, OnDestroy {
   constructor(
     private residentsService: ResidentsService,
     private router: Router,
+    private authService: AuthService,
   ) {}
+
+  get isManager () {
+    return this.authService.isManager();
+  }
 
   ngOnDestroy(): void {
     this.residentsService.clearAll();

@@ -42,21 +42,23 @@ export class FormResidentsComponent implements OnInit {
   budget: number | null = null;
 
   // Definindo os controles do formulário com os tipos corretos
-  name = new FormControl<string>('', [Validators.required]);
+  name = new FormControl<string>('', [Validators.required, Validators.maxLength(255)]);
   fiscalId = new FormControl<string>('', [
     Validators.required,
     Validators.pattern(/^\d+$/),
+    Validators.minLength(9),
+    Validators.maxLength(15),
   ]);
   birthDate = new FormControl<string>(
     new Date().toISOString().substring(0, 10),
     [Validators.required, this.pastDateValidator as ValidatorFn],
   );
-  specificCare = new FormControl<string | ''>('');
+  specificCare = new FormControl<string | ''>('', Validators.maxLength(255));
   civilStatus = new FormControl<CivilStatus | ''>('', [Validators.required]);
   nationality = new FormControl('', [Validators.required]);
   diet = new FormControl<Diet | ''>('', [Validators.required]);
-  dietRestrictions = new FormControl<string>('');
-  allergies = new FormControl<string>('');
+  dietRestrictions = new FormControl<string>('', Validators.maxLength(255));
+  allergies = new FormControl<string>('', Validators.maxLength(255));
   bedNumber = new FormControl('', [Validators.required]);
   relatives = new FormControl<number[] | null>([], [Validators.required]);
   mobility = new FormControl<Mobility | ''>('', [Validators.required]);

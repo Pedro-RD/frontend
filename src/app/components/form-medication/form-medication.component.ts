@@ -30,8 +30,8 @@ export class FormMedicationComponent {
   initialData = input<Medication | undefined>(undefined);
   submit = output<Medication>();
 
-  name = new FormControl<string>('', [Validators.required]);
-  instructions = new FormControl<string>('');
+  name = new FormControl<string>('', [Validators.required, Validators.maxLength(255)]);
+  instructions = new FormControl<string>('', Validators.maxLength(255));
   quantity = new FormControl<number | null>(null, [
     Validators.required,
     Validators.pattern(/^\d+$/),

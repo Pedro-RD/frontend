@@ -16,7 +16,7 @@ import { ButtonComponent } from '../../components/forms/button/button.component'
 import { UserRxpDTO } from '../../interfaces/user';
 import { Role, RolePt } from '../../interfaces/roles.enum';
 import { UserEmployee } from '../../interfaces/employee';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-form-users',
@@ -26,7 +26,7 @@ import { Location, NgIf } from '@angular/common';
     SelectBoxComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    NgIf,
+
   ],
   templateUrl: './form-users.component.html',
   styleUrl: './form-users.component.css',
@@ -55,7 +55,7 @@ export class FormUsersComponent implements OnInit {
   ]);
   address = new FormControl('', [Validators.required]);
   city = new FormControl('', [Validators.required]);
-  postcode = new FormControl('', [Validators.required]);
+  postcode = new FormControl('', [Validators.required, Validators.minLength(4)]);
   nationality = new FormControl('', [Validators.required]);
   fiscalCode = new FormControl('', [Validators.required, Validators.maxLength(15)]);
   role = new FormControl<Role | ''>('', [Validators.required]);
