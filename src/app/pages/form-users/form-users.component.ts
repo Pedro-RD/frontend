@@ -37,7 +37,7 @@ export class FormUsersComponent implements OnInit {
 
   constructor(private location: Location) {}
 
-  name = new FormControl('', [Validators.required]);
+  name = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   email = new FormControl('', [Validators.required, Validators.email]);
   phoneNumber = new FormControl('', [
     Validators.required,
@@ -48,10 +48,12 @@ export class FormUsersComponent implements OnInit {
   password = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
+    Validators.maxLength(20),
   ]);
   repeatPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
+    Validators.maxLength(20),
   ]);
   address = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]);
   city = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
