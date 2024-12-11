@@ -57,7 +57,7 @@ export class FormUsersComponent implements OnInit {
   city = new FormControl('', [Validators.required]);
   postcode = new FormControl('', [Validators.required]);
   nationality = new FormControl('', [Validators.required]);
-  fiscalCode = new FormControl('', [Validators.required]);
+  fiscalCode = new FormControl('', [Validators.required, Validators.maxLength(15)]);
   role = new FormControl<Role | ''>('', [Validators.required]);
   contractStart = new FormControl<string>(
     new Date().toISOString().substring(0, 10),
